@@ -1,0 +1,37 @@
+/* Button */
+.button {
+    .transition;
+    display: inline-block;
+    background: @main-color;
+    padding: 1.2rem 2.5rem;
+    font: @text-font;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    border-radius: 0;
+
+    &:hover,
+    &:focus {
+        background: lighten(@main-color, 10%);
+        outline: none;
+        text-decoration: none;
+    }
+    &:active {
+        transform: translateY(2px);
+    }
+
+    &.disabled,
+    &[disabled] {
+        opacity: .7;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    &.loading {
+        animation: fadeOut 1s linear infinite;
+        background: @main-color;
+        color: #fff;
+    }
+}

@@ -1,0 +1,55 @@
+/* Links */
+a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+/* Lists */
+ul, ol {
+    margin: 0;
+    padding: 0;
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+/* Images */
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+    .vmargin(1em);
+    font-family: @title-font-family;
+    font-weight: @title-font-weight;
+    line-height: @title-line-height;
+}
+
+/* Buttons */
+button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+    border: none;
+    background: none;
+    padding: 0;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}

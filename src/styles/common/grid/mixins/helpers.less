@@ -1,0 +1,103 @@
+// Helper for the grid align top
+.make-row-helpers(@breakpoint) {
+    @size : extract(@breakpoint, 1);
+
+    .row--@{size}-top {
+        align-items: flex-start;
+    }
+    .row--@{size}-center {
+        align-items: center;
+    }
+    .row--@{size}-bottom {
+        align-items: flex-end;
+    }
+}
+
+// Helper for the sorting the first item
+.make-col-helpers(@breakpoint) {
+    @size : extract(@breakpoint, 1);
+
+    .col--@{size}-align-top {
+        align-self: flex-start;
+    }
+    .col--@{size}-align-center {
+        align-self: center;
+    }
+    .col--@{size}-align-bottom {
+        align-self: flex-end;
+    }
+
+    .col--@{size}-first {
+        order: -1;
+    }
+    .col--@{size}-last {
+        order: 1;
+    }
+    .col--@{size}-reset {
+        order: 0;
+    }
+    .row--@{size}-reverse {
+        flex-direction: row-reverse;
+    }
+    .col--@{size}-flex {
+        display: flex;
+    }
+}
+
+.make-text-helpers(@breakpoint) {
+    @size : extract(@breakpoint, 1);
+
+    .text--@{size}-right {
+        text-align: right;
+    }
+    .text--@{size}-left {
+        text-align: left;
+    }
+    .text--@{size}-center {
+        text-align: center;
+    }
+}
+
+.make-hidden-helpers(@breakpoint) {
+    @size : extract(@breakpoint, 1);
+    @width : extract(@breakpoint, 2);
+
+    @media (min-width: @width) {
+
+        .hidden--@{size} {
+            display: none;
+        }
+    }
+}
+
+.make-visible-helpers(@breakpoint) {
+    @size : extract(@breakpoint, 1);
+    @width : extract(@breakpoint, 2);
+
+    @media (min-width: @width) {
+
+        .visible--@{size}-block {
+            display: block;
+        }
+
+        .visible--@{size}-inline-block {
+            display: inline-block;
+        }
+
+        .visible--@{size}-inline {
+            display: inline;
+        }
+
+        .visible--@{size}-flex {
+            display: flex;
+        }
+    }
+}
+
+.make-helpers(@breakpoint) {
+    .make-row-helpers(@breakpoint);
+    .make-col-helpers(@breakpoint);
+    .make-text-helpers(@breakpoint);
+    .make-hidden-helpers(@breakpoint);
+    .make-visible-helpers(@breakpoint);
+}

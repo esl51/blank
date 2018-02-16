@@ -1,0 +1,397 @@
+/* xForm */
+@xform-input-background-color: #f6f6f6;
+@xform-input-border-color: #d2d2d4;
+@xform-input-border-color-active: #aaa;
+@xform-input-color: #2a2a2a;
+@xform-input-border-width: 1px;
+@xform-input-border-radius: 0;
+@xform-input-font-size: @text-font-size;
+@xform-input-line-height: 1.2;
+@xform-label-color: #888;
+@xform-label-font-size: @xform-input-font-size * .75;
+@xform-input-padding-vertical: 1.4rem;
+@xform-input-padding-horizontal: 1.6rem;
+
+@xform-input-height: @xform-input-line-height * @xform-input-font-size + @xform-input-padding-vertical * 2 + @xform-input-border-width * 2;
+@xform-label-padding-top: ((@xform-input-height - @xform-input-border-width * 2) - (@xform-input-font-size * @xform-input-line-height + @xform-label-font-size)) / 2;
+
+@-webkit-keyframes xform-preloader {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes xform-preloader {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.xform {
+    width: 100%;
+    position: relative;
+
+    &::before {
+        .absolute-block(100%,100%);
+        z-index: 1;
+        left: 0;
+        top: 0;
+        background: rgba(255,255,255,.7);
+        display: none;
+    }
+
+    &::after {
+        .absolute-block(50px,50px);
+        animation: xform-preloader 1s infinite linear;
+        left: 50%;
+        top: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
+        z-index: 2;
+        border: 1px solid rgba(0,0,0,.2);
+        border-bottom: 1px solid #2a2a2a;
+        border-radius: 25px;
+        display: none;
+    }
+}
+.xform--blocked {
+
+    &::before {
+        display: block;
+    }
+}
+.xform--submitting {
+
+    &::before,
+    &::after {
+        display: block;
+    }
+}
+
+/* Sections */
+.xform__section {
+    .vmargin(2rem);
+}
+.xform__section-header {
+    .vmargin(1rem);
+}
+.xform__section-title {
+    font: @title-font;
+    font-size: 2.2rem;
+    color: #4a4a4a;
+    text-align: center;
+
+    .responsive-max(767px, {
+        font-size: 1.7rem;
+    });
+}
+.xform__section-footer {
+    .vmargin(1rem);
+    text-align: center;
+}
+
+/* Grid */
+.xform__row {
+    margin: -.6rem -.3rem .6rem -.3rem;
+}
+.xform__col {
+    padding: .6rem .3rem 0 .3rem;
+}
+
+/* Fields */
+.xform__field {
+    .transition;
+    .vmargin(.6rem);
+    position: relative;
+}
+.xform__label,
+.xform__input,
+.xform__file-value {
+    .transition(all .1s ease-out);
+    display: block;
+    padding: @xform-input-padding-vertical @xform-input-padding-horizontal;
+    font-size: @xform-input-font-size;
+    line-height: @xform-input-line-height;
+}
+.xform__input,
+.xform__file-value {
+    width: 100%;
+    border-radius: @xform-input-border-radius;
+}
+.xform__label {
+    position: absolute;
+    left: @xform-input-border-width;
+    top: @xform-input-border-width;
+    width: ~"calc(100% - " @xform-input-border-width * 2 ~")";
+    text-align: left;
+    pointer-events: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: @xform-label-color;
+}
+.xform__input,
+.xform__file-value {
+    .placeholder-color(#5e5e5e);
+    background-color: @xform-input-background-color;
+    border: none;
+    outline: none;
+    border: @xform-input-border-width solid @xform-input-border-color;
+    color: @xform-input-color;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    &:hover,
+    &:focus {
+        border-color: @xform-input-border-color-active;
+    }
+}
+.xform__input--text {
+    resize: none;
+    height: 12rem;
+}
+.xform__input--select {
+    background-image: ~"url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 88' width='10' height='10'><path fill='" @xform-input-border-color ~"' d='M74.123 56.571L42.694 88 11.266 56.571zM11.266 31.429L42.694 0l31.429 31.429z'/></svg>)";
+    background-repeat: no-repeat;
+    background-position: right 2rem top 50%;
+    padding-right: 5.2rem;
+    color: transparent;
+
+    .ie & {
+        padding-right: @xform-input-padding-horizontal;
+        background-image: none;
+    }
+
+    .xform__field--activated &,
+    option {
+        color: @xform-input-color;
+    }
+
+    & + .xform__label {
+        width: ~"calc(100% - 5.2rem)";
+    }
+}
+.xform__field--activated {
+
+    .xform__label {
+        padding-top: @xform-label-padding-top;
+        padding-bottom: 0;
+        font-size: @xform-label-font-size;
+        line-height: 1;
+        color: @xform-label-color;
+        background-color: @xform-input-background-color;
+    }
+
+    .xform__input {
+        padding-top: @xform-label-font-size + @xform-label-padding-top;
+        padding-bottom: @xform-label-padding-top;
+    }
+}
+
+.xform__file {
+    .vmargin(5px);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    width: 100%;
+    border-radius: 0;
+    background: none;
+
+    input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        letter-spacing: 10em;     /* IE 9 fix */
+        -ms-transform: scale(20); /* IE 9 fix */
+        transform: scale(20);
+        opacity: 0;
+    }
+
+    &:hover {
+
+        .xform__file-button {
+            background: lighten(@main-color, 10%);
+        }
+        .xform__file-value {
+            border-color: @xform-input-border-color-active;
+        }
+    }
+}
+.xform__file-button {
+    .button;
+    font: @text-font;
+    font-size: @xform-input-font-size;
+    border-radius: @xform-input-border-radius;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: @xform-input-padding-vertical @xform-input-padding-horizontal;
+    margin: 0;
+}
+.xform__file-value {
+    border-right: none;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.xform__file-value--activated {
+    color: @xform-input-color;
+}
+
+.xform__radio,
+.xform__checkbox {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+
+    &:checked + label {
+
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+.xform__radio + label,
+.xform__checkbox + label {
+    .transition;
+    margin-top: .6rem;
+    margin-bottom: .6rem;
+    font-size: @xform-input-font-size;
+    padding-left: 4rem;
+    position: relative;
+    white-space: normal;
+    min-height: 2.6rem;
+    padding-top: .3rem;
+    display: block;
+
+    &::before {
+        .absolute-block(2.6rem,2.6rem);
+        left: 0;
+        top: 0;
+        border: 1px solid @xform-input-border-color;
+        background: @xform-input-background-color;
+        //border-radius: 3px;
+    }
+
+    &::after {
+        .transition;
+        .absolute-block(.8rem,1.7rem);
+        transform: rotate(40deg);
+        border: 2px solid @main-color;
+        border-left: none;
+        border-top: none;
+        left: .9rem;
+        top: .3rem;
+        opacity: 0;
+    }
+
+    &:hover {
+        color: @main-color;
+
+        &::after {
+            opacity: .3;
+        }
+    }
+
+    a {
+        color: @main-color;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.xform__radio + label {
+
+    &::before {
+        border-radius: 50%;
+    }
+
+    &::after {
+        width: 1.8rem;
+        height: 1.8rem;
+        top: .4rem;
+        left: .4rem;
+        background: @main-color;
+        border-radius: 50%;
+    }
+}
+.xform__radio:focus + label,
+.xform__checkbox:focus + label {
+    color: @main-color;
+}
+.xform__radio:checked + label,
+.xform__checkbox:checked + label {
+
+    &:hover {
+
+        &::after {
+            opacity: 1;
+        }
+    }
+}
+
+.xform__footer {
+    .vmargin(3rem);
+    text-align: center;
+}
+
+.xform__button {
+    .button;
+}
+.xform__button--submit {
+
+}
+
+.xform__message {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+}
+.xform__message--error {
+    background: #fce3e3;
+    border: 1px solid #da6868;
+}
+.xform__message-close {
+    .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
+    .icon-close;
+    font-size: 0;
+    line-height: 0;
+    background: none;
+    width: auto;
+    height: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 1.4rem;
+
+    &::before {
+        font-size: 1.6rem;
+    }
+}
+.xform__message-content {
+    padding: 1.5rem;
+}
+.xform__message-title {
+    .vmargin(1.5rem);
+    font: @title-font;
+    font-size: 1.8rem;
+    padding-right: 4.4rem;
+}
+.xform__message-text {
+    font-size: 1.4rem;
+}

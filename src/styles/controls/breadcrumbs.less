@@ -1,0 +1,25 @@
+/* Breadcrumbs */
+.breadcrumbs {}
+.breadcrumbs__item {
+    .transition;
+    .icon(next, after);
+    color: #7a7a7a;
+    margin-right: 6px;
+
+    &::after {
+        font-size: .5em;
+        margin-left: 10px;
+        color: #7a7a7a;
+    }
+
+    &:last-child {
+
+        &::after {
+            display: none;
+        }
+    }
+
+    a&:hover {
+        color: @main-color;
+    }
+}

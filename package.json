@@ -1,0 +1,48 @@
+{
+    "name": "esl51/blank",
+    "version": "0.0.1",
+    "description": "blank frontend gulp bootstrap",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com:esl51/blank.git"
+    },
+    "scripts": {
+        "dev": "NODE_ENV=development gulp",
+        "build": "NODE_ENV=production gulp build",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Maxim Zhgulev",
+    "license": "MIT",
+    "dependencies": {
+        "alertify.js": "^1.0.12",
+        "animate.css": "^3.6.1",
+        "flickity": "^2.0.10",
+        "jquery": "^3.3.1",
+        "jquery-touchswipe": "^1.6.18",
+        "magnific-popup": "^1.1.0",
+        "normalize.css": "^8.0.0"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.23.6",
+        "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^4.1.0",
+        "gulp-cached": "^1.1.1",
+        "gulp-clean-css": "^3.9.2",
+        "gulp-concat": "^2.6.1",
+        "gulp-connect-php": "^1.0.1",
+        "gulp-copy": "^1.1.0",
+        "gulp-fontgen": "^0.2.5",
+        "gulp-iconfont": "^9.1.0",
+        "gulp-iconfont-css": "^2.1.0",
+        "gulp-imagemin": "^4.1.0",
+        "gulp-less": "^3.5.0",
+        "gulp-newer": "^1.4.0",
+        "gulp-rigger": "^0.5.8",
+        "gulp-rsync": "0.0.8",
+        "gulp-sourcemaps": "^2.6.4",
+        "gulp-uglify": "^3.0.0",
+        "imagemin-jpegoptim": "^5.2.0",
+        "rimraf": "^2.6.2",
+        "run-sequence": "^2.2.1"
+    }
+}

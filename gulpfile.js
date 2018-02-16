@@ -290,7 +290,7 @@ gulp.task('deploy', function () {
 /* Upload */
 gulp.task('upload', function () {
     return gulp.src(path.deploy)
-        .pipe(rsync(deployConfig));
+        .pipe(rsync(config.deploy));
 });
 
 /* Watch */

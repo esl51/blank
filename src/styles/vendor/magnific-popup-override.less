@@ -1,0 +1,73 @@
+/* Fade in/out */
+.mfp-fade.mfp-bg {
+    .transition;
+    opacity: 0;
+    background: #00;
+}
+.mfp-fade.mfp-bg.mfp-ready {
+    opacity: .9;
+}
+.mfp-fade.mfp-bg.mfp-removing {
+    opacity: 0;
+}
+.mfp-fade.mfp-wrap .mfp-content {
+    opacity: 0;
+    transition: all .3s;
+}
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content {
+    opacity: 1;
+}
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content {
+    opacity: 0;
+}
+
+/* Close */
+button.mfp-close {
+    .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
+    .icon-close;
+    font-size: 0;
+    line-height: 0;
+    background: none;
+
+    &::before {
+        font-size: 2rem;
+    }
+}
+
+/* Arrows */
+button.mfp-arrow {
+    .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
+    background: rgba(0,0,0,.1);
+
+    &::before {
+        display: inline-block;
+        color: #fff;
+        font-size: 3rem;
+        border: none;
+        width: auto;
+        height: auto;
+        margin-top: 40px;
+    }
+
+    &::after {
+        display: none;
+    }
+
+    .responsive-max(767px, {
+        background: none;
+    });
+}
+button.mfp-arrow-left {
+    .icon-prev;
+}
+button.mfp-arrow-right {
+    .icon-next;
+}
+
+
+.mfp-figure {
+    animation-name: fadeIn;
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    backface-visibility: hidden;
+}

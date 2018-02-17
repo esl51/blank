@@ -1,0 +1,22 @@
+/* Darken background */
+.alertify {
+    background-color: rgba(0,0,0,.8);
+}
+/* Buttons in project style */
+.alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button),
+.alertify .alert nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+    .button;
+}
+.alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):hover,
+.alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):active,
+.alertify .alert nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):hover,
+.alertify .alert nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):active {
+    background-color: @main-color;
+}
+.alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):focus,
+.alertify .alert nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button):focus {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.alertify .dialog nav button.btn, .alertify .alert nav button.btn {
+    margin: 6px 4px;
+}

@@ -299,7 +299,7 @@ gulp.task('watch', ['webserver'], function() {
     gulp.watch(path.watch.root, ['root:build']);
     gulp.watch(path.watch.styles, ['styles:build']);
     gulp.watch(path.watch.scripts, ['scripts:build']);
-    gulp.watch(path.watch.images, ['image:build']);
+    gulp.watch(path.watch.images, ['images:build']);
     gulp.watch(path.watch.icons, ['icons:build']);
     gulp.watch(path.watch.fonts, ['fonts:build']);
     gulp.watch(path.watch.vendor, ['libs:build']);

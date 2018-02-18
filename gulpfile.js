@@ -289,7 +289,7 @@ gulp.task('deploy', function () {
 
 /* Upload */
 gulp.task('upload', function () {
-    return gulp.src(path.deploy)
+    return gulp.src(path.dest.html)
         .pipe(rsync(config.deploy));
 });
 

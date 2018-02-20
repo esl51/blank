@@ -14,6 +14,7 @@ const concat = require('gulp-concat');
 const fontgen = require('gulp-fontgen');
 const rsync = require('gulp-rsync');
 const php = require('gulp-connect-php');
+const gulpif = require('gulp-if');
 const browserSync = require("browser-sync");
 const runSeq = require('run-sequence');
 const rimraf = require('rimraf');
@@ -30,7 +31,7 @@ const path = {
         },
         images: 'src/assets/images/**/*.{png,jpg,gif,svg}',
         icons: 'src/assets/icons/**/*.svg',
-        fonts: 'src/assets/fonts/**/*.{ttf,otf}',
+        fonts: 'src/assets/fonts/**/*.*',
         root: ['src/assets/root/**/*.*', 'src/assets/root/**/.*'],
         vendor: 'vendor/**/*.*'
     },
@@ -226,11 +227,11 @@ gulp.task('fonts:cache', function() {
     return gulp.src(path.src.fonts)
         .pipe(newer(path.cache.fonts + 'src/'))
         .pipe(gulp.dest(path.cache.fonts + 'src/'))
-        .pipe(fontgen({
+        .pipe(gulpif(/\.(otf|ttf)$/, fontgen({
             dest: path.cache.fonts,
             css_fontpath: config.fonts.fontpath,
             subset: config.fonts.subset
-        }));
+        })));
 });
 
 /* Fonts CSS */

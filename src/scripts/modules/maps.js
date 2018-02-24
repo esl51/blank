@@ -33,6 +33,10 @@ function initMap(id, lat, lng, zoom, data) {
             google.maps.event.addListener(maps[id].markers[data[i].id], 'click', function() {
                 this['infowindow'].open(maps[id].map, this);
             });
+            console.log(data[i].show);
+            if (data[i].show === true) {
+                google.maps.event.trigger(maps[id].markers[data[i].id], 'click');
+            }
         }
     }
     google.maps.event.addDomListener(window, 'resize', function() {
@@ -50,6 +54,7 @@ function initMaps() {
             m.lng = $(this).data("lng");
             m.title = $(this).data("title");
             m.pin = $(this).data("pin");
+            m.show = $(this).data("show");
             if ($(this).data("pin-anchor") && $(this).data("pin-anchor").match(/^\d+,\s*\d+$/)) {
                 m.anchorX = $(this).data("pin-anchor").split(',')[0].replace(/[^0-9]/, '');
                 m.anchorY = $(this).data("pin-anchor").split(',')[1].replace(/[^0-9]/, '');

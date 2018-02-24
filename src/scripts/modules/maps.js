@@ -33,7 +33,6 @@ function initMap(id, lat, lng, zoom, data) {
             google.maps.event.addListener(maps[id].markers[data[i].id], 'click', function() {
                 this['infowindow'].open(maps[id].map, this);
             });
-            console.log(data[i].show);
             if (data[i].show === true) {
                 google.maps.event.trigger(maps[id].markers[data[i].id], 'click');
             }

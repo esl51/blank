@@ -13,16 +13,19 @@ function initMap(id, lat, lng, zoom, data) {
     maps[id].map = new google.maps.Map(maps[id].element, maps[id].options);
     maps[id].markers = [];
     for (var i = 0; i < data.length; i++) {
-        maps[id].markers[data[i].id] = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             position: new google.maps.LatLng(data[i].lat, data[i].lng),
             map: maps[id].map,
             title: data[i].title,
             optimized: false,
-            icon: {
+        });
+        if (data[i].pin) {
+            marker.icon = {
                 url: data[i].pin,
                 anchor: data[i].anchorX !== undefined && data[i].anchorY !== undefined ? new google.maps.Point(data[i].anchorX, data[i].anchorY) : null
-            },
-        });
+            }
+        }
+        maps[id].markers[data[i].id] = marker;
         if (data[i].html.trim().length > 0) {
             maps[id].markers[data[i].id]['infowindow'] = new google.maps.InfoWindow({
                 content: data[i].html,
@@ -47,7 +50,7 @@ function initMaps() {
             m.lng = $(this).data("lng");
             m.title = $(this).data("title");
             m.pin = $(this).data("pin");
-            if ($(this).data("pin-anchor").match(/^\d+,\s*\d+$/)) {
+            if ($(this).data("pin-anchor") && $(this).data("pin-anchor").match(/^\d+,\s*\d+$/)) {
                 m.anchorX = $(this).data("pin-anchor").split(',')[0].replace(/[^0-9]/, '');
                 m.anchorY = $(this).data("pin-anchor").split(',')[1].replace(/[^0-9]/, '');
             }

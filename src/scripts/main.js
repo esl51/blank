@@ -9,6 +9,7 @@
 //= ./modules/func.js
 //= ./modules/maps.js
 //= ./modules/menu.js
+//= ./modules/ajaxLoader.js
 //= ./modules/content.js
 //= ./modules/xform.js
 //= ./modules/share.js

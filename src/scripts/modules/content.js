@@ -109,59 +109,17 @@ function initContent() {
     });
 }
 
-/* Load AJAX-data */
-function loadData(btn, params, append, callback) {
-    var btn = $(btn);
-    var cont = $(btn.data("container"));
-    var start = cont.children().length;
-    btn.addClass("loading disabled").text(btn.data("loading"));
-    if (params !== null) {
-        btn.data("params", params);
-    }
-    if (append !== true) {
-        start = 0;
-    }
-    $.ajax({
-        data: {data: btn.data("type"), start: start, params: btn.data("params")},
-        dataType: "json",
-        success: function(data) {
-            if (append === true) {
-                cont.append(data.html);
-            } else {
-                cont.html(data.html);
-            }
-            btn.removeClass("loading disabled").text(btn.data("title"));
-            if (data.last) {
-                btn.addClass("finished").hide();
-            }
-            initContent();
-            if (typeof callback === "function") {
-                callback();
-            }
-        },
-    });
-}
-
 $(function() {
 
     initContent();
 
-    /* Content loading */
-    $(document).on("click", ".js-more,.js-more-scroll", function() {
-        loadData($(this), null, true);
-        return false;
+    /* Ajax content loading */
+    $(".js-ajax-data,.js-ajax-data-scroll").on("ajaxLoader:afterInit", function () {
+        $(this).ajaxLoader('load');
     });
-
-    /* Content loading on scroll */
-    $(window).on("scroll", function() {
-        var btn = $(".js-more-scroll");
-        if (!btn.length) return;
-        if (btn.hasClass("finished") || btn.hasClass("loading")) return;
-        if ($(window).scrollTop() > (btn.offset().top - $(window).height() * 2)) {
-            btn.click();
-        }
+    $(".js-ajax-data").ajaxLoader();
+    $(".js-ajax-data-scroll").ajaxLoader({
+        scroll: true
     });
-
-    $(".js-more,.js-more-scroll").click();
 
 });

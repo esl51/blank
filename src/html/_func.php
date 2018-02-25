@@ -391,11 +391,12 @@ if (isset($_GET["data"])) {
         $limit = 12;
     }
     $html = "";
+    /*
+    $all = array_fill(0, 100, 1); // all items
 
-/*
     if ($data == "posts") {
-        $all = array(); // all items
-        $items = array(); // filtered items
+        //$all = array(); // all items
+        $items = array_slice($all, $start, $limit); // filtered items
 
         if (count($all)) {
             foreach ($items as $item) {
@@ -407,7 +408,7 @@ if (isset($_GET["data"])) {
             $html = render("./_empty-result.php");
         }
     }
-*/
+    */
 
     echo json_encode(array(
         "last" => $start + $limit >= count($all),

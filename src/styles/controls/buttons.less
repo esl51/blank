@@ -22,14 +22,14 @@
         transform: translateY(2px);
     }
 
-    &.disabled,
+    &.is-disabled,
     &[disabled] {
         opacity: .7;
         cursor: not-allowed;
         pointer-events: none;
     }
 
-    &.loading {
+    &.is-loading {
         animation: fadeOut 1s linear infinite;
         background: @main-color;
         color: #fff;

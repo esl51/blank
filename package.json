@@ -7,8 +7,8 @@
         "url": "git+ssh://git@github.com:esl51/blank.git"
     },
     "scripts": {
-        "dev": "NODE_ENV=development gulp",
-        "build": "NODE_ENV=production gulp build",
+        "dev": "gulp --dev",
+        "build": "gulp build",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Maxim Zhgulev",
@@ -44,6 +44,7 @@
         "gulp-uglify": "^3.0.0",
         "imagemin-jpegoptim": "^5.2.0",
         "rimraf": "^2.6.2",
-        "run-sequence": "^2.2.1"
+        "run-sequence": "^2.2.1",
+        "yargs": "^11.0.0"
     }
 }

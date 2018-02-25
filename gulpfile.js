@@ -18,6 +18,7 @@ const gulpif = require('gulp-if');
 const browserSync = require("browser-sync");
 const runSeq = require('run-sequence');
 const rimraf = require('rimraf');
+const argv = require('yargs').argv;
 
 imagemin.jpegoptim = require('imagemin-jpegoptim');
 
@@ -148,31 +149,31 @@ gulp.task('vendor:build', function() {
 gulp.task('scripts:build', wrapPipe(function (success, error) {
     return gulp.src(path.src.scripts)
         .pipe(rigger().on('error', error))
-        .pipe(sourcemaps.init().on('error', error))
-        .pipe(uglify().on('error', error))
-        .pipe(sourcemaps.write('.'))
+        .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
+        .pipe(gulpif(!argv.dev, uglify().on('error', error)))
+        .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
         .pipe(gulp.dest(path.dest.js))
 }));
 
 /* Main LESS-file */
 gulp.task('styles.main:build', wrapPipe(function (success, error) {
     return gulp.src(path.src.styles.main)
-        .pipe(sourcemaps.init().on('error', error))
+        .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
         .pipe(less().on('error', error))
         .pipe(autoprefixer().on('error', error))
         .pipe(cleanCss().on('error', error))
-        .pipe(sourcemaps.write('.'))
+        .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
         .pipe(gulp.dest(path.dest.css))
 }));
 
 /* Editor LESS-file */
 gulp.task('styles.editor:build', wrapPipe(function (success, error) {
     return gulp.src(path.src.styles.editor)
-        .pipe(sourcemaps.init().on('error', error))
+        .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
         .pipe(less().on('error', error))
         .pipe(autoprefixer().on('error', error))
         .pipe(cleanCss().on('error', error))
-        .pipe(sourcemaps.write('.'))
+        .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
         .pipe(gulp.dest(path.dest.css))
 }));
 

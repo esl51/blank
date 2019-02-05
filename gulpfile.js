@@ -216,7 +216,7 @@ gulp.task('icons:build', function() {
             formats: ['ttf', 'woff', 'woff2'],
             fontName: config.icons.fontname,
             normalize: true,
-            // autohint: true,
+            autohint: true,
             fontHeight: 1001,
         }))
         .pipe(gulp.dest(path.dest.fonts));
@@ -271,9 +271,10 @@ gulp.task('build', gulp.series(
 ));
 
 /* Web server */
-gulp.task('webserver', gulp.series('build', function() {
-    return php.server(config.server, function () {
+gulp.task('webserver', gulp.series('build', function(done) {
+    php.server(config.server, function () {
         browserSync(config.browsersync);
+        done();
     });
 }));
 
@@ -288,14 +289,14 @@ gulp.task('deploy', gulp.series('build', 'upload'));
 
 /* Watch */
 gulp.task('watch', gulp.series('webserver', function() {
-    gulp.watch(path.watch.html, ['html:build']);
-    gulp.watch(path.watch.root, ['root:build']);
-    gulp.watch(path.watch.styles, ['styles:build']);
-    gulp.watch(path.watch.scripts, ['scripts:build']);
-    gulp.watch(path.watch.images, ['images:build']);
-    gulp.watch(path.watch.icons, ['icons:build']);
-    gulp.watch(path.watch.fonts, ['fonts:build']);
-    gulp.watch(path.watch.vendor, ['libs:build']);
+    gulp.watch(path.watch.html, gulp.series('html:build'));
+    gulp.watch(path.watch.root, gulp.series('root:build'));
+    gulp.watch(path.watch.styles, gulp.series('styles:build'));
+    gulp.watch(path.watch.scripts, gulp.series('scripts:build'));
+    gulp.watch(path.watch.images, gulp.series('images:build'));
+    gulp.watch(path.watch.icons, gulp.series('icons:build'));
+    gulp.watch(path.watch.fonts, gulp.series('fonts:build'));
+    gulp.watch(path.watch.vendor, gulp.series('vendor:build'));
 }));
 
 gulp.task('default', gulp.series('watch'));

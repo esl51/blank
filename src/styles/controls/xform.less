@@ -156,7 +156,7 @@
     height: 12rem;
 }
 .xform__input--select {
-    background-image: ~"url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 88' width='10' height='10'><path fill='" @xform-input-border-color ~"' d='M74.123 56.571L42.694 88 11.266 56.571zM11.266 31.429L42.694 0l31.429 31.429z'/></svg>)";
+    background-image: ~"url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 88' width='10' height='10'><path fill='" replace(@xform-input-border-color, '#', '%23') ~"' d='M74.123 56.571L42.694 88 11.266 56.571zM11.266 31.429L42.694 0l31.429 31.429z'/></svg>)";
     background-repeat: no-repeat;
     background-position: right 2rem top 50%;
     padding-right: 5.2rem;

@@ -141,56 +141,59 @@
     </div>
 </div>
 
-<div class="popup popup--form mfp-hide" id="form">
+<div class="popup popup--form" id="form">
     <div class="popup__header">
         <div class="popup__title"><?php echo __("Обратная связь") ?></div>
     </div>
     <form class="xform js-xform">
-        <input type="hidden" name="form" value="feedback">
-        <div class="xform__field">
-            <input class="xform__input" id="feedback-name" type="text" name="name" required value="robert paulson">
-            <label class="xform__label" for="feedback-name"><?php echo $forms["feedback"]["fields"]["name"]["label"] ?>:</label>
-        </div>
-        <div class="xform__row row">
-            <div class="xform__col col col--xs-12 col--md-6">
-                <div class="xform__field">
-                    <input class="xform__input" id="feedback-email" type="email" name="email" value="r.paulson@gmail.com">
-                    <label class="xform__label" for="feedback-email"><?php echo $forms["feedback"]["fields"]["email"]["label"] ?>:</label>
+        <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
+        <div class="xform__section">
+            <div class="xform__section-header">
+                <h3 class="xform__section-title">Общие сведения</h3>
+            </div>
+            <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
+            <div class="xform__row row">
+                <div class="xform__col col col--xs-12 col--md-6">
+                    <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
+                </div>
+                <div class="xform__col col col--xs-12 col--md-6">
+                    <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
                 </div>
             </div>
-            <div class="xform__col col col--xs-12 col--md-6">
-                <div class="xform__field">
-                    <input class="xform__input" id="feedback-phone" type="tel" name="phone">
-                    <label class="xform__label" for="feedback-phone"><?php echo $forms["feedback"]["fields"]["phone"]["label"] ?>:</label>
+            <?= renderField('textarea', ['name' => 'message', 'label' => $xForms["feedback"]["fields"]["message"]["label"]]) ?>
+            <?= renderField('select', ['name' => 'theme', 'label' => __("Тема"), "options" => [
+                '1' => 'Взаимодействие корпорации и клиента',
+                '2' => 'Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами',
+            ]]) ?>
+        </div>
+        <div class="xform__section">
+            <div class="xform__section-header">
+                <h3 class="xform__section-title">Дополнительно</h3>
+            </div>
+            <div class="xform__row row">
+                <div class="xform__col col col--xs-6">
+                    <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
+                        '1' => 'Взаимодействие',
+                        '2' => 'Системный анализ',
+                    ], 'value' => '1']) ?>
+                </div>
+                <div class="xform__col col col--xs-6">
+                    <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
+                        '1' => 'Корпорации',
+                        '2' => 'Клиента',
+                    ], 'values' => ['2']]) ?>
                 </div>
             </div>
         </div>
-        <div class="xform__field">
-            <textarea class="xform__input xform__input--text" id="feedback-message" name="message"></textarea>
-            <label class="xform__label" for="feedback-message"><?php echo $forms["feedback"]["fields"]["message"]["label"] ?>:</label>
-        </div>
-        <div class="xform__field">
-            <select class="xform__input xform__input--select" id="feedback-theme" name="theme">
-                <option value=""></option>
-                <option value="1">Взаимодействие корпорации и клиента</option>
-                <option value="2">Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами</option>
-            </select>
-            <label class="xform__label" for="feedback-theme">Тема:</label>
-        </div>
-        <div class="xform__row row">
-            <div class="xform__col col col--xs-6">
-                <input class="xform__radio" type="radio" name="radio" id="radio1" checked><label for="radio1">Радио-кнопка 1</label>
-                <input class="xform__radio" type="radio" name="radio" id="radio2"><label for="radio2">Радио-кнопка 2</label>
+        <div class="xform__section">
+            <div class="xform__section-header">
+                <h3 class="xform__section-title">Файлы</h3>
             </div>
-            <div class="xform__col col col--xs-6">
-                <input class="xform__checkbox" type="checkbox" name="checkbox1" id="checkbox1" checked><label for="checkbox1">Флаг 1</label>
-                <input class="xform__checkbox" type="checkbox" name="checkbox2" id="checkbox2"><label for="checkbox2">Флаг 2</label>
-            </div>
+            <?= renderField('file', ['name' => 'file1', 'label' => 'Файл', 'required' => true]) ?>
+            <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
         </div>
-        <input type="file" name="file1" data-placeholder="Выберите файл" data-button="...">
-        <input type="file" name="file2" data-placeholder="Выберите файлы" data-button="..." multiple>
         <div class="xform__footer">
-            <button class="xform__button xform__button--submit" type="submit"><?php echo $forms["feedback"]["submit"]["label"] ?></button>
+            <button class="xform__button xform__button--submit" type="submit"><?php echo $xForms["feedback"]["submit"]["label"] ?></button>
         </div>
     </form>
 </div>

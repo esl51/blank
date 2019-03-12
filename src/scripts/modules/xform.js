@@ -12,6 +12,7 @@
                 fileValueClass: 'xform__file-value',
                 fileValueActivatedClass: 'xform__file-value--activated',
                 fileButtonClass: 'xform__file-button',
+                errorClass: 'xform__error',
                 resetOnSuccess: true,
             }, options);
 
@@ -37,10 +38,10 @@
 
                     var fileInput = $(this);
 
-                    var placeholderText = fileInput.data("placeholder") ? fileInput.data("placeholder") : "";
-                    var buttonText = fileInput.data("button") ? fileInput.data("button") : "...";
+                    var placeholderText = "...";
+                    var buttonText = "...";
 
-                    fileInput.wrap($('<label class="' + settings.fileClass + '"/>'));
+                    fileInput.wrap($('<div class="' + settings.fileClass + '"/>'));
                     var fileWrapper = fileInput.parent();
 
                     fileWrapper.prepend('<span class="' + settings.fileButtonClass + '">' + buttonText + '</span>');
@@ -51,7 +52,7 @@
 
                     fileInput.change(function() {
                         var fileName;
-                        if (fileApi && fileInput[0].files[0]) {
+                        if (fileApi && fileInput[0].files.length) {
                             var files = fileInput[0].files;
                             var fileNames = [];
                             for (var i = 0; i < files.length; i++) {
@@ -65,12 +66,14 @@
                         if (!fileName.length) {
                             fileValue.text(placeholderText);
                             fileValue.removeClass(settings.fileValueActivatedClass);
+                            fileValue.closest("." + settings.fieldClass).removeClass(settings.fieldActivatedClass);
                             return;
                         }
 
                         if (fileValue.is(":visible")) {
                             fileValue.text(fileName);
                             fileValue.addClass(settings.fileValueActivatedClass);
+                            fileValue.closest("." + settings.fieldClass).addClass(settings.fieldActivatedClass);
                             fileButton.text(buttonText);
                         } else {
                             fileButton.text(fileName);
@@ -80,8 +83,8 @@
 
                 /* Submit */
                 form.on("submit", function() {
-                    if (form.find('[name="form"]').length == 0) {
-                        $.error('[xForm] input[name="form"] not found');
+                    if (form.find('[name="xform"]').length == 0) {
+                        $.error('[xForm] input[name="xform"] not found');
                     }
                     form.prepend('<input class="xform__security" type="hidden" name="security" value="1">');
                     form.find(":button[type=submit]").prop("disabled", true);
@@ -129,18 +132,32 @@
                     var sendForm = function() {
                         form.trigger("xform:beforeSubmit");
                         form.addClass("xform--submitting");
+                        form.find("." + settings.errorClass).remove();
                         $.ajax({
                             type: 'post',
                             cache: false,
                             data: formData,
                             dataType: 'json',
                             success: function(data) {
-                                //alertify.dismissAll();
+                                var error = data["error"];
                                 var errors = data["errors"];
-                                var errorsHtml = '<ul>';
-                                if (errors.length > 0) {
-                                    for (var i = 0; i < errors.length; i++) {
-                                        alertify.error(errors[i], 0);
+                                var hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0);
+                                if (hasErrors) {
+                                    if (error && error.length) {
+                                        alertify.error(error);
+                                    }
+                                    if (errors && Object.keys(errors).length > 0) {
+                                        for (var field in errors) {
+                                            if (errors.hasOwnProperty(field)) {
+                                                var input = form.find("[name=" + field + "]");
+                                                if (input.length) {
+                                                    errors[field].forEach(function (err) {
+                                                        input.closest("." + settings.fieldClass).append('<div class="' + settings.errorClass + '">' + err + '</div>');
+                                                    });
+                                                }
+                                            }
+                                        }
+                                        scrollTo(form.find("." + settings.errorClass).closest("." + settings.fieldClass));
                                     }
                                     form.trigger("xform:error");
                                 } else {

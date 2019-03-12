@@ -140,7 +140,6 @@ if (!function_exists("sendEmail")) {
         $host = $_SERVER["HTTP_HOST"];
         $host_no_www = str_replace("www.", "", $host);
         $sitename = SITENAME;
-        $from = "{$sitename} <noreply@{$host_no_www}>";
 
         if (empty($subject)) {
           $subject = "Сообщение с сайта {$sitename}";
@@ -180,171 +179,6 @@ if (!function_exists("sendEmail")) {
         return $result;
     }
 }
-if (!function_exists("processFields")) {
-    function processFields($fields) {
-        foreach ($fields as $key => $field) {
-            $params = explode("|", str_replace(" ", "", $field["params"]));
-
-            $label = trim($field["label"]);
-            $value = trim($field["value"]);
-            $ivalue = intval($value);
-
-            if (!empty($params)) {
-                if (in_array("required", $params) && empty($value)) {
-                    $fields[$key]["error"] = sprintf(__("Поле \"%s\" обязательно для заполнения"), $label);
-                    continue;
-                }
-                if (in_array("email", $params) && !filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    $fields[$key]["error"] = sprintf(__("Поле \"%s\" должно содержать Ваш реальный E-mail адрес"), $label);
-                    continue;
-                }
-                if (in_array("number", $params) && empty($ivalue)) {
-                    $fields[$key]["error"] = sprintf(__("Поле \"%s\" должно быть числом"), $label);
-                    continue;
-                }
-                if (in_array("phone", $params) && preg_match("/\+\d{11,14}/", $value) !== 1 && !empty($value)) {
-                    $fields[$key]["error"] = sprintf(__("Поле \"%s\" должно быть корректным номером телефона в формате +7NNNNNNNNNN"), $label);
-                    continue;
-                }
-                if (in_array("strip_tags", $params)) {
-                    $value = strip_tags($value);
-                }
-                if (in_array("nl2br", $params)) {
-                    $value = nl2br($value);
-                }
-                if (in_array("clear_phone", $params)) {
-                    $value = preg_replace("/[^\+0-9]/", "", $value);
-                }
-
-                $fields[$key]["value"] = $value;
-            }
-        }
-
-        return $fields;
-    }
-}
-
-/* Process form errors */
-if (!function_exists("processErrors")) {
-    function processErrors($fields) {
-        $errors = array();
-        foreach ($fields as $field) {
-            if (!empty($field["error"]))
-                $errors[] = $field["error"];
-        }
-
-        return $errors;
-    }
-}
-
-/* Process form files */
-if (!function_exists("processFiles")) {
-    function processFiles($mimes = false) {
-        if (!$mimes) {
-            $mimes = array(
-                "image/jpeg", // jpg jpeg
-                "image/png", // png
-                "image/vnd.dwg", // dwg
-                "application/msword", // doc
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // docx
-                "application/vnd.ms-excel", // xls
-                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // xlsx
-                "application/pdf" // pdf
-            );
-        }
-
-        if (isset($_POST["files"])) {
-            $files = array();
-            $errors = array();
-
-            $pFiles = json_decode($_POST["files"], true);
-
-            foreach ($pFiles as $i => $iFiles) {
-                if (!empty($iFiles)) {
-                    foreach ($iFiles as $file) {
-                        $fileName = $file["name"];
-
-                        $fileData = explode(',', $file["data"]);
-                        $encData = end($fileData);
-                        $encData = str_replace(' ', '+', $encData);
-                        $fileData = base64_decode($encData);
-
-                        $fileInfo = finfo_open();
-                        $mimeType = finfo_buffer($fileInfo, $fileData, FILEINFO_MIME_TYPE);
-
-                        if (!in_array($mimeType, $mimes)) {
-                            $errors[] = sprintf(__("Недопустимый формат файла \"%s\""), $fileName);
-                            continue;
-                        }
-
-                        $files[$fileName] = $fileData;
-                    }
-                }
-            }
-
-            return array("errors" => $errors, "files" => $files);
-        }
-    }
-}
-
-/* Process form */
-if (!function_exists("processForm")) {
-    function processForm($forms) {
-        // check for form
-        $pform = $_POST['form'];
-        if (empty($pform)) return;
-
-        // check for security
-        $security = $_POST['security'];
-        if (empty($security)) return;
-
-        // getting form
-        $form = $forms[$pform];
-
-        // getting fields
-        $email = false;
-        $fields = array();
-        foreach ($form["fields"] as $fieldName => $field) {
-            $value = null;
-            if (isset($_POST[$fieldName]))
-                $value = $_POST[$fieldName];
-            if ($fieldName == "email")
-                $email = $value;
-            $fields[] = array("label" => $field["label"], "value" => $value, "params" => $field["rules"]);
-        }
-
-        // validating fields
-        $fields = processFields($fields);
-        $errors = processErrors($fields);
-
-        // processing files
-        $files = processFiles();
-        if (isset($files["errors"])) {
-            foreach ($files["errors"] as $fError) {
-                $errors[] = $fError;
-            }
-        }
-        $files = $files["files"];
-
-        // if errors - returning erors
-        if (!empty($errors))
-            return json_encode(array("success" => "", "errors" => $errors));
-
-        // processing message params
-        $messageBody = "<strong>Время отправки:</strong> " . date("d.m.Y H:i:s", time());
-        foreach ($fields as $field) {
-            $messageBody .= "<br><strong>{$field['label']}:</strong> {$field['value']}";
-        }
-
-        $send = sendEmail($form["email_address"], $messageBody, $form["email_subject"], $email, $files);
-
-        if ($send === true) {
-            return json_encode(array("success" => $form["success"], "errors" => array()));
-        } else {
-            return json_encode(array("success" => "", "errors" => array($form["error"])));
-        }
-    }
-}
 
 if (!function_exists("isAjax")) {
     function isAjax() {
@@ -352,8 +186,10 @@ if (!function_exists("isAjax")) {
     }
 }
 
-/* Forms */
-$forms = array(
+include "./_xform.php";
+
+/* xForms */
+$xForms = array(
 
     "feedback" => array(
         "fields" => array(
@@ -362,7 +198,12 @@ $forms = array(
             "phone" => array("label" => __("Номер телефона"), "rules" => "phone|clear_phone|strip_tags"),
             "email" => array("label" => __("E-mail"), "rules" => "required|email|strip_tags"),
             "message" => array("label" => __("Сообщение"), "rules" => "required|strip_tags|nl2br"),
+            "theme" => array("label" => __("Тема"), "rules" => "strip_tags|nl2br"),
 
+        ),
+        "files" => array(
+            "file1" => array("label" => __("Файл"), "required" => true, "mimes" => MIMES),
+            "file2" => array("label" => __("Файлы"), "required" => false, "mimes" => MIMES),
         ),
         "submit" => array("label" => __("Отправить")),
         "success" => __("Спасибо за обращение! Мы свяжемся с Вами в ближайшее время."),
@@ -373,9 +214,9 @@ $forms = array(
 
 );
 
-if (isset($_POST["form"])) {
+if (isset($_POST["xform"])) {
     if (!isAjax()) return;
-    echo processForm($forms);
+    echo processForm($xForms);
     exit;
 }
 

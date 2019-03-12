@@ -3,6 +3,7 @@
 @xform-input-border-color: #d2d2d4;
 @xform-input-border-color-active: #aaa;
 @xform-input-color: #2a2a2a;
+@xform-error-color: #e03a3e;
 @xform-input-border-width: 1px;
 @xform-input-border-radius: 0;
 @xform-input-font-size: @text-font-size;
@@ -11,6 +12,7 @@
 @xform-label-font-size: @xform-input-font-size * .75;
 @xform-input-padding-vertical: 1.4rem;
 @xform-input-padding-horizontal: 1.6rem;
+@xform-vertical-margin: .6rem;
 
 @xform-input-height: @xform-input-line-height * @xform-input-font-size + @xform-input-padding-vertical * 2 + @xform-input-border-width * 2;
 @xform-label-padding-top: ((@xform-input-height - @xform-input-border-width * 2) - (@xform-input-font-size * @xform-input-line-height + @xform-label-font-size)) / 2;
@@ -106,12 +108,22 @@
 /* Fields */
 .xform__field {
     .transition;
-    .vmargin(.6rem);
+    .vmargin(@xform-vertical-margin);
     position: relative;
+}
+.xform__field--required {
+
+    .xform__label {
+
+        &::after {
+            content: ' *';
+            color: @main-color;
+        }
+    }
 }
 .xform__label,
 .xform__input,
-.xform__file-value {
+.xform__file {
     .transition(all .1s @easing);
     display: block;
     padding: @xform-input-padding-vertical @xform-input-padding-horizontal;
@@ -119,9 +131,12 @@
     line-height: @xform-input-line-height;
 }
 .xform__input,
-.xform__file-value {
+.xform__file {
     width: 100%;
     border-radius: @xform-input-border-radius;
+    background-color: @xform-input-background-color;
+    border: @xform-input-border-width solid @xform-input-border-color;
+    color: @xform-input-color;
 }
 .xform__label {
     position: absolute;
@@ -135,25 +150,19 @@
     overflow: hidden;
     color: @xform-label-color;
 }
-.xform__input,
-.xform__file-value {
+.xform__input {
     .placeholder-color(#5e5e5e);
-    background-color: @xform-input-background-color;
-    border: none;
-    outline: none;
-    border: @xform-input-border-width solid @xform-input-border-color;
-    color: @xform-input-color;
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
 
     &:hover,
     &:focus {
+        outline: none;
         border-color: @xform-input-border-color-active;
     }
 }
 .xform__input--text {
-    resize: none;
-    height: 12rem;
+    resize: vertical;
+    min-height: 12rem;
 }
 .xform__input--select {
     background-image: ~"url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 88 88' width='10' height='10'><path fill='" replace(@xform-input-border-color, '#', '%23') ~"' d='M74.123 56.571L42.694 88 11.266 56.571zM11.266 31.429L42.694 0l31.429 31.429z'/></svg>)";
@@ -184,25 +193,27 @@
         font-size: @xform-label-font-size;
         line-height: 1;
         color: @xform-label-color;
-        background-color: @xform-input-background-color;
     }
 
-    .xform__input {
+    .xform__input,
+    .xform__file {
         padding-top: @xform-label-font-size + @xform-label-padding-top;
         padding-bottom: @xform-label-padding-top;
+    }
+
+    .xform__file-value {
+        visibility: visible;
+    }
+    .xform__file-button {
+        margin-top: ~"calc(-1 * (@{xform-label-font-size} + @{xform-label-padding-top} + @{xform-input-border-width}))";
+        margin-bottom: ~"calc(-1 * (@{xform-label-padding-top} + @{xform-input-border-width}))";
     }
 }
 
 .xform__file {
-    .vmargin(5px);
     display: flex;
-    position: relative;
+    transition: none;
     overflow: hidden;
-    padding: 0;
-    border: none;
-    width: 100%;
-    border-radius: 0;
-    background: none;
 
     input[type="file"] {
         position: absolute;
@@ -210,50 +221,67 @@
         top: 0;
         width: 100%;
         height: 100%;
-        letter-spacing: 10em;     /* IE 9 fix */
-        -ms-transform: scale(20); /* IE 9 fix */
-        transform: scale(20);
         opacity: 0;
+        border-radius: @xform-input-border-radius;
     }
 
-    &:hover {
+    &:hover,
+    &:focus-within {
+        border-color: @xform-input-border-color-active;
 
         .xform__file-button {
-            background: lighten(@main-color, 10%);
-        }
-        .xform__file-value {
-            border-color: @xform-input-border-color-active;
+            color: @text-color;
         }
     }
+
+    & + .xform__label {
+        transition: none;
+    }
+}
+.xform__file-value {
+    visibility: hidden;
+    margin-right: auto;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .xform__file-button {
-    .button;
     font: @text-font;
     font-size: @xform-input-font-size;
     border-radius: @xform-input-border-radius;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     padding: @xform-input-padding-vertical @xform-input-padding-horizontal;
+    margin-left: 0;
+    margin-right: ~"calc(-1 * (@{xform-input-padding-horizontal} + @{xform-input-border-width}))";
+    margin-top: ~"calc(-1 * (@{xform-input-padding-vertical} + @{xform-input-border-width}))";
+    margin-bottom: ~"calc(-1 * (@{xform-input-padding-vertical} + @{xform-input-border-width}))";
+    background-color: @xform-input-background-color;
+    color: @xform-input-border-color;
+    flex: 0 0 5.2rem;
+    text-align: center;
+}
+
+.xform__fieldset {
     margin: 0;
+    .vmargin(1.2rem);
+    border: none;
+    padding: 0;
 }
-.xform__file-value {
-    border-right: none;
-    width: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-.xform__file-value--activated {
-    color: @xform-input-color;
+.xform__legend {
+    .vmargin(@xform-vertical-margin);
+    font: @title-font;
+    font-size: 1.8rem;
 }
 
 .xform__radio,
 .xform__checkbox {
-    opacity: 0;
     position: absolute;
-    left: -9999px;
+    left: 0;
+    top: 0;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
 
     &:checked + label {
 
@@ -265,8 +293,8 @@
 .xform__radio + label,
 .xform__checkbox + label {
     .transition;
-    margin-top: .6rem;
-    margin-bottom: .6rem;
+    margin-top: @xform-vertical-margin;
+    margin-bottom: @xform-vertical-margin;
     font-size: @xform-input-font-size;
     padding-left: 4rem;
     position: relative;
@@ -307,7 +335,8 @@
     a {
         color: @main-color;
 
-        &:hover {
+        &:hover,
+        &:focus {
             text-decoration: underline;
         }
     }
@@ -340,6 +369,19 @@
             opacity: 1;
         }
     }
+}
+.xform__hint,
+.xform__error {
+    .vmargin(@xform-vertical-margin);
+    font-size: 1.4rem;
+    padding-left: @xform-input-border-width;
+    padding-right: @xform-input-border-width;
+}
+.xform__hint {
+    color: #bbb;
+}
+.xform__error {
+    color: @xform-error-color;
 }
 
 .xform__footer {

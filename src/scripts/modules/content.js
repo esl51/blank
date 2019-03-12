@@ -17,10 +17,14 @@ $.extend(true, $.magnificPopup.defaults, {
 });
 
 /* Init content */
-function initContent() {
+function initContent(container) {
+
+    if (!container) {
+        container = 'body';
+    }
 
     /* Gallery */
-    $('.text a[href$=".jpg"], .text a[href$=".jpeg"], .text a[href$=".png"], .text a[href$=".gif"], a.js-gallery-item').magnificPopup({
+    $(container).find('.text a[href$=".jpg"], .text a[href$=".jpeg"], .text a[href$=".png"], .text a[href$=".gif"], a.js-gallery-item').magnificPopup({
         type: 'image',
         mainClass: 'mfp-img-mobile mfp-fade',
         gallery: {
@@ -60,7 +64,7 @@ function initContent() {
     });
 
     /* Forms */
-    $('[data-popup-form]').magnificPopup({
+    $(container).find('[data-popup-form]').magnificPopup({
         type:'inline',
         midClick: false,
         focus: ':input:visible:first'
@@ -68,19 +72,19 @@ function initContent() {
 
 
     /* Ajax content */
-    $('[data-popup-ajax]').magnificPopup({
+    $(container).find('[data-popup-ajax]').magnificPopup({
         type:'ajax',
         focus: ':input:visible:first'
     });
 
     /* Iframe content */
-    $('[data-popup-iframe]').magnificPopup({
+    $(container).find('[data-popup-iframe]').magnificPopup({
         type:'iframe',
         focus: ':input:visible:first'
     });
 
     /* Inline iframe */
-    $("[data-iframe]").on("click", function () {
+    $(container).find("[data-iframe]").on("click", function () {
         var main = $(this);
         var iframe = main.find("iframe");
         iframe.attr("src", iframe.data("src"));
@@ -89,16 +93,16 @@ function initContent() {
     })
 
     /* Tables */
-    $('.text table').wrap('<div class="table-container">');
+    $(container).find('.text table').wrap('<div class="table-container">');
 
     /* xForm */
-    $(".js-xform").xForm();
-    $(".js-xform").on("xform:success", function(event) {
+    $(container).find(".js-xform").xForm();
+    $(container).find(".js-xform").on("xform:success", function(event) {
         $.magnificPopup.close();
     });
 
     /* Sliders */
-    $('.js-slider').flickity({
+    $(container).find('.js-slider').flickity({
         imagesLoaded: true,
         lazyLoad: 2,
         pageDots: true

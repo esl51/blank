@@ -96,14 +96,28 @@
 
 <div class="section" style="background:#ddd">
     <div class="section__inner">
-        <h2 class="section__title">Flickity</h2>
-        <div class="js-slider">
-            <a class="js-gallery-item" href="img/temp/tmp3.jpg" rel="g2"><img src="img/temp/tmp3.jpg" alt=""></a>
-            <a class="js-gallery-item" href="http://www.youtube.com/watch?v=dQw4w9WgXcQ" rel="g2" data-gallery-iframe><img src="img/temp/tmp2.jpg" alt=""></a>
-            <a class="js-gallery-item" href="img/temp/tmp1.jpg" rel="g2"><img src="img/temp/tmp1.jpg" alt=""></a>
+        <h2 class="section__title">xSlider</h2>
+        <div class="xslider js-xslider">
+            <div class="xslider__viewport" data-viewport>
+                <ul class="xslider__track" data-track>
+                    <li class="xslider__item">
+                        <img src="img/temp/tmp3.jpg" alt="">
+                    </li>
+                    <li class="xslider__item">
+                        <img src="img/temp/tmp2.jpg" alt="">
+                    </li>
+                    <li class="xslider__item">
+                        <img src="img/temp/tmp1.jpg" alt="">
+                    </li>
+                </ul>
+            </div>
+            <div class="xslider__arrows">
+                <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
+                <button class="xslider__arrow xslider__arrow--next" data-next></button>
+            </div>
         </div>
     </div>
-</div><!-- /flickity -->
+</div><!-- /xslider -->
 
 <div class="section section--pagination" style="background:#f1f1f1">
     <div class="section__inner section__inner--pagination">

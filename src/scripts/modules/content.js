@@ -101,16 +101,12 @@ function initContent(container) {
         $.magnificPopup.close();
     });
 
-    /* Sliders */
-    $(container).find('.js-slider').flickity({
-        imagesLoaded: true,
-        lazyLoad: 2,
-        pageDots: true
-    }).on('dragStart.flickity', function(event, pointer) {
-        $(this).addClass('is-dragging');
-    }).on('dragEnd.flickity', function(event, pointer) {
-        $(this).removeClass('is-dragging');
-    });
+    /* xSlider */
+    $(container).find('.js-xslider').each(function () {
+        var slider = new xSlider(this, {
+            loop: true,
+        }).mount();
+    })
 }
 
 $(function() {

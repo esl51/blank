@@ -6,7 +6,10 @@
     align-content: stretch;
     background: #fafafa;
 
-    a&:hover {
+    a&:hover,
+    a&:focus {
+        outline: none;
+
         .files__item-title {
             color: @main-color;
         }

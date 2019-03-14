@@ -26,7 +26,7 @@ ini_set("display_errors", DEBUG);
 /* Localize Time */
 if (!function_exists("localizeTime")) {
     function localizeTime($time = null, $pattern = "%e %B %Y") {
-        $replacements = array(
+        $replacements = [
             "Январь" => "января",
             "Февраль" => "февраля",
             "Март" => "марта",
@@ -39,7 +39,7 @@ if (!function_exists("localizeTime")) {
             "Октябрь" => "октября",
             "Ноябрь" => "ноября",
             "Декабрь" => "декабря",
-        );
+        ];
         return strtr(strftime($pattern, $time), $replacements);
     }
 }
@@ -126,17 +126,17 @@ if (!function_exists("pluralize")) {
         if ($last == 1) {
             return $t1;
         }
-        if (in_array($last, array(2,3,4))) {
+        if (in_array($last, [2, 3, 4])) {
             return $t2;
         }
-        if (in_array($last, array(0,5,6,7,8,9))) {
+        if (in_array($last, [0, 5, 6, 7, 8, 9])) {
             return $tn;
         }
     }
 }
 
 if (!function_exists("sendEmail")) {
-    function sendEmail($email, $message_body, $subject = "", $reply_to = "", $files = array()) {
+    function sendEmail($email, $message_body, $subject = "", $reply_to = "", $files = []) {
         $host = $_SERVER["HTTP_HOST"];
         $host_no_www = str_replace("www.", "", $host);
         $sitename = SITENAME;
@@ -145,12 +145,12 @@ if (!function_exists("sendEmail")) {
           $subject = "Сообщение с сайта {$sitename}";
         }
 
-        $message = render("./_mail.php", array(
+        $message = render("./_mail.php", [
             "host" => $host,
             "sitename" => $sitename,
             "subject" => $subject,
             "body" => $message_body
-        ));
+        ]);
 
         $mail = new PHPMailer(DEBUG);
         $mail->CharSet = 'UTF-8';
@@ -159,7 +159,7 @@ if (!function_exists("sendEmail")) {
         $mail->isHTML(true);
         $mail->Body = $message;
         if (!is_array($email)) {
-            $email = array($email);
+            $email = [$email];
         }
         foreach ($email as $eml) {
             $mail->addBCC($eml);
@@ -189,34 +189,32 @@ if (!function_exists("isAjax")) {
 include "./_xform.php";
 
 /* xForms */
-$xForms = array(
+$xForms = [
 
-    "feedback" => array(
-        "fields" => array(
-
-            "name" => array("label" => __("Ваше имя"), "rules" => "required|strip_tags"),
-            "phone" => array("label" => __("Номер телефона"), "rules" => "phone|clear_phone|strip_tags"),
-            "email" => array("label" => __("E-mail"), "rules" => "required|email|strip_tags"),
-            "message" => array("label" => __("Сообщение"), "rules" => "required|strip_tags|nl2br"),
-            "theme" => array("label" => __("Тема"), "rules" => "strip_tags|nl2br"),
-
-        ),
-        "files" => array(
-            "file1" => array("label" => __("Файл"), "required" => true, "mimes" => MIMES),
-            "file2" => array("label" => __("Файлы"), "required" => false, "mimes" => MIMES),
-        ),
+    "feedback" => [
+        "fields" => [
+            "name" => ["label" => __("Ваше имя"), "rules" => "required|strip_tags"],
+            "phone" => ["label" => __("Номер телефона"), "rules" => "phone|clear_phone|strip_tags"],
+            "email" => ["label" => __("E-mail"), "rules" => "required|email|strip_tags"],
+            "message" => ["label" => __("Сообщение"), "rules" => "required|strip_tags|nl2br"],
+            "theme" => ["label" => __("Тема"), "rules" => "strip_tags|nl2br"],
+        ],
+        "files" => [
+            "file1" => ["label" => __("Файл"), "required" => true, "mimes" => MIMES],
+            "file2" => ["label" => __("Файлы"), "required" => false, "mimes" => MIMES],
+        ],
         "callback" => function ($fields, $files, $form) {
             sleep(2);
             return formErrors([], __("Удалите callback из параметров формы, он приведён для примера."));
         },
-        "submit" => array("label" => __("Отправить")),
+        "submit" => ["label" => __("Отправить")],
         "success" => __("Спасибо за обращение! Мы свяжемся с Вами в ближайшее время."),
         "error" => __("Ошибка отправки сообщения"),
         "email_subject" => "Сообщение с сайта " . SITENAME,
         "email_address" => EMAIL,
-    ),
+    ],
 
-);
+];
 
 if (isset($_POST["xform"])) {
     if (!isAjax()) return;
@@ -240,14 +238,14 @@ if (isset($_GET["data"])) {
     $all = array_fill(0, 100, 1); // all items
 
     if ($data == "posts") {
-        //$all = array(); // all items
+        //$all = []; // all items
         $items = array_slice($all, $start, $limit); // filtered items
 
         if (count($all)) {
             foreach ($items as $item) {
-                $html .= render("./_post.php", array(
+                $html .= render("./_post.php", [
                     "item" => $item
-                ));
+                ]);
             }
         } else {
             $html = render("./_empty-result.php");
@@ -255,9 +253,9 @@ if (isset($_GET["data"])) {
     }
     */
 
-    echo json_encode(array(
+    echo json_encode([
         "last" => $start + $limit >= count($all),
         "html" => $html,
-    ));
+    ]);
     exit;
 }

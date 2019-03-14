@@ -87,7 +87,7 @@
             <h2>Встроенное адаптивное видео</h2>
             <div class="iframe-video" data-iframe>
                 <img src="img/temp/tmp1.jpg" alt="">
-                <iframe data-src="<?php echo prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
+                <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
                 <div class="iframe-video__title">Iframe video</div>
             </div>
         </div>
@@ -143,7 +143,7 @@
 
 <div class="popup popup--form mfp-hide" id="form">
     <div class="popup__header">
-        <div class="popup__title"><?php echo __("Обратная связь") ?></div>
+        <div class="popup__title"><?= __("Обратная связь") ?></div>
     </div>
     <form class="xform js-xform">
         <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
@@ -193,7 +193,7 @@
             <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
         </div>
         <div class="xform__footer">
-            <button class="xform__button xform__button--submit" type="submit"><?php echo $xForms["feedback"]["submit"]["label"] ?></button>
+            <button class="xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
         </div>
     </form>
 </div>

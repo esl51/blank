@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('MIMES')) {
-    define('MIMES', array(
+    define('MIMES', [
         "image/jpeg", // jpg jpeg
         "image/png", // png
         "image/vnd.dwg", // dwg
@@ -13,7 +13,7 @@ if (!defined('MIMES')) {
         "application/x-msexcel", // xls
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", // xlsx
         "application/pdf" // pdf
-    ));
+    ]);
 }
 
 if (!function_exists("processFields")) {
@@ -63,7 +63,7 @@ if (!function_exists("processFields")) {
 /* Process form errors */
 if (!function_exists("processErrors")) {
     function processErrors($fields) {
-        $errors = array();
+        $errors = [];
         foreach ($fields as $fieldName => $field) {
             if (!empty($field["error"])) {
                 $errors[$fieldName][] = $field["error"];
@@ -81,8 +81,8 @@ if (!function_exists("processFiles")) {
             $mimes = MIMES;
         }
 
-        $files = array();
-        $errors = array();
+        $files = [];
+        $errors = [];
 
         if (isset($_POST["files"])) {
             $pFiles = json_decode($_POST["files"], true);
@@ -106,7 +106,7 @@ if (!function_exists("processFiles")) {
                         }
 
                         if (!isset($files[$fieldName])) {
-                            $files[$fieldName] = array();
+                            $files[$fieldName] = [];
                         }
 
                         $files[$fieldName][$fileName] = $fileData;
@@ -115,22 +115,22 @@ if (!function_exists("processFiles")) {
             }
         }
 
-        return array("errors" => $errors, "files" => $files);
+        return ["errors" => $errors, "files" => $files];
     }
 }
 
 if (!function_exists("formErrors")) {
-    function formErrors($errors = array(), $error = null) {
+    function formErrors($errors = [], $error = null) {
         if (!is_array($errors)) {
             $errors = [$errors];
         }
-        return json_encode(array("success" => "", "errors" => $errors, "error" => $error));
+        return json_encode(["success" => "", "errors" => $errors, "error" => $error]);
     }
 }
 
 if (!function_exists("formSuccess")) {
     function formSuccess($success = null) {
-        return json_encode(array("success" => $success, "errors" => array(), "error" => ""));
+        return json_encode(["success" => $success, "errors" => [], "error" => ""]);
     }
 }
 
@@ -150,14 +150,14 @@ if (!function_exists("processForm")) {
 
         // getting fields
         $email = false;
-        $fields = array();
+        $fields = [];
         foreach ($form["fields"] as $fieldName => $field) {
             $value = null;
             if (isset($_POST[$fieldName]))
                 $value = $_POST[$fieldName];
             if ($fieldName == "email")
                 $email = $value;
-            $fields[$fieldName] = array("label" => $field["label"], "value" => $value, "params" => $field["rules"]);
+            $fields[$fieldName] = ["label" => $field["label"], "value" => $value, "params" => $field["rules"]];
         }
 
         // validating fields
@@ -171,7 +171,7 @@ if (!function_exists("processForm")) {
             foreach ($form["files"] as $fieldName => $field) {
                 if (!empty($field["required"]) && !isset($cFiles[$fieldName])) {
                     if (!isset($errors[$fieldName])) {
-                        $errors[$fieldName] = array();
+                        $errors[$fieldName] = [];
                     }
                     $errors[$fieldName][] = sprintf(__("Поле \"%s\" обязательно для заполнения"), $field["label"]);
                 }
@@ -200,7 +200,7 @@ if (!function_exists("processForm")) {
             $messageBody .= "<br><strong>{$field['label']}:</strong> {$field['value']}";
         }
 
-        $sendFiles = array();
+        $sendFiles = [];
         if (count($files)) {
             foreach ($files as $fieldName => $fieldFiles) {
                 $sendFiles = array_merge($sendFiles, $fieldFiles);

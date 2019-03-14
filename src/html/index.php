@@ -1,5 +1,69 @@
 <?php include "./_head.php"; ?>
 
+<div class="section">
+    <div class="section__inner">
+        <h2 class="section__title">xSlider: basic</h2>
+    </div>
+</div>
+
+<div class="xslider js-xslider">
+    <div class="xslider__viewport" data-viewport>
+        <ul class="xslider__track" data-track>
+            <li class="xslider__item">
+                <img src="img/temp/tmp1s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp2s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp3s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp4s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp5s.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+    <div class="xslider__arrows">
+        <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
+        <button class="xslider__arrow xslider__arrow--next" data-next></button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section__inner">
+        <h2 class="section__title">xSlider: carousel</h2>
+    </div>
+</div>
+
+<div class="xslider xslider--carousel-3 js-xslider">
+    <div class="xslider__viewport" data-viewport>
+        <ul class="xslider__track" data-track>
+            <li class="xslider__item">
+                <img src="img/temp/tmp1s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp2s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp3s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp4s.jpg" alt="">
+            </li>
+            <li class="xslider__item">
+                <img src="img/temp/tmp5s.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+    <div class="xslider__arrows">
+        <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
+        <button class="xslider__arrow xslider__arrow--next" data-next></button>
+    </div>
+</div>
+
 <div class="section section--breadcrumbs" style="background:#eee">
     <div class="section__inner section__inner--breadcrumbs">
         <?php include "./_breadcrumbs.php"; ?>
@@ -93,31 +157,6 @@
         </div>
     </div>
 </div>
-
-<div class="section" style="background:#ddd">
-    <div class="section__inner">
-        <h2 class="section__title">xSlider</h2>
-        <div class="xslider js-xslider">
-            <div class="xslider__viewport" data-viewport>
-                <ul class="xslider__track" data-track>
-                    <li class="xslider__item">
-                        <img src="img/temp/tmp3.jpg" alt="">
-                    </li>
-                    <li class="xslider__item">
-                        <img src="img/temp/tmp2.jpg" alt="">
-                    </li>
-                    <li class="xslider__item">
-                        <img src="img/temp/tmp1.jpg" alt="">
-                    </li>
-                </ul>
-            </div>
-            <div class="xslider__arrows">
-                <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
-                <button class="xslider__arrow xslider__arrow--next" data-next></button>
-            </div>
-        </div>
-    </div>
-</div><!-- /xslider -->
 
 <div class="section section--pagination" style="background:#f1f1f1">
     <div class="section__inner section__inner--pagination">

@@ -205,6 +205,10 @@ $xForms = array(
             "file1" => array("label" => __("Файл"), "required" => true, "mimes" => MIMES),
             "file2" => array("label" => __("Файлы"), "required" => false, "mimes" => MIMES),
         ),
+        "callback" => function ($fields, $files, $form) {
+            sleep(2);
+            return formErrors([], __("Удалите callback из параметров формы, он приведён для примера."));
+        },
         "submit" => array("label" => __("Отправить")),
         "success" => __("Спасибо за обращение! Мы свяжемся с Вами в ближайшее время."),
         "error" => __("Ошибка отправки сообщения"),

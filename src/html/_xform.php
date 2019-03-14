@@ -121,6 +121,9 @@ if (!function_exists("processFiles")) {
 
 if (!function_exists("formErrors")) {
     function formErrors($errors = array(), $error = null) {
+        if (!is_array($errors)) {
+            $errors = [$errors];
+        }
         return json_encode(array("success" => "", "errors" => $errors, "error" => $error));
     }
 }
@@ -184,6 +187,11 @@ if (!function_exists("processForm")) {
         // if errors - returning errors
         if (!empty($errors)) {
             return formErrors($errors, __("Не все данные прошли проверку"));
+        }
+
+        // processing callback
+        if (!empty($form["callback"]) && is_object($form["callback"]) && $form["callback"] instanceof \Closure) {
+            return $form["callback"]($fields, $files, $form);
         }
 
         // processing message params

@@ -9,7 +9,7 @@
         <meta name="description" content="">
         <meta name="format-detection" content="telephone=no">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic">
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i&amp;subset=cyrillic">
         <link rel="stylesheet" href="/css/main.css?<?= filemtime('css/main.css') ?>">
     </head>
     <body>

@@ -141,7 +141,7 @@
     </div>
 </div>
 
-<div class="popup popup--form hfp-hide" id="form">
+<div class="popup popup--form mfp-hide" id="form">
     <div class="popup__header">
         <div class="popup__title"><?php echo __("Обратная связь") ?></div>
     </div>

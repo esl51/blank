@@ -127,7 +127,6 @@
             }
         }
     }
-
     ol {
         counter-reset: list;
 
@@ -142,19 +141,17 @@
         }
     }
 
+    /* Vertical margin */
     p, blockquote, ul, ol, table, h1, h2, h3, h4, h5, h6, .table-container {
         .vmargin(1em);
     }
 }
+
+/* Columns */
 .text--columns-2 {
-    .columns(2);
 
-    .responsive-max(543px, {
-        .columns(1);
-    });
-
-    .responsive(768px, 991px, {
-        .columns(1);
+    .responsive-min(992px, {
+        .columns(2);
     });
 }
 

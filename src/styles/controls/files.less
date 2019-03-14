@@ -2,6 +2,8 @@
 .files {}
 .files__item {
     .vmargin(5px);
+}
+.files__link {
     display: flex;
     align-content: stretch;
     background: #fafafa;
@@ -10,17 +12,17 @@
     a&:focus {
         outline: none;
 
-        .files__item-title {
+        .files__title {
             color: @main-color;
         }
 
-        .files__item-download {
+        .files__download {
             background: @main-color;
             color: #fff;
         }
     }
 }
-.files__item-title {
+.files__title {
     .transition;
     flex-grow: 1;
     padding: 1.5rem 2rem;
@@ -29,7 +31,7 @@
         font-size: 1.4rem;
     });
 }
-.files__item-download {
+.files__download {
     .transition;
     flex: 0 0 10rem;
     display: flex;
@@ -38,7 +40,7 @@
     color: @text-color;
     font-size: 1.8rem;
     text-align: center;
-    border-left: 1px solid rgba(0,0,0,.05);
+    border-right: 1px solid rgba(0,0,0,.05);
 
     a&:hover {
         background: @main-color;

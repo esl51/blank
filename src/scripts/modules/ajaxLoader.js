@@ -58,6 +58,9 @@
                     if (!settings.type) {
                         $.error('[ajaxLoader] Type not specified.');
                     }
+                    if (container.data("params")) {
+                        settings.data = container.data("params");
+                    }
                     if (settings.scroll) {
                         $(window).on("scroll", function() {
                             if (settings.loading) return;
@@ -70,6 +73,15 @@
                     container.trigger("ajaxLoader:afterInit");
                 }
 
+            });
+
+        },
+
+        destroy: function () {
+
+            return this.each(function() {
+                var container = $(this);
+                container.removeData('ajaxLoader');
             });
 
         },

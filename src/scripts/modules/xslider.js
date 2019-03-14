@@ -343,9 +343,8 @@
 
         function dragSwipeEndHandler (e, type) {
             e.stopPropagation();
-            var diff = Math.abs(_this.xDiff) > Math.abs(_this.yDiff) ? _this.xDiff : _this.yDiff;
-            diff = !diff ? 0 : diff;
-            if (Math.abs(diff) > _this.settings.threshold) {
+            var diff = Math.abs(_this.xDiff);
+            if (diff > _this.settings.threshold) {
                 if (_this.settings.moveToFirst) {
                     var vRect = _this.viewport.getBoundingClientRect();
                     var tRect = _this.track.getBoundingClientRect();

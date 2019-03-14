@@ -1,15 +1,14 @@
 /* Breadcrumbs */
 .breadcrumbs {}
 .breadcrumbs__item {
-    .transition;
     .icon(next, after);
-    color: #7a7a7a;
-    margin-right: 6px;
+    display: inline-block;
+    margin-right: .5em;
 
     &::after {
         font-size: .5em;
-        margin-left: 10px;
-        color: #7a7a7a;
+        margin-left: .8em;
+        opacity: .5;
     }
 
     &:last-child {
@@ -17,11 +16,25 @@
         &::after {
             display: none;
         }
-    }
 
-    a&:hover,
-    a&:focus {
+        a.breadcrumbs__link {
+            color: @text-color;
+
+            &:hover,
+            &:focus {
+                color: @main-color;
+            }
+        }
+    }
+}
+a.breadcrumbs__link {
+    .transition;
+    color: @main-color;
+
+    &:hover,
+    &:focus {
         outline: none;
         color: @main-color;
+        text-decoration: underline;
     }
 }

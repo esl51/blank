@@ -17,13 +17,41 @@
 .xslider__item {
     flex: 0 0 100%;
     position: relative;
-    height: 400px;
+    height: 500px;
     overflow: hidden;
 
     img {
         width: 100%;
         min-height: 100%;
         object-fit: cover;
+    }
+    .responsive-max(767px, {
+        height: 250px;
+    });
+
+    .xslider--carousel-2 & {
+        flex-basis: 50%;
+    }
+    .xslider--carousel-3 & {
+        flex-basis: 33.33333%;
+
+        .responsive-max(991px, {
+            flex-basis: 50%;
+        });
+    }
+    .xslider--carousel-4 & {
+        flex-basis: 25%;
+
+        .responsive-max(991px, {
+            flex-basis: 50%;
+        });
+    }
+    .xslider--carousel-5 & {
+        flex-basis: 20%;
+
+        .responsive-max(991px, {
+            flex-basis: 50%;
+        });
     }
 }
 .xslider__arrows {

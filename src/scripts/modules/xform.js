@@ -88,6 +88,8 @@
                     }
                     form.prepend('<input class="xform__security" type="hidden" name="security" value="1">');
                     form.find(":button[type=submit]").prop("disabled", true);
+                    form.trigger("xform:beforeSubmit");
+                    form.addClass("xform--submitting");
 
                     var readFiles = function(callback) {
                         if (!fileApi) return null;
@@ -130,8 +132,6 @@
                     }
 
                     var sendForm = function() {
-                        form.trigger("xform:beforeSubmit");
-                        form.addClass("xform--submitting");
                         form.find("." + settings.errorClass).remove();
                         $.ajax({
                             type: 'post',

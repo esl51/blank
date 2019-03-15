@@ -365,7 +365,7 @@
                     _this.goTo(moveTo);
                 } else if (moveTo === -1) {
                     _this.goToFirst();
-                } else if (diff > 0) {
+                } else if (_this.xDiff > 0) {
                     _this.goToNext();
                 } else {
                     _this.goToPrev();

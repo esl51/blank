@@ -215,6 +215,7 @@
             });
         });
         var maxHeight = 0;
+        this.track.style.height = "auto";
         this.activeItems = [].slice.call(this.items, first, first + this.perView);
         this.activeItems.forEach(function (item) {
             item.classList.add(_this.settings.activeClass);

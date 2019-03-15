@@ -49,15 +49,6 @@
         this.items = this.track.children;
         this.count = this.items.length;
 
-        this.duration = transitionDuration(this.track);
-        if (this.settings.autoplay > 0 && this.settings.autoplay < this.duration) {
-            this.settings.autoplay = this.duration;
-        }
-        this.flexBasis = flexBasis(this.items[0]);
-        if (this.flexBasis.indexOf('%') < 0) {
-            this.flexBasis = 'auto';
-        }
-
         this.current = 0;
         this.prev = null;
         this.inTransition = false;
@@ -110,6 +101,14 @@
     }
 
     xSlider.prototype.recalc = function () {
+        this.duration = transitionDuration(this.track);
+        if (this.settings.autoplay > 0 && this.settings.autoplay < this.duration) {
+            this.settings.autoplay = this.duration;
+        }
+        this.flexBasis = flexBasis(this.items[0]);
+        if (this.flexBasis.indexOf('%') < 0) {
+            this.flexBasis = 'auto';
+        }
         var _this = this;
         this.itemWidth = 100;
         var width = 0;

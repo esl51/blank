@@ -181,9 +181,6 @@
                     }
 
                     var formData = {};
-                    form.serializeArray().map(function(x) {
-                        formData[x.name] = x.value;
-                    });
 
                     readFiles(function(files) {
                         if (files !== undefined) {

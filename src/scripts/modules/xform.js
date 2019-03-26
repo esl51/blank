@@ -158,19 +158,21 @@
                                             }
                                         }
                                         var elem = form.find("." + settings.errorClass).closest("." + settings.fieldClass);
-                                        var elemOffset = elem.offset().top;
-                                        var scrollTop = elemOffset;
-                                        var wrap = elem.closest('.mfp-wrap');
-                                        var scrollContainer = $('html, body');
-                                        var baseScSt = scrollContainer.scrollTop();
-                                        if (wrap.length) {
-                                            scrollContainer = wrap;
-                                            var scSt = scrollContainer.scrollTop();
-                                            scrollTop = scSt + elemOffset - baseScSt;
+                                        if (elem.length) {
+                                            var elemOffset = elem.offset().top;
+                                            var scrollTop = elemOffset;
+                                            var wrap = elem.closest('.mfp-wrap');
+                                            var scrollContainer = $('html, body');
+                                            var baseScSt = scrollContainer.scrollTop();
+                                            if (wrap.length) {
+                                                scrollContainer = wrap;
+                                                var scSt = scrollContainer.scrollTop();
+                                                scrollTop = scSt + elemOffset - baseScSt;
+                                            }
+                                            scrollContainer.animate({
+                                                scrollTop: scrollTop
+                                            }, 300);
                                         }
-                                        scrollContainer.animate({
-                                            scrollTop: scrollTop
-                                        }, 300);
                                     }
                                     form.trigger("xform:error");
                                 } else {

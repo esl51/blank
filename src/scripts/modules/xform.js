@@ -195,7 +195,7 @@
                         });
                     }
 
-                    var formData = {};
+                    var formData = form.serializeArray();
 
                     readFiles(function(files) {
                         if (files !== undefined) {

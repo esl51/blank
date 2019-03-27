@@ -199,7 +199,10 @@
 
                     readFiles(function(files) {
                         if (files !== undefined) {
-                            formData.files = JSON.stringify(files);
+                            formData.push({
+                                name: 'files',
+                                value: JSON.stringify(files),
+                            });
                         }
                         sendForm();
                     });

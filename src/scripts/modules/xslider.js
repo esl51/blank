@@ -423,7 +423,7 @@
         });
 
         this.track.addEventListener('touchstart', function (e) {
-            e.preventDefault();
+            //e.preventDefault();
             e.stopPropagation();
             _this.xDown = e.touches[0].clientX;
             _this.yDown = e.touches[0].clientY;

@@ -122,4 +122,13 @@ $(function() {
         scroll: true
     });
 
+    /* Cookie */
+    $(".js-cookie-close").on("click", function () {
+        setCookie("cookieConsent", true, 365);
+        $(".js-cookie").hide();
+    });
+    if (!getCookie("cookieConsent")) {
+        $(".js-cookie").show();
+    }
+
 });

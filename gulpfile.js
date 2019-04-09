@@ -216,7 +216,6 @@ gulp.task('icons:build', function() {
             formats: ['ttf', 'woff', 'woff2'],
             fontName: config.icons.fontname,
             normalize: true,
-            autohint: true,
             fontHeight: 1001,
         }))
         .pipe(gulp.dest(path.dest.fonts));

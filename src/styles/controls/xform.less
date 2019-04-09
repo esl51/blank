@@ -410,7 +410,6 @@
 }
 .xform__message-close {
     .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
-    .icon-close;
     font-size: 0;
     line-height: 0;
     background: none;
@@ -422,6 +421,7 @@
     padding: 1.4rem;
 
     &::before {
+        content: "×";
         font-size: 1.6rem;
     }
 }

@@ -14,46 +14,6 @@
     text-align: center;
     line-height: 37px;
     font-size: 1.6rem;
-
-    a {
-        .transition;
-        display: inline-block;
-        min-width: 40px;
-        height: 40px;
-        border-radius: 20px;
-        padding-left: 5px;
-        padding-right: 5px;
-        border: 1px solid transparent;
-        text-indent: 1px;
-
-        &:hover,
-        &:focus {
-            outline: none;
-            color: @main-color;
-        }
-    }
-}
-.pagination__item--prev,
-.pagination__item--next {
-    line-height: 40px;
-
-    a {
-        border-color: transparent;
-    }
-}
-.pagination__item--prev {
-
-    a {
-        .icon-prev;
-        text-indent: -3px;
-    }
-}
-.pagination__item--next {
-
-    a {
-        .icon(next, after);
-        text-indent: 3px;
-    }
 }
 .pagination__item--first {}
 .pagination__item--first-num {}
@@ -66,3 +26,24 @@
 .pagination__item--dots {}
 .pagination__item--last-num {}
 .pagination__item--last {}
+.pagination__link {
+    .transition;
+    display: inline-block;
+    min-width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid transparent;
+    text-indent: 1px;
+
+    a&:hover,
+    a&:focus {
+        outline: none;
+        color: @main-color;
+    }
+}
+.pagination__arrow {
+    font-size: .75em;
+}

@@ -21,32 +21,23 @@
     opacity: 0;
 }
 
-/* Close */
-button.mfp-close {
-    .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
-    .icon-close;
-    font-size: 0;
-    line-height: 0;
-    background: none;
-
-    &::before {
-        font-size: 2rem;
-    }
-}
-
 /* Arrows */
 button.mfp-arrow {
     .transition(all 0.5s cubic-bezier(.27,1.64,.32,.95));
     background: rgba(0,0,0,.1);
 
     &::before {
-        display: inline-block;
+        .absolute-block(1.2rem,1.2rem);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        display: block;
         color: #fff;
         font-size: 3rem;
+        margin: 0;
         border: none;
-        width: auto;
-        height: auto;
-        margin-top: 40px;
+        border-left: 2px solid #fff;
+        border-bottom: 2px solid #fff;
     }
 
     &::after {
@@ -58,12 +49,17 @@ button.mfp-arrow {
     });
 }
 button.mfp-arrow-left {
-    .icon-prev;
+
+    &::before {
+        transform: translate(-50%,-50%) rotate(45deg);
+    }
 }
 button.mfp-arrow-right {
-    .icon-next;
-}
 
+    &::before {
+        transform: translate(-50%,-50%) rotate(-135deg);
+    }
+}
 
 .mfp-figure {
     animation-name: fadeIn;

@@ -2,6 +2,26 @@
 
 <div class="section">
     <div class="section__inner">
+        <h2 class="section__title">Breadcrumbs</h2>
+        <ul class="breadcrumbs">
+            <li class="breadcrumbs__item">
+                <a class="breadcrumbs__link" href="">Главная</a>
+                <?= icon("next", "breadcrumbs__corner") ?>
+            </li>
+            <li class="breadcrumbs__item">
+                <a class="breadcrumbs__link" href="">Новости</a>
+                <?= icon("next", "breadcrumbs__corner") ?>
+            </li>
+            <li class="breadcrumbs__item">
+                <a class="breadcrumbs__link" href="">Новости спорта</a>
+                <?= icon("next", "breadcrumbs__corner") ?>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="section">
+    <div class="section__inner">
         <h2 class="section__title">xSlider: basic</h2>
     </div>
 </div>
@@ -27,8 +47,8 @@
         </ul>
     </div>
     <div class="xslider__arrows">
-        <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
-        <button class="xslider__arrow xslider__arrow--next" data-next></button>
+        <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
+        <button class="xslider__arrow" data-next><?= icon("next") ?></button>
     </div>
 </div>
 
@@ -59,8 +79,8 @@
         </ul>
     </div>
     <div class="xslider__arrows">
-        <button class="xslider__arrow xslider__arrow--prev" data-prev></button>
-        <button class="xslider__arrow xslider__arrow--next" data-next></button>
+        <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
+        <button class="xslider__arrow" data-next><?= icon("next") ?></button>
     </div>
 </div>
 
@@ -153,6 +173,7 @@
                 <img src="img/temp/tmp1.jpg" alt="">
                 <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
                 <div class="iframe-video__title">Iframe video</div>
+                <?= icon("play", "iframe-video__play") ?>
             </div>
         </div>
     </div>

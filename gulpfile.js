@@ -94,12 +94,6 @@ const config = {
         clean: true,
         destination: '/'
     },
-    icons: {
-        fontname: 'icons',
-        template: 'src/assets/icons/_icons.less.tpl',
-        cssfile: '../../src/styles/common/icons.less',
-        fontpath: '../fonts/',
-    },
     fonts: {
         csspath: 'src/styles/common/',
         cssfile: 'fonts.less',
@@ -203,22 +197,15 @@ gulp.task('images:build', gulp.series('images:cache', function () {
 gulp.task('icons:build', function() {
     return gulp.src(path.src.icons)
         .pipe(imagemin([
-            imagemin.svgo()
+            imagemin.svgo({
+                plugins: [
+                    { removeXMLNS: true },
+                    { removeViewBox: false },
+                    { removeDimensions: true },
+                ]
+            })
         ]))
-        .pipe(gulp.dest(path.dest.icons))
-        .pipe(iconfontCss({
-            fontName: config.icons.fontname,
-            path: config.icons.template,
-            targetPath: config.icons.cssfile,
-            fontPath: config.icons.fontpath
-        }))
-        .pipe(iconfont({
-            formats: ['ttf', 'woff', 'woff2'],
-            fontName: config.icons.fontname,
-            normalize: true,
-            fontHeight: 1001,
-        }))
-        .pipe(gulp.dest(path.dest.fonts));
+        .pipe(gulp.dest(path.dest.icons));
 });
 
 /* Fonts cache */
@@ -255,14 +242,12 @@ gulp.task('build:clear', function (cb) {
 /* Build */
 gulp.task('build', gulp.series(
     'build:clear',
-    gulp.parallel(
-        'icons:build',
-        'fonts:build',
-    ),
+    'fonts:build',
     gulp.parallel(
         'root:build',
         'vendor:build',
         'images:build',
+        'icons:build',
         'scripts:build',
         'html:build',
         'styles:build',

@@ -1,19 +1,12 @@
 /* Breadcrumbs */
 .breadcrumbs {}
 .breadcrumbs__item {
-    .icon(next, after);
     display: inline-block;
     margin-right: .5em;
 
-    &::after {
-        font-size: .5em;
-        margin-left: .8em;
-        opacity: .5;
-    }
-
     &:last-child {
 
-        &::after {
+        .breadcrumbs__corner {
             display: none;
         }
 
@@ -26,6 +19,11 @@
             }
         }
     }
+}
+.breadcrumbs__corner {
+    font-size: .5em;
+    margin-left: 1em;
+    opacity: .5;
 }
 a.breadcrumbs__link {
     .transition;

@@ -44,6 +44,40 @@ if (!function_exists("localizeTime")) {
     }
 }
 
+/* Include icon */
+if (!function_exists("icon")) {
+    function icon($name, $class = null/*, $width = null, $height = null*/) {
+        $icon = file_get_contents(__DIR__ . "/icons/$name.svg");
+        preg_match("/^<svg[^>]*viewBox\s*=\s*\"?([0-9\s]+)\"?[^>]*>/", $icon, $matchViewBox);
+        if (!isset($matchViewBox[1])) {
+            return "No viewBox attribute";
+        }
+        $dimensions = explode(" ", $matchViewBox[1]);
+        if (count($dimensions) < 4) {
+            return "Wrong viewBox attribute";
+        }
+        /*
+        $dWidth = intval($dimensions[2]);
+        $dHeight = intval($dimensions[3]);
+        if ($dWidth <= 0 || $dHeight <= 0) {
+            return "Wrong dimensions";
+        }
+        if (empty($width) && empty($height)) {
+            $width = $dWidth;
+            $height = $dHeight;
+        }
+        if (!empty($height)) {
+            $icon = str_replace('<svg', '<svg height="' . $height . '"', $icon);
+        }
+        if (!empty($width)) {
+            $icon = str_replace('<svg', '<svg width="' . $width . '"', $icon);
+        }
+        */
+        $icon = '<span class="' . (!empty($class) ? $class . ' ' : '') . 'icon">' . $icon . '</span>';
+        return $icon;
+    }
+}
+
 /* Remove unnecessary characters from phone number*/
 if (!function_exists("prepareTel")) {
     function prepareTel($tel) {

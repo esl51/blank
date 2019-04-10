@@ -2,6 +2,23 @@
 
 <div class="section">
     <div class="section__inner">
+        <h2 class="section__title">Icons</h2>
+
+        <div class="icons-demo">
+
+            <?php foreach (glob("icons/*.svg") as $filename): ?>
+
+                <span class="icons-demo__item"><?= icon(substr(basename($filename), 0, -4)) ?></span>
+
+            <?php endforeach ?>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="section">
+    <div class="section__inner">
         <h2 class="section__title">Breadcrumbs</h2>
         <ul class="breadcrumbs">
             <li class="breadcrumbs__item">

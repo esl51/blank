@@ -10,6 +10,7 @@
                 button: false,
                 type: false,
                 items: '*',
+                buttonChangeText: true,
                 buttonText: false,
                 buttonLoadingText: false,
                 buttonLoadingClass: 'is-loading',
@@ -58,8 +59,8 @@
                     if (!settings.type) {
                         $.error('[ajaxLoader] Type not specified.');
                     }
-                    if (container.data("params")) {
-                        settings.data = container.data("params");
+                    if (container.data("items")) {
+                        settings.items = container.data("items");
                     }
                     if (settings.scroll) {
                         $(window).on("scroll", function() {
@@ -95,6 +96,9 @@
                 if (!options || options.finished === true) {
                     return;
                 }
+                if (container.data("params")) {
+                    options.data = container.data("params");
+                }
                 container.trigger("ajaxLoader:beforeLoad");
                 options.loading = true;
                 container.data('ajaxLoader', options);
@@ -103,7 +107,7 @@
                     button = $(options.button);
                 }
                 if (button) {
-                    if (options.buttonLoadingText) {
+                    if (options.buttonLoadingText && options.buttonChangeText) {
                         button.text(options.buttonLoadingText);
                     }
                     button.addClass(options.buttonLoadingClass + ' ' + options.buttonDisabledClass);
@@ -120,13 +124,19 @@
                     dataType: "json",
                     success: function(data) {
                         if (options.append === true) {
-                            container.append(data.html);
+                            var last = container.children(options.items).last();
+                            if (last.length) {
+                                $(data.html).insertAfter(last);
+                            } else {
+                                container.prepend(data.html);
+                            }
                         } else {
-                            container.html(data.html);
+                            container.children(options.items).remove();
+                            container.prepend(data.html);
                         }
                         if (button) {
                             button.removeClass(options.buttonLoadingClass + ' ' + options.buttonDisabledClass);
-                            if (options.buttonText) {
+                            if (options.buttonText && options.buttonChangeText) {
                                 button.text(options.buttonText);
                             }
                             if (data.last) {

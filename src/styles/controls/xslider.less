@@ -6,6 +6,8 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
+    -ms-touch-action: pan-y;
+    touch-action: pan-y;
 }
 .xslider__track {
     .transition(all .7s @easing);
@@ -120,4 +122,39 @@
             color: @main-color;
         }
     });
+}
+.xslider__bullets {
+    position: absolute;
+    left: 50%;
+    bottom: 2.5rem;
+    z-index: 2;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: -7px;
+}
+.xslider__bullet {
+    margin: 7px;
+
+    button {
+        display: block;
+        width: 14px;
+        height: 14px;
+        border-radius: 7px;
+        background-color: rgba(255,255,255,.3);
+
+        &:hover,
+        &:focus {
+            outline: none;
+            background-color: @main-color;
+        }
+    }
+
+    &.is-active {
+        button {
+            background-color: #fff;
+        }
+    }
 }

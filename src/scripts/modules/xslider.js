@@ -1,6 +1,7 @@
 (function() {
 
     function transitionDuration (elem) {
+        if (!elem) return null;
         var cStyle = window.getComputedStyle(elem);
         var value = cStyle.getPropertyValue('transition-duration');
         var isMs = value.indexOf('ms') >= 0;
@@ -9,6 +10,7 @@
     };
 
     function flexBasis (elem) {
+        if (!elem) return null;
         var cStyle = window.getComputedStyle(elem);
         return cStyle.getPropertyValue('flex-basis');
     }
@@ -34,6 +36,8 @@
             disabledClass: 'is-disabled',
             currentClass: 'is-current',
             activeClass: 'is-active',
+            mountedClass: 'is-mounted',
+            bulletTag: 'li',
         };
         for (var attrname in options) {
             this.settings[attrname] = options[attrname];
@@ -42,12 +46,14 @@
         this.slider = elem;
         this.viewport = this.slider.querySelector('[data-viewport]');
         this.track = this.viewport.querySelector('[data-track]');
+        this.bulletsContainer = this.slider.querySelector('[data-bullets]');
+        this.bullets = this.bulletsContainer ? this.bulletsContainer.children : [];
         this.prevButtons = this.slider.querySelectorAll('[data-prev]');
         this.nextButtons = this.slider.querySelectorAll('[data-next]');
         this.firstButtons = this.slider.querySelectorAll('[data-first]');
         this.lastButtons = this.slider.querySelectorAll('[data-last]');
-        this.items = this.track.children;
-        this.count = this.items.length;
+
+        this.listeners = [];
 
         this.current = 0;
         this.prev = null;
@@ -60,7 +66,12 @@
         elem.xSlider = this;
     }
 
+    xSlider.prototype.loadItems = function () {
+        this.items = this.track.querySelectorAll(':scope > *');
+    }
+
     xSlider.prototype.goTo = function (index) {
+        if (this.items.length < 1) return;
         if (index < 0) {
             if (!this.settings.loop) {
                 this.current = 0;
@@ -68,16 +79,16 @@
                 if (this.current < this.settings.perSlide && this.current > 0) {
                     this.current = 0;
                 } else {
-                    if (this.settings.loopActive && (this.count + index) >= this.maxCurrent) {
+                    if (this.settings.loopActive && (this.items.length + index) >= this.maxCurrent) {
                         this.current = this.maxCurrent;
                     } else {
-                        this.current = this.count - 1;
+                        this.current = this.items.length - 1;
                     }
                 }
             }
-        } else if (index > this.count - 1) {
+        } else if (index > this.items.length - 1) {
             if (!this.settings.loop) {
-                this.current = this.count - 1;
+                this.current = this.items.length - 1;
             } else {
                 this.current = 0;
             }
@@ -101,13 +112,18 @@
     }
 
     xSlider.prototype.recalc = function () {
+        this.loadItems();
         this.duration = transitionDuration(this.track);
-        if (this.settings.autoplay > 0 && this.settings.autoplay < this.duration) {
-            this.settings.autoplay = this.duration;
+        if (this.duration) {
+            if (this.settings.autoplay > 0 && this.settings.autoplay < this.duration) {
+                this.settings.autoplay = this.duration;
+            }
         }
         this.flexBasis = flexBasis(this.items[0]);
-        if (this.flexBasis.indexOf('%') < 0) {
-            this.flexBasis = 'auto';
+        if (this.flexBasis) {
+            if (this.flexBasis.indexOf('%') < 0) {
+                this.flexBasis = 'auto';
+            }
         }
         var _this = this;
         this.itemWidth = 100;
@@ -119,8 +135,8 @@
             var viewportWidth = this.viewport.offsetWidth;
             var elemWidth = this.items[0].offsetWidth;
             this.perView = Math.floor(viewportWidth / elemWidth);
-            if (this.perView > this.count) {
-                this.perView = this.count;
+            if (this.perView > this.items.length) {
+                this.perView = this.items.length;
             }
             width = 100 / this.perView;
         } else {
@@ -143,7 +159,7 @@
             this.settings.perSlide = this.perView;
         }
 
-        this.maxCurrent = this.count - this.perView;
+        this.maxCurrent = this.items.length - this.perView;
 
         return this;
     }
@@ -191,10 +207,31 @@
 
         this.refreshButtonsState();
 
+        if (this.bulletsContainer) {
+            while (this.bulletsContainer.firstChild) {
+                this.bulletsContainer.removeChild(this.bulletsContainer.firstChild);
+            }
+        }
+
         [].forEach.call(this.items, function (item) {
             item.classList.remove(_this.settings.currentClass);
             item.classList.remove(_this.settings.activeClass);
+            if (_this.bulletsContainer) {
+                _this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + _this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + _this.settings.bulletTag + '>');
+            }
         });
+
+        if (this.bulletsContainer) {
+            this.bullets = this.bulletsContainer.children;
+        }
+        [].forEach.call(this.bullets, function (bullet) {
+            var btn = bullet.querySelector("button");
+            btn.addEventListener("click", function () {
+                var idx = [].indexOf.call(_this.bullets, bullet);
+                _this.goTo(idx);
+            });
+        });
+
         var lazyLoadItems = [].slice.call(this.items, first, first + this.perView * (this.settings.lazyLoad + 1));
         var lazyLoadAdd = [];
         if (first < this.perView) {
@@ -233,14 +270,18 @@
             this.track.style.height = maxHeight + "px";
         }
 
+        if (this.bulletsContainer) {
+            this.bullets[this.current].classList.add(this.settings.activeClass);
+        }
+
         clearTimeout(this.durationTimeout);
         this.durationTimeout = setTimeout(function () {
             _this.items[_this.current].classList.add(_this.settings.currentClass);
             _this.inTransition = false;
-            if (_this.settings.autoplay > 0 && _this.current < _this.count - 1) {
+            if (_this.settings.autoplay > 0 && _this.current < _this.items.length - 1) {
                 _this.play();
             }
-            _this.track.removeEventListener('click', clickHandler);
+            _this.viewport.removeEventListener('click', clickHandler);
             _this.track.classList.remove(_this.settings.movingClass);
             if (_this.current !== _this.prev) {
                 var event = document.createEvent('Event');
@@ -263,7 +304,7 @@
         return this.goTo(0);
     }
     xSlider.prototype.goToLast = function () {
-        return this.goTo(this.count - 1);
+        return this.goTo(this.items.length - 1);
     }
     xSlider.prototype.pause = function () {
         clearInterval(this.autoplayInterval);
@@ -272,10 +313,10 @@
     }
     xSlider.prototype.play = function () {
         var _this = this;
-        if (this.settings.autoplay > 0 && this.canPlay && this.current < this.count - 1) {
+        if (this.settings.autoplay > 0 && this.canPlay && this.current < this.items.length - 1) {
             clearInterval(this.autoplayInterval);
             this.autoplayInterval = setInterval(function () {
-                if (!_this.settings.loop && _this.current == _this.count - 1) {
+                if (!_this.settings.loop && _this.current == _this.items.length - 1) {
                     _this.pause();
                     _this.canPlay = true;
                     return _this;
@@ -284,6 +325,18 @@
             }, this.settings.autoplay);
         }
         return this;
+    }
+
+    xSlider.prototype.unmount = function () {
+        this.track.style = null;
+        this.slider.classList.remove(this.settings.mountedClass);
+        var clone = this.slider.cloneNode(true);
+        this.slider.parentNode.replaceChild(clone, this.slider);
+    }
+
+    xSlider.prototype.destroy = function () {
+        this.unmount();
+        delete(this.slider.xSlider);
     }
 
     xSlider.prototype.mount = function () {
@@ -324,10 +377,13 @@
             _this.xDiff = _this.xDown - _this.xUp;
             _this.yDiff = _this.yDown - _this.yUp;
             if (Math.abs(_this.xDiff) > Math.abs(_this.yDiff)) {
+                if (e.cancelable) {
+                    e.preventDefault();
+                }
                 var transform = 'translate3d(' + (_this.xDiff * -1) + 'px,0,0)';
                 var canMove = true;
                 if (!_this.settings.loop) {
-                    if (_this.current == _this.count - 1 && _this.xDiff > 0) {
+                    if (_this.current == _this.items.length - 1 && _this.xDiff > 0) {
                         canMove = false;
                     } else if (_this.current == 0 && _this.xDiff < 0) {
                         canMove = false;
@@ -338,13 +394,14 @@
                     _this.track.style.transform = _this.currentTransform + ' ' + transform;
                 }
             }
-            _this.track.addEventListener('click', clickHandler);
+            _this.viewport.addEventListener('click', clickHandler);
         }
 
         function dragSwipeEndHandler (e, type) {
             e.stopPropagation();
-            var diff = Math.abs(_this.xDiff);
-            if (diff > _this.settings.threshold) {
+            var xDiff = Math.abs(_this.xDiff);
+            var yDiff = Math.abs(_this.yDiff);
+            if (xDiff > yDiff && xDiff > _this.settings.threshold) {
                 if (_this.settings.moveToFirst) {
                     var vRect = _this.viewport.getBoundingClientRect();
                     var tRect = _this.track.getBoundingClientRect();
@@ -378,8 +435,8 @@
             _this.yDown = 0;
             _this.xDiff = 0;
             _this.yDiff = 0;
-            _this.track.removeEventListener('mousemove', dragHandler, false);
-            _this.track.removeEventListener('touchmove', swipeHandler, false);
+            _this.viewport.removeEventListener('mousemove', dragHandler, false);
+            _this.viewport.removeEventListener('touchmove', swipeHandler, false);
             _this.isMoving = false;
         }
 
@@ -388,9 +445,9 @@
                 _this.reposition();
                 _this.xDown = 0;
                 _this.yDown = 0;
-                _this.track.removeEventListener('mousemove', dragHandler, false);
-                _this.track.removeEventListener('touchmove', swipeHandler, false);
-                _this.track.removeEventListener('click', clickHandler);
+                _this.viewport.removeEventListener('mousemove', dragHandler, false);
+                _this.viewport.removeEventListener('touchmove', swipeHandler, false);
+                _this.viewport.removeEventListener('click', clickHandler);
                 _this.isMoving = false;
             }
         }
@@ -411,25 +468,25 @@
             return dragSwipeHandler(e, 'swipe');
         }
 
-        this.track.addEventListener('mousedown', function (e) {
+        this.viewport.addEventListener('mousedown', function (e) {
             e.preventDefault();
             e.stopPropagation();
             _this.xDown = e.clientX;
             _this.yDown = e.clientY;
             _this.isMoving = true;
-            _this.track.addEventListener('mousemove', dragHandler, false);
-            _this.track.addEventListener('mouseup', dragEndHandler, false);
-            _this.track.addEventListener('mouseleave', dragLeaveHandler, false);
+            _this.viewport.addEventListener('mousemove', dragHandler, false);
+            _this.viewport.addEventListener('mouseup', dragEndHandler, false);
+            _this.viewport.addEventListener('mouseleave', dragLeaveHandler, false);
         });
 
-        this.track.addEventListener('touchstart', function (e) {
+        this.viewport.addEventListener('touchstart', function (e) {
             //e.preventDefault();
             e.stopPropagation();
             _this.xDown = e.touches[0].clientX;
             _this.yDown = e.touches[0].clientY;
             _this.isMoving = true;
-            _this.track.addEventListener('touchmove', swipeHandler, false);
-            _this.track.addEventListener('touchend', swipeEndHandler, false);
+            _this.viewport.addEventListener('touchmove', swipeHandler, false);
+            _this.viewport.addEventListener('touchend', swipeEndHandler, false);
         });
 
         this.prevButtons.forEach(function (item) { item.addEventListener('click', function () { _this.goToPrev(); }) });
@@ -439,6 +496,8 @@
 
         this.goTo(this.settings.startAt);
         this.play();
+
+        this.slider.classList.add(this.settings.mountedClass);
 
         var event = document.createEvent('Event');
         event.initEvent('mount', true, true);

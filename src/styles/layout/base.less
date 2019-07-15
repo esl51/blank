@@ -12,14 +12,16 @@
 }
 
 /* Scrollbar */
-::-webkit-scrollbar-track {
-    background-color: rgba(0,0,0,.1);
-}
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,.4);
+@media (hover: hover) and (pointer: fine) {
+    ::-webkit-scrollbar-track {
+        background-color: rgba(0,0,0,.1);
+    }
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(0,0,0,.4);
+    }
 }
 
 /* Html */

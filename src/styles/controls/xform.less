@@ -150,6 +150,7 @@
     overflow: hidden;
     color: @xform-label-color;
 }
+.xform__label,
 .xform__input {
     .placeholder-color(#5e5e5e);
     appearance: none;
@@ -187,29 +188,32 @@
 }
 .xform__field--activated {
 
-    .xform__label {
-        padding-top: @xform-label-padding-top;
-        padding-bottom: 0;
-        font-size: @xform-label-font-size;
-        line-height: 1;
-        color: @xform-label-color;
-    }
-
-    .xform__input,
-    .xform__file {
-        padding-top: @xform-label-font-size + @xform-label-padding-top;
-        padding-bottom: @xform-label-padding-top;
-    }
-
     .xform__file-value {
         visibility: visible;
     }
-    .xform__file-button {
-        margin-top: ~"calc(-1 * (@{xform-label-font-size} + @{xform-label-padding-top} + @{xform-input-border-width}))";
-        margin-bottom: ~"calc(-1 * (@{xform-label-padding-top} + @{xform-input-border-width}))";
+}
+.xform:not(.xform--static) {
+    .xform__field--activated {
+
+        .xform__label {
+            padding-top: @xform-label-padding-top;
+            padding-bottom: 0;
+            font-size: @xform-label-font-size;
+            line-height: 1;
+            color: @xform-label-color;
+        }
+
+        .xform__input,
+        .xform__file {
+            padding-top: @xform-label-font-size + @xform-label-padding-top;
+            padding-bottom: @xform-label-padding-top;
+        }
+        .xform__file-button {
+            margin-top: ~"calc(-1 * (@{xform-label-font-size} + @{xform-label-padding-top} + @{xform-input-border-width}))";
+            margin-bottom: ~"calc(-1 * (@{xform-label-padding-top} + @{xform-input-border-width}))";
+        }
     }
 }
-
 .xform__file {
     display: flex;
     transition: none;
@@ -436,4 +440,19 @@
 }
 .xform__message-text {
     font-size: 1.4rem;
+}
+
+.xform--static {
+
+    .xform__field {
+        display: flex;
+        flex-direction: column;
+    }
+    .xform__label {
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: @xform-vertical-margin;
+        position: static;
+        order: -1;
+    }
 }

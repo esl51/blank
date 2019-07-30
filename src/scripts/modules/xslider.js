@@ -48,6 +48,8 @@
         this.track = this.viewport.querySelector('[data-track]');
         this.bulletsContainer = this.slider.querySelector('[data-bullets]');
         this.bullets = this.bulletsContainer ? this.bulletsContainer.children : [];
+        this.thumbsContainer = this.slider.querySelector('[data-thumbs]');
+        this.thumbs = this.thumbsContainer ? this.thumbsContainer.children : [];
         this.prevButtons = this.slider.querySelectorAll('[data-prev]');
         this.nextButtons = this.slider.querySelectorAll('[data-next]');
         this.firstButtons = this.slider.querySelectorAll('[data-first]');
@@ -135,16 +137,16 @@
             var viewportWidth = this.viewport.offsetWidth;
             var elemWidth = this.items[0].offsetWidth;
             this.perView = Math.floor(viewportWidth / elemWidth);
-            if (this.perView > this.items.length) {
-                this.perView = this.items.length;
-            }
             width = 100 / this.perView;
         } else {
             width = parseFloat(this.flexBasis);
             this.perView = Math.floor(100 / width);
-            if (this.perView < 1) {
-                this.perView = 1;
-            }
+        }
+        if (this.perView < 1) {
+            this.perView = 1;
+        }
+        if (this.perView > this.items.length) {
+            this.perView = this.items.length;
         }
         if (width > 0 && width <= 100) {
             this.itemWidth = width;
@@ -224,6 +226,11 @@
         if (this.bulletsContainer) {
             this.bullets = this.bulletsContainer.children;
         }
+
+        if (this.thumbsContainer) {
+            this.thumbs = this.thumbsContainer.children;
+        }
+
         [].forEach.call(this.bullets, function (bullet) {
             var btn = bullet.querySelector("button");
             btn.addEventListener("click", function () {
@@ -272,6 +279,13 @@
 
         if (this.bulletsContainer) {
             this.bullets[this.current].classList.add(this.settings.activeClass);
+        }
+
+        if (this.thumbsContainer) {
+            [].forEach.call(this.thumbs, function (thumb) {
+                thumb.classList.remove(_this.settings.activeClass);
+            });
+            this.thumbs[this.current].classList.add(this.settings.activeClass);
         }
 
         clearTimeout(this.durationTimeout);
@@ -360,6 +374,14 @@
                 _this.play();
             });
         }
+
+        [].forEach.call(this.thumbs, function (thumb) {
+            var btn = thumb.querySelector("button");
+            btn.addEventListener("click", function () {
+                var idx = [].indexOf.call(_this.thumbs, thumb);
+                _this.goTo(idx);
+            });
+        });
 
         function dragSwipeHandler (e, type) {
             e.stopPropagation();

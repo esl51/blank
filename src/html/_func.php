@@ -81,7 +81,9 @@ if (!function_exists("icon")) {
 /* Remove unnecessary characters from phone number*/
 if (!function_exists("prepareTel")) {
     function prepareTel($tel) {
-        return preg_replace("/[^0-9\+]/", "", $tel);
+        $tel = preg_replace("/добавочный/i", ',', $tel);
+        $tel = preg_replace("/доб\.?/i", ',', $tel);
+        return preg_replace("/[^0-9\+\,]/", "", $tel);
     }
 }
 

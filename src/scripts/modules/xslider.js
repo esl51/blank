@@ -218,12 +218,12 @@
         [].forEach.call(this.items, function (item) {
             item.classList.remove(_this.settings.currentClass);
             item.classList.remove(_this.settings.activeClass);
-            if (_this.bulletsContainer) {
-                _this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + _this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + _this.settings.bulletTag + '>');
-            }
         });
 
         if (this.bulletsContainer) {
+            for (var i = 0; i < this.items.length - this.perView + 1; i++) {
+                this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + _this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + _this.settings.bulletTag + '>');
+            }
             this.bullets = this.bulletsContainer.children;
         }
 
@@ -278,7 +278,13 @@
         }
 
         if (this.bulletsContainer) {
-            this.bullets[this.current].classList.add(this.settings.activeClass);
+            if (this.current < 0) {
+                this.bullets[0].classList.add(this.settings.activeClass);
+            } else if (this.current <= this.maxCurrent) {
+                this.bullets[this.current].classList.add(this.settings.activeClass);
+            } else {
+                this.bullets[this.maxCurrent].classList.add(this.settings.activeClass);
+            }
         }
 
         if (this.thumbsContainer) {

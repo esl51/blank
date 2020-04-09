@@ -117,3 +117,21 @@
         font-size: @size * @ratio * .8;
     });
 }
+.grid-columns(@property, @col-count, @base-count: @columns, @add: 0px) {
+    @{property}: calc((((100% - (@base-count - 1) * @col-gutter) / @base-count) * @col-count + (@col-count - 1) * @col-gutter) + @add);
+}
+.width-columns(@col-count, @base-count: @columns) {
+    .grid-columns(width, @col-count, @base-count, 0px);
+}
+.margin-left-columns(@col-count, @base-count: @columns, @add: @col-gutter) {
+    .grid-columns(margin-left, @col-count, @base-count, @add);
+}
+.margin-right-columns(@col-count, @base-count: @columns, @add: @col-gutter) {
+    .grid-columns(margin-right, @col-count, @base-count, @add);
+}
+.padding-left-columns(@col-count, @base-count: @columns, @add: @col-gutter) {
+    .grid-columns(padding-left, @col-count, @base-count, @add);
+}
+.padding-right-columns(@col-count, @base-count: @columns, @add: @col-gutter) {
+    .grid-columns(padding-right, @col-count, @base-count, @add);
+}

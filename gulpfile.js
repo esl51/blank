@@ -9,8 +9,6 @@ const less = require('gulp-less');
 const newer = require('gulp-newer');
 const imagemin = require('gulp-imagemin');
 const concat = require('gulp-concat');
-const fontgen = require('gulp-fontgen');
-const rsync = require('gulp-rsync');
 const php = require('gulp-connect-php');
 const gulpif = require('gulp-if');
 const browserSync = require("browser-sync");
@@ -44,8 +42,7 @@ const path = {
         vendor: 'public/libs/'
     },
     cache: {
-        img: 'cache/img/',
-        fonts: 'cache/fonts/'
+        img: 'cache/img/'
     },
     watch: {
         html: 'src/html/**/*.*',
@@ -79,24 +76,6 @@ const config = {
         port: 8081,
         open: true,
         notify: false
-    },
-    deploy: {
-        root: path.dest.html,
-        hostname: 'example.com',
-        port: 22,
-        username: 'username',
-        incremental: true,
-        progress: true,
-        compress: true,
-        recursive: true,
-        clean: true,
-        destination: '/'
-    },
-    fonts: {
-        csspath: 'src/styles/common/',
-        cssfile: 'fonts.less',
-        fontpath: '../fonts/',
-        subset: ['!','"','#','№','$','%','&','\'','(',')','*','+',',','-','.','/','0','1','2','3','4','5','6','7','8','9',':',';','<','=','>','?','@','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','[','\\',']','^','_','`','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','{','|','}','~','¢','£','¥','¨','©','«','®','´','¸','»','ˆ','˚','˜','Ѐ','Ё','Ђ','Ѓ','Є','Ѕ','І','Ї','Ј','Љ','Њ','Ћ','Ќ','Ѝ','Ў','Џ','А','Б','В','Г','Д','Е','Ж','З','И','Й','К','Л','М','Н','О','П','Р','С','Т','У','Ф','Х','Ц','Ч','Ш','Щ','Ъ','Ы','Ь','Э','Ю','Я','а','б','в','г','д','е','ж','з','и','й','к','л','м','н','о','п','р','с','т','у','ф','х','ц','ч','ш','щ','ъ','ы','ь','э','ю','я','ѐ','ё','ђ','ѓ','є','ѕ','і','ї','ј','љ','њ','ћ','ќ','ѝ','ў','џ','Ѡ','ѡ','Ѣ','ѣ','Ѥ','ѥ','Ѧ','ѧ','Ѩ','ѩ','Ѫ','ѫ','Ѭ','ѭ','Ѯ','ѯ','Ѱ','ѱ','Ѳ','ѳ','Ѵ','ѵ','Ѷ','ѷ','Ѹ','ѹ','Ѻ','ѻ','Ѽ','ѽ','Ѿ','ѿ','Ҁ','ҁ','҂','҃','҄','҅','҆','҇','҈','҉','Ҋ','ҋ','Ҍ','ҍ','Ҏ','ҏ','Ґ','ґ','Ғ','ғ','Ҕ','ҕ','Җ','җ','Ҙ','ҙ','Қ','қ','Ҝ','ҝ','Ҟ','ҟ','Ҡ','ҡ','Ң','ң','Ҥ','ҥ','Ҧ','ҧ','Ҩ','ҩ','Ҫ','ҫ','Ҭ','ҭ','Ү','ү','Ұ','ұ','Ҳ','ҳ','Ҵ','ҵ','Ҷ','ҷ','Ҹ','ҹ','Һ','һ','Ҽ','ҽ','Ҿ','ҿ','Ӏ','Ӂ','ӂ','Ӄ','ӄ','Ӆ','ӆ','Ӈ','ӈ','Ӊ','ӊ','Ӌ','ӌ','Ӎ','ӎ','ӏ','Ӑ','ӑ','Ӓ','ӓ','Ӕ','ӕ','Ӗ','ӗ','Ә','ә','Ӛ','ӛ','Ӝ','ӝ','Ӟ','ӟ','Ӡ','ӡ','Ӣ','ӣ','Ӥ','ӥ','Ӧ','ӧ','Ө','ө','Ӫ','ӫ','Ӭ','ӭ','Ӯ','ӯ','Ӱ','ӱ','Ӳ','ӳ','Ӵ','ӵ','Ӷ','ӷ','Ӹ','ӹ','Ӻ','ӻ','Ӽ','ӽ','Ӿ','ӿ','–','—','‘','’','‚','“','”','„','•','…','‹','›','€','™','₽','◂','▸']
     }
 };
 
@@ -127,6 +106,13 @@ gulp.task('root:build', function () {
     return gulp.src(path.src.root)
         .pipe(cache('root'))
         .pipe(gulp.dest(path.dest.root))
+});
+
+/* Fonts */
+gulp.task('fonts:build', function () {
+    return gulp.src(path.src.fonts)
+        .pipe(cache('fonts'))
+        .pipe(gulp.dest(path.dest.fonts))
 });
 
 /* Vendor */
@@ -206,32 +192,6 @@ gulp.task('icons:build', function() {
         .pipe(gulp.dest(path.dest.icons));
 });
 
-/* Fonts cache */
-gulp.task('fonts:cache', function() {
-    return gulp.src(path.src.fonts)
-        .pipe(newer(path.cache.fonts + 'src/'))
-        .pipe(gulp.dest(path.cache.fonts + 'src/'))
-        .pipe(gulpif(/\.(otf|ttf)$/, fontgen({
-            dest: path.cache.fonts,
-            css_fontpath: config.fonts.fontpath,
-            subset: config.fonts.subset
-        })));
-});
-
-/* Fonts CSS */
-gulp.task('fonts:css', gulp.series('fonts:cache', function () {
-    return gulp.src(path.cache.fonts + '*.css')
-        .pipe(concat(config.fonts.cssfile))
-        .pipe(gulp.dest(config.fonts.csspath));
-}));
-
-/* Fonts */
-gulp.task('fonts:build', gulp.series('fonts:css', function () {
-    return gulp.src(path.cache.fonts + '*.*')
-        .pipe(newer(path.dest.fonts))
-        .pipe(gulp.dest(path.dest.fonts));
-}));
-
 /* Build clear */
 gulp.task('build:clear', function (cb) {
     return rimraf(path.clear.dest, cb);
@@ -259,15 +219,6 @@ gulp.task('webserver', gulp.series('build', function(done) {
         done();
     });
 }));
-
-/* Upload */
-gulp.task('upload', function () {
-    return gulp.src(path.dest.html)
-        .pipe(rsync(config.deploy));
-});
-
-/* Deploy */
-gulp.task('deploy', gulp.series('build', 'upload'));
 
 /* Watch */
 gulp.task('watch', gulp.series('webserver', function() {

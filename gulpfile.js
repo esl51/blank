@@ -21,7 +21,7 @@ imagemin.jpegoptim = require('imagemin-jpegoptim');
 
 const path = {
     src: {
-        html: 'src/html/*.php',
+        html: 'src/html/**/*.php',
         scripts: 'src/scripts/*.js',
         styles: {
             main: 'src/styles/main.less',

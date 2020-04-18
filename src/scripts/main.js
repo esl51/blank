@@ -1,7 +1,6 @@
 /* Vendor */
 //= ../../node_modules/jquery/dist/jquery.js
 //= ../../node_modules/alertify.js/dist/js/alertify.js
-//= ../../node_modules/jquery-touchswipe/jquery.touchSwipe.js
 //= ../../node_modules/magnific-popup/dist/jquery.magnific-popup.js
 
 /* Modules */

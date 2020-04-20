@@ -1,14 +1,15 @@
 /* Vendor */
+//= ../../node_modules/element-qsa-scope/index.js
 //= ../../node_modules/jquery/dist/jquery.js
 //= ../../node_modules/alertify.js/dist/js/alertify.js
 //= ../../node_modules/magnific-popup/dist/jquery.magnific-popup.js
+//= ../../node_modules/sharer.js/sharer.js
 
 /* Modules */
 //= ./modules/func.js
-//= ./modules/maps.js
 //= ./modules/menu.js
-//= ./modules/ajaxLoader.js
-//= ./modules/content.js
 //= ./modules/xform.js
+//= ./modules/xloader.js
+//= ./modules/xmap.js
 //= ./modules/xslider.js
-//= ./modules/share.js
+//= ./modules/content.js

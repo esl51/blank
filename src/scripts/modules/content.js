@@ -70,7 +70,6 @@ function initContent(container) {
     focus: ':input:visible:first'
   });
 
-
   /* Ajax content */
   $(container).find('[data-popup-ajax]').magnificPopup({
     type:'ajax',
@@ -101,6 +100,11 @@ function initContent(container) {
     $.magnificPopup.close();
   });
 
+  /* xMap */
+  $(container).find('.js-xmap').each(function () {
+    var map = new xMap(this).mount();
+  });
+
   /* xSlider */
   $(container).find('.js-xslider').each(function () {
     var slider = new xSlider(this, {
@@ -114,12 +118,8 @@ $(function() {
   initContent();
 
   /* Ajax content loading */
-  $(".js-ajax-data,.js-ajax-data-scroll").on("ajaxLoader:afterInit", function () {
-    $(this).ajaxLoader('load');
-  });
-  $(".js-ajax-data").ajaxLoader();
-  $(".js-ajax-data-scroll").ajaxLoader({
-    scroll: true
+  $('.js-ajax-data').each(function () {
+    var loader = new xLoader(this).mount();
   });
 
   /* Cookie */

@@ -6,6 +6,7 @@ const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
 const less = require('gulp-less');
+const sass = require('gulp-sass');
 const newer = require('gulp-newer');
 const imagemin = require('gulp-imagemin');
 const concat = require('gulp-concat');
@@ -15,6 +16,7 @@ const browserSync = require("browser-sync");
 const rimraf = require('rimraf');
 const argv = require('yargs').argv;
 
+sass.compiler = require('node-sass');
 imagemin.jpegoptim = require('imagemin-jpegoptim');
 
 const path = {
@@ -22,8 +24,8 @@ const path = {
         html: 'src/html/**/*.php',
         scripts: 'src/scripts/*.js',
         styles: {
-            main: 'src/styles/main.less',
-            editor: 'src/styles/editor.less'
+            main: 'src/styles/main.scss',
+            editor: 'src/styles/editor.scss'
         },
         images: 'src/assets/images/**/*.{png,jpg,gif,svg}',
         icons: 'src/assets/icons/**/*.svg',
@@ -132,22 +134,22 @@ gulp.task('scripts:build', wrapPipe(function (success, error) {
         .pipe(gulp.dest(path.dest.js))
 }));
 
-/* Main LESS-file */
+/* Main styles */
 gulp.task('styles.main:build', wrapPipe(function (success, error) {
     return gulp.src(path.src.styles.main)
         .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
-        .pipe(less().on('error', error))
+        .pipe(sass().on('error', error))
         .pipe(autoprefixer().on('error', error))
         .pipe(cleanCss().on('error', error))
         .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
         .pipe(gulp.dest(path.dest.css))
 }));
 
-/* Editor LESS-file */
+/* Editor styles */
 gulp.task('styles.editor:build', wrapPipe(function (success, error) {
     return gulp.src(path.src.styles.editor)
         .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
-        .pipe(less().on('error', error))
+        .pipe(sass().on('error', error))
         .pipe(autoprefixer().on('error', error))
         .pipe(cleanCss().on('error', error))
         .pipe(gulpif(!argv.dev, sourcemaps.write('.')))

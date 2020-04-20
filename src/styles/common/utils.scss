@@ -1,0 +1,42 @@
+/* Utils */
+@mixin absolute-block($width: auto, $height: auto) {
+  content: "";
+  position: absolute;
+  display: block;
+  width: $width;
+  height: $height;
+}
+@mixin transition($arguments: all 0.3s $easing) {
+  transition: $arguments;
+}
+@mixin vmargin($margin: 1em) {
+  &:not(:first-child) {
+    margin-top: $margin;
+  }
+  &:not(:last-child) {
+    margin-bottom: $margin;
+  }
+}
+@mixin columns($colcount: 2, $colgap: $grid-desktop-gutter, $colwidth: auto, $columnRuleColor: transparent, $columnRuleStyle: solid, $columnRuleWidth: 0) {
+  column-width: $colwidth;
+  column-count: $colcount;
+  column-gap: $colgap;
+  column-rule-color: $columnRuleColor;
+  column-rule-style: $columnRuleStyle;
+  column-rule-width: $columnRuleWidth;
+}
+@mixin inner {
+  width: 100%;
+  max-width: $max-width;
+  padding-left: $inner-padding;
+  padding-right: $inner-padding;
+  margin-left: auto;
+  margin-right: auto;
+}
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}

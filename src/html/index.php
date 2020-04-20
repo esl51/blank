@@ -270,7 +270,7 @@
             <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
         </div>
         <div class="xform__footer">
-            <button class="xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
+            <button class="button xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
         </div>
     </form>
 </div>

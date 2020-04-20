@@ -1,0 +1,71 @@
+/* Variables */
+
+// Colors
+$main-color: #4581ab;
+
+// Text
+$text-color: #2a2a2a;
+$text-font-weight: 400;
+$text-font-size: 1.6rem;
+$text-line-height: 1.5;
+$text-font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$text-font: $text-font-weight #{$text-font-size}/#{$text-line-height} $text-font-family;
+
+$title-color: $main-color;
+$title-font-weight: 600;
+$title-font-size: 3rem;
+$title-line-height: 1.3;
+$title-font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$title-font: $title-font-weight #{$title-font-size}/#{$title-line-height} $title-font-family;
+
+$strong-weight: 600;
+
+// Sizes
+$section-padding: 6rem;
+$inner-padding: 2rem;
+$block-padding: 3rem;
+$min-width: 320px;
+$max-width: 1440px;
+
+// Easing
+$easing: cubic-bezier(.23, 1, .32, 1);
+
+// xForm
+$xform-input-background-color: #f6f6f6;
+$xform-input-border-color: #d2d2d4;
+$xform-input-border-color-active: #aaa;
+$xform-input-color: $text-color;
+$xform-error-color: #e03a3e;
+$xform-input-border-width: .1rem;
+$xform-input-border-radius: 0;
+$xform-input-font-size: $text-font-size;
+$xform-input-line-height: 1.2;
+$xform-label-color: #888;
+$xform-label-font-size: $xform-input-font-size * .75;
+$xform-input-padding-vertical: 1.4rem;
+$xform-input-padding-horizontal: 1.6rem;
+$xform-vertical-margin: .6rem;
+
+$xform-input-height: $xform-input-line-height * $xform-input-font-size + $xform-input-padding-vertical * 2 + $xform-input-border-width * 2;
+$xform-label-padding-top: (($xform-input-height - $xform-input-border-width * 2) - ($xform-input-font-size * $xform-input-line-height + $xform-label-font-size)) / 2;
+
+// Breakpoints
+$breakpoints: (phone: 320px, tablet: 620px, desktop: 1020px);
+
+// Desktop grid
+$grid-desktop-columns: 12;
+$grid-desktop-sideMargin: 80px;
+$grid-desktop-gutter: 30px;
+$grid-desktop-breakpoint: $max-width;
+
+// Tablet grid
+$grid-tablet-columns: 12;
+$grid-tablet-sideMargin: 60px;
+$grid-tablet-gutter: 30px;
+$grid-tablet-breakpoint: map-get($breakpoints, desktop);
+
+// Phone grid
+$grid-phone-columns: 4;
+$grid-phone-sideMargin: 32px;
+$grid-phone-gutter: 20px;
+$grid-phone-breakpoint: map-get($breakpoints, tablet);

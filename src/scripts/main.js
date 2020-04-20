@@ -4,6 +4,7 @@
 //= ../../node_modules/alertify.js/dist/js/alertify.js
 //= ../../node_modules/magnific-popup/dist/jquery.magnific-popup.js
 //= ../../node_modules/sharer.js/sharer.js
+//= ../../node_modules/animated-scrollto/animatedScrollTo.js
 
 /* Modules */
 //= ./modules/func.js

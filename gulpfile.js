@@ -5,7 +5,6 @@ const sourcemaps = require('gulp-sourcemaps');
 const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
-const less = require('gulp-less');
 const sass = require('gulp-sass');
 const newer = require('gulp-newer');
 const imagemin = require('gulp-imagemin');

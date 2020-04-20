@@ -21,23 +21,23 @@
       this.settings[attrname] = options[attrname];
     }
 
-    if (this.settings.action == null) {
-      this.settings.action = location.pathname;
-    }
-
     this.form = elem;
-    this.fields = this.form.querySelectorAll('.' + this.settings.fieldClass);
-    this.inputs = this.form.querySelectorAll('.' + this.settings.inputClass);
-    this.files = this.form.querySelectorAll('input[type=file]');
-    this.submitButtons = this.form.querySelectorAll('button[type=submit]');
-
-    this.fileApi = (window.File && window.FileReader && window.FileList && window.Blob) ? true : false;
 
     for (var attrname in this.settings) {
       if (this.form.dataset[attrname] !== undefined) {
         this.settings[attrname] = this.form.dataset[attrname];
       }
     }
+
+    if (this.settings.action == null) {
+      this.settings.action = location.pathname;
+    }
+    this.fields = this.form.querySelectorAll('.' + this.settings.fieldClass);
+    this.inputs = this.form.querySelectorAll('.' + this.settings.inputClass);
+    this.files = this.form.querySelectorAll('input[type=file]');
+    this.submitButtons = this.form.querySelectorAll('button[type=submit]');
+
+    this.fileApi = (window.File && window.FileReader && window.FileList && window.Blob) ? true : false;
 
     elem.xForm = this;
   }

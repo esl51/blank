@@ -319,7 +319,7 @@ if (!function_exists("renderBaseTextarea")) {
         $params = prepareFieldParams('textarea', $params);
         extract($params);
 
-        return '<textarea class="xform__input xform__input--text" name="' . $name .'" title="' . $label . '"' . ($required ? ' required' : '') . '>' . $value . '</textarea>';
+        return '<textarea id="' . $id . '" class="xform__input xform__input--text" name="' . $name .'" title="' . $label . '"' . ($required ? ' required' : '') . '>' . $value . '</textarea>';
     }
 
 }

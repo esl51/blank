@@ -1,10 +1,14 @@
 /* Menu */
 $(function() {
-  $(".js-menu-toggle").on("change", function() {
-    if ($(this).is(":checked")) {
-      $(".js-menu").addClass("active");
-    } else {
-      $(".js-menu").removeClass("active");
-    }
-  });
+  var toggle = document.querySelector('.js-menu-toggle');
+  var menu = document.querySelector('.js-menu');
+  if (toggle && menu) {
+    toggle.addEventListener('change', function () {
+      if (toggle.checked) {
+        menu.classList.add('is-active');
+      } else {
+        menu.classList.remove('is-active');
+      }
+    });
+  }
 });

@@ -183,8 +183,11 @@
         var errors = data['errors'];
         var hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0);
         if (hasErrors) {
-          if (alertify && error && error.length) {
-            alertify.error(error);
+          if (Noty && error && error.length) {
+            new Noty({
+              type: 'error',
+              text: error,
+            }).show();
           }
           if (errors && Object.keys(errors).length > 0) {
             for (var field in errors) {
@@ -224,8 +227,11 @@
           if (_this.settings.resetOnSuccess) {
             _this.reset();
           }
-          if (alertify && success) {
-            alertify.success(success);
+          if (Noty && success) {
+            new Noty({
+              type: 'success',
+              text: 'success',
+            }).show();
           }
           _this.toggleEvent('success');
         }

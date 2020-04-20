@@ -138,8 +138,13 @@ function eraseCookie (name) {
 
 $(function() {
 
-  /* Alertify defaults */
-  alertify.delay(7000).closeLogOnClick(true).maxLogItems(7).logPosition('bottom right');
+  /* Noty defaults */
+  if (Noty) {
+    Noty.overrideDefaults({
+      layout: 'bottomRight',
+      timeout: 7000,
+    });
+  }
 
   document.addEventListener('click', function (e) {
     if (e.target && e.target.dataset.scroll) {

@@ -1,8 +1,11 @@
 /* Avoid `console` errors in browsers that lack a console. */
 !function(){for(var e,n=function(){},o=["assert","clear","count","debug","dir","dirxml","error","exception","group","groupCollapsed","groupEnd","info","log","markTimeline","profile","profileEnd","table","time","timeEnd","timeline","timelineEnd","timeStamp","trace","warn"],i=o.length,r=window.console=window.console||{};i--;)e=o[i],r[e]||(r[e]=n)}();
 
-/* Scroll to selector */
-function scrollTo(selector, duration, callback) {
+/* Scroll to target */
+function scrollTo(target, duration, callback) {
+  if (typeof target === 'string') {
+    target = document.querySelector(target);
+  }
   if (typeof duration == 'function') {
     callback = duration;
     duration = 500;
@@ -10,11 +13,20 @@ function scrollTo(selector, duration, callback) {
   if (typeof duration == 'undefined') {
     duration = 500;
   }
-  if ($(selector).offset() != undefined) {
-    $('html, body').animate({
-      scrollTop: $(selector).offset().top
-    }, duration, callback);
+  var scrollContainer = document.scrollingElement || document.documentElement;
+  if (target.offsetTop != undefined) {
+    animatedScrollTo(scrollContainer, target.offsetTop, duration, callback);
   }
+}
+
+/* Get element offset */
+function getElementOffset (element)
+{
+    var de = document.documentElement;
+    var box = element.getBoundingClientRect();
+    var top = box.top + window.pageYOffset - de.clientTop;
+    var left = box.left + window.pageXOffset - de.clientLeft;
+    return { top: top, left: left };
 }
 
 /* Show preloader */

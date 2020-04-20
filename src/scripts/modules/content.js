@@ -95,9 +95,11 @@ function initContent(container) {
   $(container).find('.text table').wrap('<div class="table-container">');
 
   /* xForm */
-  $(container).find(".js-xform").xForm();
-  $(container).find(".js-xform").on("xform:success", function(event) {
+  $(container).find(".js-xform").on("success", function(event) {
     $.magnificPopup.close();
+  });
+  $(container).find('.js-xform').each(function () {
+    var xform = new xForm(this).mount();
   });
 
   /* xMap */

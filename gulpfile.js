@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const cache = require('gulp-cached');
 const rigger = require('gulp-rigger');
 const sourcemaps = require('gulp-sourcemaps');
+const babel = require('gulp-babel');
 const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
@@ -127,6 +128,7 @@ gulp.task('vendor:build', function() {
 gulp.task('scripts:build', wrapPipe(function (success, error) {
   return gulp.src(path.src.scripts)
     .pipe(rigger().on('error', error))
+    .pipe(gulpif(!argv.dev, babel({ presets: ['@babel/env'] })))
     .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
     .pipe(gulpif(!argv.dev, uglify().on('error', error)))
     .pipe(gulpif(!argv.dev, sourcemaps.write('.')))

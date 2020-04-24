@@ -1,6 +1,5 @@
 const gulp = require('gulp');
 const cache = require('gulp-cached');
-const rigger = require('gulp-rigger');
 const sourcemaps = require('gulp-sourcemaps');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
@@ -130,41 +129,34 @@ gulp.task('vendor:build', function() {
 /* Scripts */
 gulp.task('scripts:build', wrapPipe(function (success, error) {
   var bundler = browserify('./src/scripts/main.js', { debug: true }).transform(babel, { presets: ["@babel/preset-env"], plugins: ["@babel/plugin-proposal-class-properties"] })
-  return bundler.bundle()
-    .on('error', function(err) { console.error(err); this.emit('end'); })
+  return bundler.bundle().on('error', error)
     .pipe(source('main.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(path.dest.js))
-  /*return gulp.src(path.src.scripts)
-    //.pipe(rigger().on('error', error))
-    .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
-    .pipe(browserify().transform(babelify.configure({ presets: ['es2015'] })))
+    .pipe(gulpif(argv.dev, sourcemaps.init({ loadMaps: true }).on('error', error)))
     .pipe(gulpif(!argv.dev, uglify().on('error', error)))
-    .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
-    .pipe(gulp.dest(path.dest.js))*/
+    .pipe(gulpif(argv.dev, sourcemaps.write('.')))
+    .pipe(gulp.dest(path.dest.js))
 }));
 
 /* Main styles */
 gulp.task('styles.main:build', wrapPipe(function (success, error) {
   return gulp.src(path.src.styles.main)
-    .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
+    .pipe(gulpif(argv.dev, sourcemaps.init().on('error', error)))
     .pipe(sass().on('error', error))
     .pipe(autoprefixer().on('error', error))
     .pipe(cleanCss().on('error', error))
-    .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
+    .pipe(gulpif(argv.dev, sourcemaps.write('.')))
     .pipe(gulp.dest(path.dest.css))
 }));
 
 /* Editor styles */
 gulp.task('styles.editor:build', wrapPipe(function (success, error) {
   return gulp.src(path.src.styles.editor)
-    .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
+    .pipe(gulpif(argv.dev, sourcemaps.init().on('error', error)))
     .pipe(sass().on('error', error))
     .pipe(autoprefixer().on('error', error))
     .pipe(cleanCss().on('error', error))
-    .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
+    .pipe(gulpif(argv.dev, sourcemaps.write('.')))
     .pipe(gulp.dest(path.dest.css))
 }));
 

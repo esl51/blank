@@ -2,8 +2,10 @@ import { scrollTo, detectIE, setCookie, getCookie } from './modules/utils'
 import { initContent } from './modules/content'
 import XLoader from './controls/xloader'
 import Noty from 'noty'
+/* eslint-disable-next-line */
+import elementQsaScope from 'element-qsa-scope'
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
   /* Noty defaults */
   Noty.overrideDefaults({
     layout: 'bottomRight',
@@ -11,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   /* Scroll To */
-  document.addEventListener('click', function (e) {
+  document.addEventListener('click', e => {
     if (e.target && e.target.dataset.scroll) {
       e.preventDefault()
       scrollTo(e.target.dataset.scroll)
@@ -30,14 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* xLoaders */
   const xLoaders = document.querySelectorAll('.js-xloader')
-  xLoaders.forEach(function (xloader) {
+  xLoaders.forEach(xloader => {
     new XLoader(xloader).mount()
   })
 
   /* Cookie */
   const cookieCloseBtn = document.querySelector('.js-cookie-close')
   const cookieContainer = document.querySelector('.js-cookie')
-  cookieCloseBtn.addEventListener('click', function () {
+  cookieCloseBtn.addEventListener('click', () => {
     setCookie('cookieConsent', true, 365)
     cookieContainer.style.display = 'none'
   })
@@ -45,20 +47,3 @@ document.addEventListener('DOMContentLoaded', function () {
     cookieContainer.style.display = null
   }
 })
-/* Vendor */
-//= ../../node_modules/element-qsa-scope/index.js
-//= ../../node_modules/noty/lib/noty.js
-//= ../../node_modules/sharer.js/sharer.js
-//= ../../node_modules/animated-scrollto/animatedScrollTo.js
-
-/* Controls */
-//= ./controls/xform.js
-//= ./controls/xloader.js
-//= ./controls/xmap.js
-//= ./controls/xpopup.js
-//= ./controls/xslider.js
-
-/* Modules */
-//= ./modules/func.js
-//= ./modules/menu.js
-//= ./modules/content.js

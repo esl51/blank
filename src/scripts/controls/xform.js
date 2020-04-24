@@ -100,10 +100,10 @@ export default class XForm {
 
   reset () {
     this.form.reset()
-    this.inputs.forEach(function (input) {
+    this.inputs.forEach(input => {
       input.dispatchEvent(new Event('blur'))
     })
-    this.files.forEach(function (fileInput) {
+    this.files.forEach(fileInput => {
       fileInput.dispatchEvent(new Event('change'))
     })
   }
@@ -120,224 +120,221 @@ export default class XForm {
     return { top: top, left: left }
   }
 
+  readFiles (callback) {
+    if (!this.fileApi) return null
+    const rfiles = {}
+    let filesCount = 0
+    let filesReaded = 0
+    this.files.forEach(fileInput => {
+      const files = fileInput.files
+      const curName = fileInput.name
+      rfiles[curName] = []
+      for (let i = 0; i < files.length; i++) {
+        filesCount++
+        const file = files[i]
+        const reader = new FileReader()
+        reader.file = {}
+        reader.file.name = file.name
+        reader.file.type = file.type
+        reader.file.size = file.size
+        reader.readAsDataURL(file)
+        reader.onload = (event) => {
+          rfiles[curName].push({
+            name: event.target.file.name,
+            type: event.target.file.type,
+            size: event.target.file.size,
+            data: event.target.result
+          })
+          filesReaded++
+          if (filesReaded >= filesCount && typeof callback === 'function') {
+            callback(rfiles)
+          }
+        }
+      }
+    })
+    if (filesCount === 0 && typeof callback === 'function') {
+      callback()
+    }
+  }
+
+  sendForm (formData) {
+    const errored = this.form.querySelectorAll('.' + this.settings.errorClass)
+    errored.forEach(err => {
+      err.remove()
+    })
+
+    const xhr = new XMLHttpRequest()
+    xhr.open('post', this.settings.action)
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
+    xhr.responseType = 'json'
+
+    xhr.onload = () => {
+      const data = xhr.response
+      const error = data.error
+      const errors = data.errors
+      const hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0)
+      if (hasErrors) {
+        if (error && error.length) {
+          new Noty({
+            type: 'error',
+            text: error
+          }).show()
+        }
+        if (errors && Object.keys(errors).length > 0) {
+          for (const field in errors) {
+            if (Object.prototype.hasOwnProperty.call(errors, field)) {
+              const input = this.form.querySelector('[name=' + field + ']')
+              if (input) {
+                errors[field].forEach(err => {
+                  const errElem = document.createElement('div')
+                  errElem.classList.add(this.settings.errorClass)
+                  errElem.innerText = err
+                  input.closest('.' + this.settings.fieldClass).appendChild(errElem)
+                })
+              }
+            }
+          }
+          let fieldElem
+          const errElem = this.form.querySelector('.' + this.settings.errorClass)
+          if (errElem) {
+            fieldElem = errElem.closest('.' + this.settings.fieldClass)
+          }
+          if (fieldElem) {
+            const fieldOffsetTop = this.getElementOffset(fieldElem).top
+            let scrollTop = fieldOffsetTop
+            let scrollContainer = document.scrollingElement || document.documentElement
+            const wrap = fieldElem.closest('.mfp-wrap')
+            if (wrap) {
+              const baseScrollTop = scrollContainer.scrollTop
+              scrollContainer = wrap
+              scrollTop = scrollContainer.scrollTop + fieldOffsetTop - baseScrollTop
+            }
+            animatedScrollTo(scrollContainer, scrollTop, 300)
+          }
+        }
+        this.toggleEvent('error')
+      } else {
+        const success = data.success
+        if (this.settings.resetOnSuccess) {
+          this.reset()
+        }
+        if (success) {
+          new Noty({
+            type: 'success',
+            text: 'success'
+          }).show()
+        }
+        this.toggleEvent('success')
+      }
+    }
+
+    xhr.onloadend = () => {
+      if (this.securityInput) {
+        this.securityInput.remove()
+      }
+      this.submitButtons.forEach(button => {
+        button.disabled = false
+      })
+      this.form.classList.remove(this.settings.submittingClass)
+      this.toggleEvent('complete')
+    }
+
+    xhr.onerror = () => {
+      this.toggleEvent('error')
+    }
+
+    xhr.send(formData)
+  }
+
   _formSubmit (e) {
     if (e) {
       e.preventDefault()
     }
-    const _this = this
     const xform = this.form.querySelector('[name=xform]')
     if (!xform) {
       console.error('[xForm] input[name="xform"] not found')
     }
 
-    const securityInput = document.createElement('input')
-    securityInput.classList.add(this.settings.securityClass)
-    securityInput.type = 'hidden'
-    securityInput.name = 'security'
-    securityInput.value = '1'
-    this.form.appendChild(securityInput)
+    this.securityInput = document.createElement('input')
+    this.securityInput.classList.add(this.settings.securityClass)
+    this.securityInput.type = 'hidden'
+    this.securityInput.name = 'security'
+    this.securityInput.value = '1'
+    this.form.appendChild(this.securityInput)
 
-    this.submitButtons.forEach(function (button) {
+    this.submitButtons.forEach(button => {
       button.disabled = true
     })
 
     this.toggleEvent('beforesubmit')
     this.form.classList.add(this.settings.submittingClass)
 
-    const readFiles = function (callback) {
-      if (!_this.fileApi) return null
-      const rfiles = {}
-      let filesCount = 0
-      let filesReaded = 0
-      _this.files.forEach(function (fileInput) {
-        const files = fileInput.files
-        const curName = fileInput.name
-        rfiles[curName] = []
-        for (let i = 0; i < files.length; i++) {
-          filesCount++
-          const file = files[i]
-          const reader = new FileReader()
-          reader.file = {}
-          reader.file.name = file.name
-          reader.file.type = file.type
-          reader.file.size = file.size
-          reader.readAsDataURL(file)
-          reader.onload = function (event) {
-            rfiles[curName].push({
-              name: event.target.file.name,
-              type: event.target.file.type,
-              size: event.target.file.size,
-              data: event.target.result
-            })
-            filesReaded++
-            if (filesReaded >= filesCount && typeof callback === 'function') {
-              callback(rfiles)
-            }
-          }
-        }
-      })
-      if (filesCount === 0 && typeof callback === 'function') {
-        callback()
-      }
-    }
-
-    const sendForm = function () {
-      const errored = _this.form.querySelectorAll('.' + _this.settings.errorClass)
-      errored.forEach(function (err) {
-        err.remove()
-      })
-
-      const xhr = new XMLHttpRequest()
-      xhr.open('post', _this.settings.action)
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-      xhr.responseType = 'json'
-
-      xhr.onload = function () {
-        const data = xhr.response
-        const error = data.error
-        const errors = data.errors
-        const hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0)
-        if (hasErrors) {
-          if (error && error.length) {
-            new Noty({
-              type: 'error',
-              text: error
-            }).show()
-          }
-          if (errors && Object.keys(errors).length > 0) {
-            for (const field in errors) {
-              if (Object.prototype.hasOwnProperty.call(errors, field)) {
-                const input = _this.form.querySelector('[name=' + field + ']')
-                if (input) {
-                  errors[field].forEach(function (err) {
-                    const errElem = document.createElement('div')
-                    errElem.classList.add(_this.settings.errorClass)
-                    errElem.innerText = err
-                    input.closest('.' + _this.settings.fieldClass).appendChild(errElem)
-                  })
-                }
-              }
-            }
-            let fieldElem
-            const errElem = _this.form.querySelector('.' + _this.settings.errorClass)
-            if (errElem) {
-              fieldElem = errElem.closest('.' + _this.settings.fieldClass)
-            }
-            if (fieldElem) {
-              const fieldOffsetTop = this.getElementOffset(fieldElem).top
-              let scrollTop = fieldOffsetTop
-              let scrollContainer = document.scrollingElement || document.documentElement
-              const wrap = fieldElem.closest('.mfp-wrap')
-              if (wrap) {
-                const baseScrollTop = scrollContainer.scrollTop
-                scrollContainer = wrap
-                scrollTop = scrollContainer.scrollTop + fieldOffsetTop - baseScrollTop
-              }
-              animatedScrollTo(scrollContainer, scrollTop, 300)
-            }
-          }
-          _this.toggleEvent('error')
-        } else {
-          const success = data.success
-          if (_this.settings.resetOnSuccess) {
-            _this.reset()
-          }
-          if (success) {
-            new Noty({
-              type: 'success',
-              text: 'success'
-            }).show()
-          }
-          _this.toggleEvent('success')
-        }
-      }
-
-      xhr.onloadend = function () {
-        if (securityInput) {
-          securityInput.remove()
-        }
-        _this.submitButtons.forEach(function (button) {
-          button.disabled = false
-        })
-        _this.form.classList.remove(_this.settings.submittingClass)
-        _this.toggleEvent('complete')
-      }
-
-      xhr.onerror = function () {
-        _this.toggleEvent('error')
-      }
-
-      xhr.send(formData)
-    }
-
     const formData = new FormData(this.form)
 
-    readFiles(function (files) {
+    this.readFiles(files => {
       if (files !== undefined) {
         formData.append('files', JSON.stringify(files))
       }
-      sendForm()
+      this.sendForm(formData)
     })
 
     return false
   }
 
   mount () {
-    const _this = this
-    this._inputChangeHandler = _this._inputChange.bind(_this)
-    this._fileChangeHandler = _this._fileChange.bind(_this)
-    this.inputs.forEach(function (input) {
-      input.addEventListener('change', _this._inputChangeHandler)
-      input.addEventListener('input', _this._inputChangeHandler)
-      input.addEventListener('blur', _this._inputChangeHandler)
+    this._inputChangeHandler = this._inputChange.bind(this)
+    this._fileChangeHandler = this._fileChange.bind(this)
+    this.inputs.forEach(input => {
+      input.addEventListener('change', this._inputChangeHandler)
+      input.addEventListener('input', this._inputChangeHandler)
+      input.addEventListener('blur', this._inputChangeHandler)
       input.dispatchEvent(new Event('change'))
     })
 
     /* File inputs */
-    this.files.forEach(function (fileInput) {
+    this.files.forEach(fileInput => {
       const fileWrapper = document.createElement('div')
-      fileWrapper.classList.add(_this.settings.fileClass)
+      fileWrapper.classList.add(this.settings.fileClass)
       fileInput.parentNode.insertBefore(fileWrapper, fileInput)
 
       const fileValue = document.createElement('span')
-      fileValue.classList.add(_this.settings.fileValueClass)
-      fileValue.innerText = _this.settings.filePlaceholderText
+      fileValue.classList.add(this.settings.fileValueClass)
+      fileValue.innerText = this.settings.filePlaceholderText
       fileWrapper.appendChild(fileValue)
 
       const fileButton = document.createElement('span')
-      fileButton.classList.add(_this.settings.fileButtonClass)
-      fileButton.innerText = _this.settings.fileButtonText
+      fileButton.classList.add(this.settings.fileButtonClass)
+      fileButton.innerText = this.settings.fileButtonText
       fileWrapper.appendChild(fileButton)
 
       fileWrapper.appendChild(fileInput)
 
-      fileInput.addEventListener('change', _this._fileChangeHandler)
+      fileInput.addEventListener('change', this._fileChangeHandler)
       fileInput.dispatchEvent(new Event('change'))
     })
 
-    this._formSubmitHandler = _this._formSubmit.bind(_this)
-    this.form.addEventListener('submit', _this._formSubmitHandler)
+    this._formSubmitHandler = this._formSubmit.bind(this)
+    this.form.addEventListener('submit', this._formSubmitHandler)
     this.toggleEvent('mount')
   }
 
   unmount () {
-    const _this = this
-    this.inputs.forEach(function (input) {
-      input.removeEventListener('change', _this._inputChangeHandler)
-      input.removeEventListener('input', _this._inputChangeHandler)
-      input.removeEventListener('blur', _this._inputChangeHandler)
+    this.inputs.forEach(input => {
+      input.removeEventListener('change', this._inputChangeHandler)
+      input.removeEventListener('input', this._inputChangeHandler)
+      input.removeEventListener('blur', this._inputChangeHandler)
     })
-    this.files.forEach(function (fileInput) {
-      fileInput.removeEventListener('change', _this._fileChangeHandler)
-      const fileWrapper = fileInput.closest('.' + _this.settings.fileClass)
+    this.files.forEach(fileInput => {
+      fileInput.removeEventListener('change', this._fileChangeHandler)
+      const fileWrapper = fileInput.closest('.' + this.settings.fileClass)
       const initialParent = fileInput.parentNode.parentNode
       initialParent.appendChild(fileInput)
       fileWrapper.remove()
     })
-    this.fields.forEach(function (field) {
-      field.classList.remove(_this.settings.fieldActivatedClass)
+    this.fields.forEach(field => {
+      field.classList.remove(this.settings.fieldActivatedClass)
     })
-    this.form.removeEventListener('submit', _this._formSubmitHandler)
+    this.form.removeEventListener('submit', this._formSubmitHandler)
   }
 
   destroy () {

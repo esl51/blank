@@ -30,7 +30,7 @@ export function showPreloader (duration, callback) {
   const preloader = document.querySelector('.preloader')
   if (preloader) {
     if (typeof callback === 'function') {
-      setTimeout(function () {
+      setTimeout(() => {
         callback()
       }, duration)
     }
@@ -51,7 +51,7 @@ export function hidePreloader (duration, callback) {
   const preloader = document.querySelector('.preloader')
   if (preloader) {
     if (typeof callback === 'function') {
-      setTimeout(function () {
+      setTimeout(() => {
         callback()
       }, duration)
     }

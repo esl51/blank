@@ -50,12 +50,11 @@ export default class XMap {
   }
 
   loadMarkers () {
-    const _this = this;
-    [].forEach.call(this.markerElements, function (item) {
+    [].forEach.call(this.markerElements, item => {
       const markerOptions = {}
-      const icon = item.dataset.icon || _this.settings.icon
-      const iconSize = item.dataset.iconSize ? JSON.parse(item.dataset.iconSize) : _this.settings.iconSize
-      const iconOffset = item.dataset.iconOffset ? JSON.parse(item.dataset.iconOffset) : _this.settings.iconOffset
+      const icon = item.dataset.icon || this.settings.icon
+      const iconSize = item.dataset.iconSize ? JSON.parse(item.dataset.iconSize) : this.settings.iconSize
+      const iconOffset = item.dataset.iconOffset ? JSON.parse(item.dataset.iconOffset) : this.settings.iconOffset
       if (icon && iconSize && iconOffset) {
         markerOptions.iconLayout = 'default#image'
         markerOptions.iconImageHref = icon
@@ -67,20 +66,18 @@ export default class XMap {
         balloonContentBody: item.innerHTML,
         balloonContentHeader: item.dataset.title
       }, markerOptions)
-      _this.markers.push(marker)
+      this.markers.push(marker)
       item.style.display = 'none'
     })
   }
 
   initMap () {
-    const _this = this
-
     this.ymap = new ymaps.Map(this.container.id, {
-      center: [_this.settings.lat, _this.settings.lng],
-      zoom: _this.settings.zoom
+      center: [this.settings.lat, this.settings.lng],
+      zoom: this.settings.zoom
     });
-    [].forEach.call(this.markers, function (item) {
-      _this.ymap.geoObjects.add(item)
+    [].forEach.call(this.markers, item => {
+      this.ymap.geoObjects.add(item)
     })
     this.ymap.behaviors.disable('scrollZoom')
     this.ymap.controls.remove('trafficControl')
@@ -89,21 +86,15 @@ export default class XMap {
     this.ymap.controls.remove('typeSelector')
   }
 
-  _windowResizeHandler (e) {
-    // console.log(this);
-  }
-
   mount () {
-    const _this = this
     this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10)
     this.toggleEvent('mount')
     this.resizeTimout = null
-    ymaps.ready(function () {
-      _this.loadMarkers()
-      _this.initMap()
-      _this.refresh()
-      window.xMapInstance = _this
-      // window.addEventListener('resize', _this._windowResizeHandler);
+    ymaps.ready(() => {
+      this.loadMarkers()
+      this.initMap()
+      this.refresh()
+      window.xMapInstance = this
     })
   }
 
@@ -121,10 +112,9 @@ export default class XMap {
   unmount () {
     this.container.id = null
     this.container.style.height = null;
-    [].forEach.call(this.markerElements, function (item) {
+    [].forEach.call(this.markerElements, item => {
       item.style.display = null
     })
-    // window.removeEventListener('resize', this._windowResizeHandler);
     this.ymap.destroy()
   }
 

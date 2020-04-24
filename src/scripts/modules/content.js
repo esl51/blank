@@ -11,13 +11,13 @@ export function initContent (container) {
 
   /* Popups */
   const xPopups = container.querySelectorAll('.js-xpopup')
-  xPopups.forEach(function (xpopup) {
+  xPopups.forEach(xpopup => {
     new XPopup(xpopup).mount()
   })
 
   /* Popup Forms */
   const xPopupForms = container.querySelectorAll('.js-xpopup-form')
-  xPopupForms.forEach(function (xpopup) {
+  xPopupForms.forEach(xpopup => {
     xpopup.addEventListener('show', function () {
       const focusable = xpopup.querySelectorAll('input:not([type=hidden]), select, textarea')
       if (focusable.length) {
@@ -31,13 +31,13 @@ export function initContent (container) {
 
   /* Popup Iframes */
   const xPopupIframes = container.querySelectorAll('.js-xpopup-iframe')
-  xPopupIframes.forEach(function (xpopup) {
+  xPopupIframes.forEach(xpopup => {
     const iframe = xpopup.querySelector('[data-iframe]')
     if (iframe) {
-      xpopup.addEventListener('show', function () {
+      xpopup.addEventListener('show', () => {
         iframe.click()
       })
-      xpopup.addEventListener('hide', function () {
+      xpopup.addEventListener('hide', () => {
         const iframeElem = iframe.querySelector('iframe')
         if (iframeElem) {
           iframe.classList.remove('is-active')
@@ -50,7 +50,7 @@ export function initContent (container) {
 
   /* Popup Ajaxes */
   const xPopupAjaxes = container.querySelectorAll('.js-xpopup-ajax')
-  xPopupAjaxes.forEach(function (xpopup) {
+  xPopupAjaxes.forEach(xpopup => {
     const ajax = xpopup.querySelector('[data-ajax]')
     if (ajax) {
       xpopup.addEventListener('show', function () {
@@ -62,8 +62,8 @@ export function initContent (container) {
 
   /* Inline iframe */
   const inlineIframes = container.querySelectorAll('[data-iframe]')
-  inlineIframes.forEach(function (iframe) {
-    iframe.addEventListener('click', function (e) {
+  inlineIframes.forEach(iframe => {
+    iframe.addEventListener('click', e => {
       e.preventDefault()
       const iframeElem = iframe.querySelector('iframe')
       iframeElem.src = iframeElem.dataset.src
@@ -74,7 +74,7 @@ export function initContent (container) {
 
   /* Tables */
   const contentTables = container.querySelectorAll('.text table')
-  contentTables.forEach(function (table) {
+  contentTables.forEach(table => {
     const tableContainer = document.createElement('div')
     tableContainer.classList.add('table-container')
     table.parentNode.insertBefore(tableContainer, table)
@@ -83,19 +83,19 @@ export function initContent (container) {
 
   /* xForm */
   const xForms = container.querySelectorAll('.js-xform')
-  xForms.forEach(function (xform) {
+  xForms.forEach(xform => {
     new XForm(xform).mount()
   })
 
   /* xMap */
   const xMaps = container.querySelectorAll('.js-xmap')
-  xMaps.forEach(function (xmap) {
+  xMaps.forEach(xmap => {
     new XMap(xmap).mount()
   })
 
   /* xSlider */
   const xSliders = container.querySelectorAll('.js-xslider')
-  xSliders.forEach(function (xslider) {
+  xSliders.forEach(xslider => {
     new XSlider(xslider, {
       loop: true
     }).mount()

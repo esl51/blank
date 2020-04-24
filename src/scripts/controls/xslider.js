@@ -74,10 +74,6 @@ export default class XSlider {
     return cStyle.getPropertyValue('flex-basis')
   }
 
-  clickHandler (e) {
-    e.preventDefault()
-  }
-
   loadItems () {
     this.items = this.track.querySelectorAll(':scope > *')
   }
@@ -137,10 +133,9 @@ export default class XSlider {
         this.flexBasis = 'auto'
       }
     }
-    const _this = this
     this.itemWidth = 100
     let width = 0;
-    [].forEach.call(this.items, function (item) {
+    [].forEach.call(this.items, item => {
       item.style.flexBasis = null
     })
     if (this.flexBasis === 'auto') {
@@ -162,8 +157,8 @@ export default class XSlider {
       this.itemWidth = width
     }
     if (this.flexBasis === 'auto') {
-      [].forEach.call(this.items, function (item) {
-        item.style.flexBasis = _this.itemWidth + '%'
+      [].forEach.call(this.items, item => {
+        item.style.flexBasis = this.itemWidth + '%'
       })
     }
 
@@ -177,7 +172,6 @@ export default class XSlider {
   }
 
   refreshButtonsState () {
-    const _this = this
     if (!this.settings.loop && this.settings.disableButtons) {
       const buttons = []
       const disabledButtons = []
@@ -197,21 +191,20 @@ export default class XSlider {
         buttons.push.apply(buttons, this.nextButtons)
         buttons.push.apply(buttons, this.lastButtons)
       }
-      disabledButtons.forEach(function (item) {
+      disabledButtons.forEach(item => {
         item.disabled = true
         item.tabindex = -1
-        item.classList.add(_this.settings.disabledClass)
+        item.classList.add(this.settings.disabledClass)
       })
-      buttons.forEach(function (item) {
+      buttons.forEach(item => {
         item.disabled = false
         item.removeAttribute('tabindex')
-        item.classList.remove(_this.settings.disabledClass)
+        item.classList.remove(this.settings.disabledClass)
       })
     }
   }
 
   reposition () {
-    const _this = this
     let first = this.current
     if (first > this.maxCurrent) {
       first = this.maxCurrent
@@ -225,14 +218,14 @@ export default class XSlider {
       }
     }
 
-    [].forEach.call(this.items, function (item) {
-      item.classList.remove(_this.settings.currentClass)
-      item.classList.remove(_this.settings.activeClass)
+    [].forEach.call(this.items, item => {
+      item.classList.remove(this.settings.currentClass)
+      item.classList.remove(this.settings.activeClass)
     })
 
     if (this.bulletsContainer) {
       for (let i = 0; i < this.items.length - this.perView + 1; i++) {
-        this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + _this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + _this.settings.bulletTag + '>')
+        this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + this.settings.bulletTag + '>')
       }
       this.bullets = this.bulletsContainer.children
     }
@@ -241,11 +234,11 @@ export default class XSlider {
       this.thumbs = this.thumbsContainer.children
     }
 
-    [].forEach.call(this.bullets, function (bullet) {
+    [].forEach.call(this.bullets, bullet => {
       const btn = bullet.querySelector('button')
-      btn.addEventListener('click', function () {
-        const idx = [].indexOf.call(_this.bullets, bullet)
-        _this.goTo(idx)
+      btn.addEventListener('click', () => {
+        const idx = [].indexOf.call(this.bullets, bullet)
+        this.goTo(idx)
       })
     })
 
@@ -256,14 +249,14 @@ export default class XSlider {
     } else {
       lazyLoadAdd = [].slice.call(this.items, first - this.perView * (this.settings.lazyLoad + 1), first)
     }
-    lazyLoadAdd.forEach(function (item) {
+    lazyLoadAdd.forEach(item => {
       if (lazyLoadItems.indexOf(item) === -1) {
         lazyLoadItems.push(item)
       }
     })
-    lazyLoadItems.forEach(function (item) {
+    lazyLoadItems.forEach(item => {
       const lazyLoadObjects = item.querySelectorAll('[data-src]')
-      lazyLoadObjects.forEach(function (obj) {
+      lazyLoadObjects.forEach(obj => {
         obj.src = obj.dataset.src
         delete obj.dataset.src
       })
@@ -271,8 +264,8 @@ export default class XSlider {
     let maxHeight = 0
     this.track.style.height = 'auto'
     this.activeItems = [].slice.call(this.items, first, first + this.perView)
-    this.activeItems.forEach(function (item) {
-      item.classList.add(_this.settings.activeClass)
+    this.activeItems.forEach(item => {
+      item.classList.add(this.settings.activeClass)
       if (item.offsetHeight > maxHeight) {
         maxHeight = item.offsetHeight
       }
@@ -298,26 +291,26 @@ export default class XSlider {
     }
 
     if (this.thumbsContainer) {
-      [].forEach.call(this.thumbs, function (thumb) {
-        thumb.classList.remove(_this.settings.activeClass)
+      [].forEach.call(this.thumbs, thumb => {
+        thumb.classList.remove(this.settings.activeClass)
       })
       this.thumbs[this.current].classList.add(this.settings.activeClass)
     }
 
     clearTimeout(this.durationTimeout)
-    this.durationTimeout = setTimeout(function () {
-      _this.items[_this.current].classList.add(_this.settings.currentClass)
-      _this.inTransition = false
-      if (_this.settings.autoplay > 0 && _this.current < _this.items.length - 1) {
-        _this.play()
+    this.durationTimeout = setTimeout(() => {
+      this.items[this.current].classList.add(this.settings.currentClass)
+      this.inTransition = false
+      if (this.settings.autoplay > 0 && this.current < this.items.length - 1) {
+        this.play()
       }
-      _this.viewport.removeEventListener('click', _this.clickHandler)
-      _this.track.classList.remove(_this.settings.movingClass)
-      if (_this.current !== _this.prev) {
+      this.viewport.removeEventListener('click', this._click)
+      this.track.classList.remove(this.settings.movingClass)
+      if (this.current !== this.prev) {
         const event = document.createEvent('Event')
         event.initEvent('change', true, true)
-        _this.slider.dispatchEvent(event)
-        _this.prev = _this.current
+        this.slider.dispatchEvent(event)
+        this.prev = this.current
       }
     }, this.duration)
 
@@ -347,19 +340,217 @@ export default class XSlider {
   }
 
   play () {
-    const _this = this
     if (this.settings.autoplay > 0 && this.canPlay && this.current < this.items.length - 1) {
       clearInterval(this.autoplayInterval)
-      this.autoplayInterval = setInterval(function () {
-        if (!_this.settings.loop && _this.current === _this.items.length - 1) {
-          _this.pause()
-          _this.canPlay = true
-          return _this
+      this.autoplayInterval = setInterval(() => {
+        if (!this.settings.loop && this.current === this.items.length - 1) {
+          this.pause()
+          this.canPlay = true
+          return this
         }
-        _this.goToNext()
+        this.goToNext()
       }, this.settings.autoplay)
     }
     return this
+  }
+
+  _click (e) {
+    e.preventDefault()
+  }
+
+  _dragSwipe (e, type) {
+    e.stopPropagation()
+    if (!this.isMoving || !this.xDown || !this.yDown) {
+      return
+    }
+    this.track.classList.add(this.settings.movingClass)
+    this.xUp = type === 'drag' ? e.clientX : e.touches[0].clientX
+    this.yUp = type === 'drag' ? e.clientY : e.touches[0].clientY
+    if (this.xDown > this.xUp) {
+      this.moveDirection = 'next'
+    } else {
+      this.moveDirection = 'prev'
+    }
+    this.xDiff = this.xDown - this.xUp
+    this.yDiff = this.yDown - this.yUp
+    if (Math.abs(this.xDiff) > Math.abs(this.yDiff)) {
+      if (e.cancelable) {
+        e.preventDefault()
+      }
+      const transform = 'translate3d(' + (this.xDiff * -1) + 'px,0,0)'
+      let canMove = true
+      if (!this.settings.loop) {
+        if (this.current === this.items.length - 1 && this.xDiff > 0) {
+          canMove = false
+        } else if (this.current === 0 && this.xDiff < 0) {
+          canMove = false
+        }
+      }
+      if (canMove) {
+        this.track.style.transition = 'none'
+        this.track.style.transform = this.currentTransform + ' ' + transform
+      }
+    }
+    this.viewport.addEventListener('click', this._click)
+  }
+
+  _dragSwipeEnd (e, type) {
+    e.stopPropagation()
+    const xDiff = Math.abs(this.xDiff)
+    const yDiff = Math.abs(this.yDiff)
+    let moveTo
+    if (xDiff > yDiff && xDiff > this.settings.threshold) {
+      if (this.settings.moveToFirst) {
+        const vRect = this.viewport.getBoundingClientRect()
+        const tRect = this.track.getBoundingClientRect()
+        const left = tRect.left - vRect.left
+        moveTo = -1;
+        [].forEach.call(this.items, item => {
+          const index = [].indexOf.call(this.items, item)
+          if (item.offsetLeft < (left * -1)) {
+            const nextItem = this.items[index + 1]
+            if (nextItem && nextItem.offsetLeft > (left * -1)) {
+              moveTo = this.moveDirection === 'prev' ? index : index + 1
+            } else if (!nextItem) {
+              moveTo = index
+            }
+          }
+        })
+      }
+      if (moveTo > -1) {
+        this.goTo(moveTo)
+      } else if (moveTo === -1) {
+        this.goToFirst()
+      } else if (this.xDiff > 0) {
+        this.goToNext()
+      } else {
+        this.goToPrev()
+      }
+    } else {
+      this.reposition()
+    }
+    this.xDown = 0
+    this.yDown = 0
+    this.xDiff = 0
+    this.yDiff = 0
+    this.viewport.removeEventListener('mousemove', this._dragHandler, false)
+    this.viewport.removeEventListener('touchmove', this._swipeHandler, false)
+    this.isMoving = false
+  }
+
+  _dragLeave (e) {
+    if (this.isMoving) {
+      this.reposition()
+      this.xDown = 0
+      this.yDown = 0
+      this.viewport.removeEventListener('mousemove', this._dragHandler, false)
+      this.viewport.removeEventListener('touchmove', this._swipeHandler, false)
+      this.viewport.removeEventListener('click', this._click)
+      this.isMoving = false
+    }
+  }
+
+  _dragEnd (e) {
+    return this._dragSwipeEnd(e, 'drag')
+  }
+
+  _swipeEnd (e) {
+    return this._dragSwipeEnd(e, 'swipe')
+  }
+
+  _drag (e) {
+    return this._dragSwipe(e, 'drag')
+  }
+
+  _swipe (e) {
+    return this._dragSwipe(e, 'swipe')
+  }
+
+  mount () {
+    this.recalc()
+
+    window.addEventListener('resize', () => {
+      clearTimeout(this.resizeTimer)
+      this.resizeTimer = setTimeout(() => {
+        this.recalc()
+        this.reposition()
+      }, 250)
+    })
+
+    if (this.settings.autoplay > 0 && this.settings.pauseOnHover) {
+      this.viewport.addEventListener('mouseenter', () => {
+        this.pause()
+      })
+      this.viewport.addEventListener('mouseleave', () => {
+        this.canPlay = true
+        this.play()
+      })
+    }
+
+    [].forEach.call(this.thumbs, thumb => {
+      const btn = thumb.querySelector('button')
+      btn.addEventListener('click', () => {
+        const idx = [].indexOf.call(this.thumbs, thumb)
+        this.goTo(idx)
+      })
+    })
+
+    this._dragHandler = this._drag.bind(this)
+    this._dragEndHandler = this._dragEnd.bind(this)
+    this._dragLeaveHandler = this._dragLeave.bind(this)
+
+    this.viewport.addEventListener('mousedown', e => {
+      e.preventDefault()
+      e.stopPropagation()
+      this.xDown = e.clientX
+      this.yDown = e.clientY
+      this.isMoving = true
+      this.viewport.addEventListener('mousemove', this._dragHandler, false)
+      this.viewport.addEventListener('mouseup', this._dragEndHandler, false)
+      this.viewport.addEventListener('mouseleave', this._dragLeaveHandler, false)
+    })
+
+    this._swipeHandler = this._swipe.bind(this)
+    this._swipeEndHandler = this._swipeEnd.bind(this)
+
+    this.viewport.addEventListener('touchstart', e => {
+      e.stopPropagation()
+      this.xDown = e.touches[0].clientX
+      this.yDown = e.touches[0].clientY
+      this.isMoving = true
+      this.viewport.addEventListener('touchmove', this._swipeHandler, false)
+      this.viewport.addEventListener('touchend', this._swipeEndHandler, false)
+    })
+
+    this.prevButtons.forEach(item => {
+      item.addEventListener('click', () => {
+        this.goToPrev()
+      })
+    })
+    this.nextButtons.forEach(item => {
+      item.addEventListener('click', () => {
+        this.goToNext()
+      })
+    })
+    this.firstButtons.forEach(item => {
+      item.addEventListener('click', () => {
+        this.goToFirst()
+      })
+    })
+    this.lastButtons.forEach(item => {
+      item.addEventListener('click', () => {
+        this.goToLast()
+      })
+    })
+
+    this.goTo(this.settings.startAt)
+    this.play()
+
+    this.slider.classList.add(this.settings.mountedClass)
+
+    const event = document.createEvent('Event')
+    event.initEvent('mount', true, true)
+    this.slider.dispatchEvent(event)
   }
 
   unmount () {
@@ -372,179 +563,5 @@ export default class XSlider {
   destroy () {
     this.unmount()
     delete (this.slider.xSlider)
-  }
-
-  mount () {
-    this.recalc()
-    const _this = this
-
-    window.addEventListener('resize', function () {
-      clearTimeout(_this.resizeTimer)
-      _this.resizeTimer = setTimeout(function () {
-        _this.recalc()
-        _this.reposition()
-      }, 250)
-    })
-
-    if (this.settings.autoplay > 0 && this.settings.pauseOnHover) {
-      this.viewport.addEventListener('mouseenter', function (e) {
-        _this.pause()
-      })
-      this.viewport.addEventListener('mouseleave', function (e) {
-        _this.canPlay = true
-        _this.play()
-      })
-    }
-
-    [].forEach.call(this.thumbs, function (thumb) {
-      const btn = thumb.querySelector('button')
-      btn.addEventListener('click', function () {
-        const idx = [].indexOf.call(_this.thumbs, thumb)
-        _this.goTo(idx)
-      })
-    })
-
-    function dragSwipeHandler (e, type) {
-      e.stopPropagation()
-      if (!_this.isMoving || !_this.xDown || !_this.yDown) {
-        return
-      }
-      _this.track.classList.add(_this.settings.movingClass)
-      _this.xUp = type === 'drag' ? e.clientX : e.touches[0].clientX
-      _this.yUp = type === 'drag' ? e.clientY : e.touches[0].clientY
-      if (_this.xDown > _this.xUp) {
-        _this.moveDirection = 'next'
-      } else {
-        _this.moveDirection = 'prev'
-      }
-      _this.xDiff = _this.xDown - _this.xUp
-      _this.yDiff = _this.yDown - _this.yUp
-      if (Math.abs(_this.xDiff) > Math.abs(_this.yDiff)) {
-        if (e.cancelable) {
-          e.preventDefault()
-        }
-        const transform = 'translate3d(' + (_this.xDiff * -1) + 'px,0,0)'
-        let canMove = true
-        if (!_this.settings.loop) {
-          if (_this.current === _this.items.length - 1 && _this.xDiff > 0) {
-            canMove = false
-          } else if (_this.current === 0 && _this.xDiff < 0) {
-            canMove = false
-          }
-        }
-        if (canMove) {
-          _this.track.style.transition = 'none'
-          _this.track.style.transform = _this.currentTransform + ' ' + transform
-        }
-      }
-      _this.viewport.addEventListener('click', _this.clickHandler)
-    }
-
-    function dragSwipeEndHandler (e, type) {
-      e.stopPropagation()
-      const xDiff = Math.abs(_this.xDiff)
-      const yDiff = Math.abs(_this.yDiff)
-      let moveTo
-      if (xDiff > yDiff && xDiff > _this.settings.threshold) {
-        if (_this.settings.moveToFirst) {
-          const vRect = _this.viewport.getBoundingClientRect()
-          const tRect = _this.track.getBoundingClientRect()
-          const left = tRect.left - vRect.left
-          moveTo = -1;
-          [].forEach.call(_this.items, function (item) {
-            const index = [].indexOf.call(_this.items, item)
-            if (item.offsetLeft < (left * -1)) {
-              const nextItem = _this.items[index + 1]
-              if (nextItem && nextItem.offsetLeft > (left * -1)) {
-                moveTo = _this.moveDirection === 'prev' ? index : index + 1
-              } else if (!nextItem) {
-                moveTo = index
-              }
-            }
-          })
-        }
-        if (moveTo > -1) {
-          _this.goTo(moveTo)
-        } else if (moveTo === -1) {
-          _this.goToFirst()
-        } else if (_this.xDiff > 0) {
-          _this.goToNext()
-        } else {
-          _this.goToPrev()
-        }
-      } else {
-        _this.reposition()
-      }
-      _this.xDown = 0
-      _this.yDown = 0
-      _this.xDiff = 0
-      _this.yDiff = 0
-      _this.viewport.removeEventListener('mousemove', dragHandler, false)
-      _this.viewport.removeEventListener('touchmove', swipeHandler, false)
-      _this.isMoving = false
-    }
-
-    function dragLeaveHandler (e) {
-      if (_this.isMoving) {
-        _this.reposition()
-        _this.xDown = 0
-        _this.yDown = 0
-        _this.viewport.removeEventListener('mousemove', dragHandler, false)
-        _this.viewport.removeEventListener('touchmove', swipeHandler, false)
-        _this.viewport.removeEventListener('click', _this.clickHandler)
-        _this.isMoving = false
-      }
-    }
-
-    function dragEndHandler (e) {
-      return dragSwipeEndHandler(e, 'drag')
-    }
-
-    function swipeEndHandler (e) {
-      return dragSwipeEndHandler(e, 'swipe')
-    }
-
-    function dragHandler (e) {
-      return dragSwipeHandler(e, 'drag')
-    }
-
-    function swipeHandler (e) {
-      return dragSwipeHandler(e, 'swipe')
-    }
-
-    this.viewport.addEventListener('mousedown', function (e) {
-      e.preventDefault()
-      e.stopPropagation()
-      _this.xDown = e.clientX
-      _this.yDown = e.clientY
-      _this.isMoving = true
-      _this.viewport.addEventListener('mousemove', dragHandler, false)
-      _this.viewport.addEventListener('mouseup', dragEndHandler, false)
-      _this.viewport.addEventListener('mouseleave', dragLeaveHandler, false)
-    })
-
-    this.viewport.addEventListener('touchstart', function (e) {
-      // e.preventDefault();
-      e.stopPropagation()
-      _this.xDown = e.touches[0].clientX
-      _this.yDown = e.touches[0].clientY
-      _this.isMoving = true
-      _this.viewport.addEventListener('touchmove', swipeHandler, false)
-      _this.viewport.addEventListener('touchend', swipeEndHandler, false)
-    })
-
-    this.prevButtons.forEach(function (item) { item.addEventListener('click', function () { _this.goToPrev() }) })
-    this.nextButtons.forEach(function (item) { item.addEventListener('click', function () { _this.goToNext() }) })
-    this.firstButtons.forEach(function (item) { item.addEventListener('click', function () { _this.goToFirst() }) })
-    this.lastButtons.forEach(function (item) { item.addEventListener('click', function () { _this.goToLast() }) })
-
-    this.goTo(this.settings.startAt)
-    this.play()
-
-    this.slider.classList.add(this.settings.mountedClass)
-
-    const event = document.createEvent('Event')
-    event.initEvent('mount', true, true)
-    this.slider.dispatchEvent(event)
   }
 }

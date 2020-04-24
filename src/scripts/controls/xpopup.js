@@ -89,32 +89,30 @@ export default class XPopup {
   }
 
   mount () {
-    const _this = this
     this._toggleClickHandler = this._toggleClick.bind(this)
     this._toggleContainerClickHandler = this._toggleContainerClick.bind(this)
     this._closeClickHandler = this._closeClick.bind(this)
     this._escapePressHandler = this._escapePress.bind(this)
-    this.toggles.forEach(function (item) {
-      item.addEventListener('click', _this._toggleClickHandler)
+    this.toggles.forEach(item => {
+      item.addEventListener('click', this._toggleClickHandler)
     })
     this.container.addEventListener('click', this._toggleContainerClickHandler)
-    this.closeButtons.forEach(function (item) {
-      item.addEventListener('click', _this._closeClickHandler)
+    this.closeButtons.forEach(item => {
+      item.addEventListener('click', this._closeClickHandler)
     })
-    document.addEventListener('keyup', _this._escapePressHandler)
+    document.addEventListener('keyup', this._escapePressHandler)
     this.toggleEvent('mount')
   }
 
   unmount () {
-    const _this = this
-    this.toggles.forEach(function (item) {
-      item.removeEventListener('click', _this._toggleClickHandler)
+    this.toggles.forEach(item => {
+      item.removeEventListener('click', this._toggleClickHandler)
     })
-    this.closeButtons.forEach(function (item) {
-      item.removeEventListener('click', _this._closeClickHandler)
+    this.closeButtons.forEach(item => {
+      item.removeEventListener('click', this._closeClickHandler)
     })
     this.container.removeEventListener('click', this._toggleContainerClickHandler)
-    document.removeEventListener('keyup', _this._escapePressHandler)
+    document.removeEventListener('keyup', this._escapePressHandler)
   }
 
   destroy () {

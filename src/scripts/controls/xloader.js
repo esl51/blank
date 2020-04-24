@@ -53,12 +53,12 @@ export default class XLoader {
       params = JSON.parse(this.container.dataset.params)
     }
     params.start = this.items ? this.items.length : 0
-    this.params = Object.keys(params).map(function (k) {
+    this.params = Object.keys(params).map(k => {
       return encodeURIComponent(k) + '=' + encodeURIComponent(params[k])
     }).join('&')
     if (this.filterForm) {
       const formData = new FormData(this.filterForm)
-      const filters = [...formData.entries()].map(function (k) {
+      const filters = [...formData.entries()].map(k => {
         return encodeURIComponent(k[0]) + '=' + encodeURIComponent(k[1])
       }).join('&')
       if (filters) {
@@ -82,20 +82,16 @@ export default class XLoader {
   }
 
   markForClear () {
-    const _this = this
-
     this.loadItems();
-    [].forEach.call(this.items, function (item) {
-      item.classList.add(_this.settings.deletingClass)
+    [].forEach.call(this.items, item => {
+      item.classList.add(this.settings.deletingClass)
     })
   }
 
   clearMarked () {
-    const _this = this
-
     this.loadItems();
-    [].forEach.call(this.items, function (item) {
-      if (item.classList.contains(_this.settings.deletingClass)) {
+    [].forEach.call(this.items, item => {
+      if (item.classList.contains(this.settings.deletingClass)) {
         item.remove()
       }
     })
@@ -104,7 +100,7 @@ export default class XLoader {
 
   clear () {
     this.loadItems();
-    [].forEach.call(this.items, function (item) {
+    [].forEach.call(this.items, item => {
       item.remove()
     })
     this.toggleEvent('clear')
@@ -120,57 +116,49 @@ export default class XLoader {
   }
 
   beforeLoad () {
-    const _this = this
-
     this.container.classList.remove(this.settings.finishedClass)
     this.container.classList.add(this.settings.loadingClass)
     if (this.filterForm) {
       this.filterForm.classList.add(this.settings.loadingClass)
     }
-    this.toggles.forEach(function (item) {
-      if (_this.settings.disableToggle) {
+    this.toggles.forEach(item => {
+      if (this.settings.disableToggle) {
         item.disabled = true
       }
-      item.classList.add(_this.settings.loadingClass)
+      item.classList.add(this.settings.loadingClass)
     })
     this.toggleEvent('beforeLoad')
   }
 
   afterLoad () {
-    const _this = this
-
     this.container.classList.remove(this.settings.loadingClass)
     if (this.filterForm) {
       this.filterForm.classList.remove(this.settings.loadingClass)
     }
-    this.toggles.forEach(function (item) {
-      if (_this.settings.disableToggle) {
+    this.toggles.forEach(item => {
+      if (this.settings.disableToggle) {
         item.disabled = false
       }
-      item.classList.remove(_this.settings.loadingClass)
+      item.classList.remove(this.settings.loadingClass)
     })
     this.toggleEvent('afterLoad')
   }
 
   afterFinish () {
-    const _this = this
-
     this.container.classList.add(this.settings.finishedClass)
     if (this.filterForm) {
       this.filterForm.classList.add(this.settings.loadingClass)
     }
-    this.toggles.forEach(function (item) {
-      if (_this.settings.disableToggle) {
+    this.toggles.forEach(item => {
+      if (this.settings.disableToggle) {
         item.disabled = true
       }
-      item.classList.add(_this.settings.finishedClass)
+      item.classList.add(this.settings.finishedClass)
     })
     this.toggleEvent('finish')
   }
 
   load () {
-    const _this = this
-
     this.loadItems()
     if (!this.settings.append) {
       if (this.settings.clearAfterLoad) {
@@ -196,28 +184,28 @@ export default class XLoader {
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
     xhr.responseType = 'json'
 
-    xhr.onload = function () {
+    xhr.onload = () => {
       const data = xhr.response
       if (data.html) {
-        _this.loadItems()
-        if (_this.items.length) {
-          _this.items[_this.items.length - 1].insertAdjacentHTML('afterend', data.html)
+        this.loadItems()
+        if (this.items.length) {
+          this.items[this.items.length - 1].insertAdjacentHTML('afterend', data.html)
         } else {
-          _this.container.insertAdjacentHTML('afterbegin', data.html)
+          this.container.insertAdjacentHTML('afterbegin', data.html)
         }
-        _this.toggleEvent('load')
+        this.toggleEvent('load')
       }
-      if (!_this.settings.append && _this.settings.clearAfterLoad) {
-        _this.clearMarked()
+      if (!this.settings.append && this.settings.clearAfterLoad) {
+        this.clearMarked()
       }
-      _this.afterLoad()
+      this.afterLoad()
       if (data.last) {
-        _this.afterFinish()
+        this.afterFinish()
       }
     }
 
-    xhr.onerror = function () {
-      _this.toggleEvent('error')
+    xhr.onerror = () => {
+      this.toggleEvent('error')
     }
 
     xhr.send()
@@ -226,16 +214,18 @@ export default class XLoader {
   }
 
   bind () {
-    const _this = this
-
     this.toggles = document.querySelectorAll(this.settings.toggleSelector)
     this.filterForm = document.querySelector(this.settings.filterFormSelector)
 
-    this.toggles.forEach(function (item) { item.addEventListener('click', function () { _this.load() }) })
+    this.toggles.forEach(item => {
+      item.addEventListener('click', () => {
+        this.load()
+      })
+    })
 
     if (this.filterForm) {
-      this.filterForm.addEventListener('change', function () {
-        _this.reload()
+      this.filterForm.addEventListener('change', () => {
+        this.reload()
       })
     }
   }

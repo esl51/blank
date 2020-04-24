@@ -57,51 +57,66 @@ function initContent (container) {
   });
 
   /* Inline iframe */
-  $(container).find("[data-iframe]").on("click", function () {
-    var main = $(this);
-    var iframe = main.find("iframe");
-    iframe.attr("src", iframe.data("src"));
-    main.addClass("is-active");
-    return false;
-  })
+  var inlineIframes = document.querySelectorAll("[data-iframe]");
+  inlineIframes.forEach(function (iframe) {
+    iframe.addEventListener('click', function (e) {
+      e.preventDefault();
+      var iframeElem = iframe.querySelector('iframe');
+      iframeElem.src = iframeElem.dataset.src;
+      iframe.classList.add('is-active');
+      return false;
+    });
+  });
 
   /* Tables */
-  $(container).find('.text table').wrap('<div class="table-container">');
+  var contentTables = document.querySelectorAll('.text table');
+  contentTables.forEach(function (table) {
+    var tableContainer = document.createElement('div');
+    tableContainer.classList.add('table-container');
+    table.parentNode.insertBefore(tableContainer, table);
+    tableContainer.appendChild(table);
+  });
 
   /* xForm */
-  $(container).find('.js-xform').each(function () {
-    var xform = new xForm(this).mount();
+  var xForms = document.querySelectorAll('.js-xform');
+  xForms.forEach(function (xform) {
+    new xForm(xform).mount();
   });
 
   /* xMap */
-  $(container).find('.js-xmap').each(function () {
-    var map = new xMap(this).mount();
+  var xMaps = document.querySelectorAll('.js-xmap');
+  xMaps.forEach(function (xmap) {
+    new xMap(xmap).mount();
   });
 
   /* xSlider */
-  $(container).find('.js-xslider').each(function () {
-    var slider = new xSlider(this, {
+  var xSliders = document.querySelectorAll('.js-xslider');
+  xSliders.forEach(function (xslider) {
+    new xSlider(xslider, {
       loop: true,
     }).mount();
-  })
+  });
 }
 
-$(function() {
+document.addEventListener('DOMContentLoaded', function () {
 
   initContent();
 
-  /* Ajax content loading */
-  $('.js-ajax-data').each(function () {
-    var loader = new xLoader(this).mount();
+  /* xLoaders */
+  var xLoaders = document.querySelectorAll('.js-xloader');
+  xLoaders.forEach(function (xloader) {
+    new xLoader(xloader).mount();
   });
 
   /* Cookie */
-  $(".js-cookie-close").on("click", function () {
+  var cookieCloseBtn = document.querySelector('.js-cookie-close');
+  var cookieContainer = document.querySelector('.js-cookie');
+  cookieCloseBtn.addEventListener('click', function () {
     setCookie("cookieConsent", true, 365);
-    $(".js-cookie").hide();
+    cookieContainer.style.display = 'none';
   });
   if (!getCookie("cookieConsent")) {
-    $(".js-cookie").show();
+    cookieContainer.style.display = null;
   }
 
 });

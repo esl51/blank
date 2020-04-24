@@ -1,6 +1,8 @@
-(function() {
+import Noty from 'noty'
 
-  this.xForm = function (elem, options) {
+export default class xForm {
+
+  constructor (elem, options) {
     this.settings = {
       submittingClass: 'xform--submitting',
       fieldClass: 'xform__field',
@@ -42,13 +44,13 @@
     elem.xForm = this;
   }
 
-  xForm.prototype.toggleEvent = function (name) {
+  toggleEvent (name) {
     var event = document.createEvent('Event');
     event.initEvent(name, true, true);
     this.form.dispatchEvent(event);
   }
 
-  xForm.prototype._inputChange = function (e) {
+  _inputChange (e) {
     var input = e.target;
     var field = input.closest('.' + this.settings.fieldClass);
     if (input.value !== '' && !field.classList.contains(this.settings.fieldActivatedClass)) {
@@ -58,7 +60,7 @@
     }
   }
 
-  xForm.prototype._fileChange = function (e) {
+  _fileChange (e) {
     var fileInput = e.target;
     var fileWrapper = fileInput.closest('.' + this.settings.fileClass);
     var fileValue = fileWrapper.querySelector('.' + this.settings.fileValueClass);
@@ -91,7 +93,7 @@
     }
   }
 
-  xForm.prototype.reset = function () {
+  reset () {
     this.form.reset();
     this.inputs.forEach(function (input) {
       input.dispatchEvent(new Event('blur'));
@@ -101,11 +103,19 @@
     });
   }
 
-  xForm.prototype.submit = function () {
+  submit () {
     return this._formSubmit();
   }
 
-  xForm.prototype._formSubmit = function (e) {
+  getElementOffset (element) {
+    var de = document.documentElement;
+    var box = element.getBoundingClientRect();
+    var top = box.top + window.pageYOffset - de.clientTop;
+    var left = box.left + window.pageXOffset - de.clientLeft;
+    return { top: top, left: left };
+  }
+
+  _formSubmit (e) {
     if (e) {
       e.preventDefault();
     }
@@ -183,7 +193,7 @@
         var errors = data['errors'];
         var hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0);
         if (hasErrors) {
-          if (Noty && error && error.length) {
+          if (error && error.length) {
             new Noty({
               type: 'error',
               text: error,
@@ -209,7 +219,7 @@
               fieldElem = errElem.closest('.' + _this.settings.fieldClass);
             }
             if (fieldElem) {
-              var fieldOffsetTop = getElementOffset(fieldElem).top;
+              var fieldOffsetTop = this.getElementOffset(fieldElem).top;
               var scrollTop = fieldOffsetTop;
               var scrollContainer = document.scrollingElement || document.documentElement;
               var wrap = fieldElem.closest('.mfp-wrap');
@@ -227,7 +237,7 @@
           if (_this.settings.resetOnSuccess) {
             _this.reset();
           }
-          if (Noty && success) {
+          if (success) {
             new Noty({
               type: 'success',
               text: 'success',
@@ -267,7 +277,7 @@
     return false;
   }
 
-  xForm.prototype.mount = function () {
+  mount () {
     var _this = this;
     this._inputChangeHandler = _this._inputChange.bind(_this);
     this._fileChangeHandler = _this._fileChange.bind(_this);
@@ -306,7 +316,7 @@
     this.toggleEvent('mount');
   }
 
-  xForm.prototype.unmount = function () {
+  unmount () {
     var _this = this;
     this.inputs.forEach(function (input) {
       input.removeEventListener('change', _this._inputChangeHandler);
@@ -326,9 +336,9 @@
     this.form.removeEventListener('submit', _this._formSubmitHandler);
   }
 
-  xForm.prototype.destroy = function () {
+  destroy () {
     this.unmount();
     delete(this.form.xForm);
   }
 
-}());
+}

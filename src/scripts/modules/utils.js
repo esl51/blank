@@ -1,8 +1,5 @@
-/* Avoid `console` errors in browsers that lack a console. */
-!function(){for(var e,n=function(){},o=['assert','clear','count','debug','dir','dirxml','error','exception','group','groupCollapsed','groupEnd','info','log','markTimeline','profile','profileEnd','table','time','timeEnd','timeline','timelineEnd','timeStamp','trace','warn'],i=o.length,r=window.console=window.console||{};i--;)e=o[i],r[e]||(r[e]=n)}();
-
 /* Scroll to target */
-function scrollTo (target, duration, callback) {
+export function scrollTo (target, duration, callback) {
   if (typeof target === 'string') {
     target = document.querySelector(target);
   }
@@ -19,17 +16,8 @@ function scrollTo (target, duration, callback) {
   }
 }
 
-/* Get element offset */
-function getElementOffset (element) {
-  var de = document.documentElement;
-  var box = element.getBoundingClientRect();
-  var top = box.top + window.pageYOffset - de.clientTop;
-  var left = box.left + window.pageXOffset - de.clientLeft;
-  return { top: top, left: left };
-}
-
 /* Show preloader */
-function showPreloader (duration, callback) {
+export function showPreloader (duration, callback) {
   if (typeof duration === 'function') {
     callback = duration;
     duration = 500;
@@ -50,7 +38,7 @@ function showPreloader (duration, callback) {
 }
 
 /* Hide preloader */
-function hidePreloader (duration, callback) {
+export function hidePreloader (duration, callback) {
   if (typeof duration === 'function') {
     callback = duration;
     duration = 500;
@@ -71,7 +59,7 @@ function hidePreloader (duration, callback) {
 }
 
 /* Detect IE */
-function detectIE () {
+export function detectIE () {
   var ua = window.navigator.userAgent;
 
   var msie = ua.indexOf('MSIE ');
@@ -97,7 +85,8 @@ function detectIE () {
   return false;
 }
 
-function makeId (length) {
+/* Generate ID */
+export function makeId (length) {
   length = length == undefined ? 8 : length;
   var text = '';
   var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -109,7 +98,8 @@ function makeId (length) {
   return text;
 }
 
-function setCookie (name, value, days) {
+/* Set cookie */
+export function setCookie (name, value, days) {
   var expires = '';
   if (days) {
     var date = new Date();
@@ -118,7 +108,9 @@ function setCookie (name, value, days) {
   }
   document.cookie = name + '=' + (value || '')  + expires + '; path=/';
 }
-function getCookie (name) {
+
+/* Get cookie */
+export function getCookie (name) {
   var nameEQ = name + '=';
   var ca = document.cookie.split(';');
   for (var i = 0; i < ca.length; i++) {
@@ -132,19 +124,8 @@ function getCookie (name) {
   }
   return null;
 }
-function eraseCookie (name) {
-  document.cookie = name + '=; Max-Age=-99999999;';
-}
 
-function getScrollbarWidth () {
-  const outer = document.createElement('div');
-  outer.style.visibility = 'hidden';
-  outer.style.overflow = 'scroll';
-  outer.style.msOverflowStyle = 'scrollbar';
-  document.body.appendChild(outer);
-  const inner = document.createElement('div');
-  outer.appendChild(inner);
-  const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
-  outer.parentNode.removeChild(outer);
-  return scrollbarWidth;
+/* Erase cookie */
+export function eraseCookie (name) {
+  document.cookie = name + '=; Max-Age=-99999999;';
 }

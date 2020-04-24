@@ -2,7 +2,10 @@ const gulp = require('gulp');
 const cache = require('gulp-cached');
 const rigger = require('gulp-rigger');
 const sourcemaps = require('gulp-sourcemaps');
-const babel = require('gulp-babel');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const browserify = require('browserify');
+const babel = require('babelify');
 const uglify = require('gulp-uglify');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCss = require('gulp-clean-css');
@@ -126,13 +129,21 @@ gulp.task('vendor:build', function() {
 
 /* Scripts */
 gulp.task('scripts:build', wrapPipe(function (success, error) {
-  return gulp.src(path.src.scripts)
-    .pipe(rigger().on('error', error))
-    .pipe(gulpif(!argv.dev, babel({ presets: ['@babel/env'] })))
+  var bundler = browserify('./src/scripts/main.js', { debug: true }).transform(babel, { presets: ["@babel/preset-env"], plugins: ["@babel/plugin-proposal-class-properties"] })
+  return bundler.bundle()
+    .on('error', function(err) { console.error(err); this.emit('end'); })
+    .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({ loadMaps: true }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(path.dest.js))
+  /*return gulp.src(path.src.scripts)
+    //.pipe(rigger().on('error', error))
     .pipe(gulpif(!argv.dev, sourcemaps.init().on('error', error)))
+    .pipe(browserify().transform(babelify.configure({ presets: ['es2015'] })))
     .pipe(gulpif(!argv.dev, uglify().on('error', error)))
     .pipe(gulpif(!argv.dev, sourcemaps.write('.')))
-    .pipe(gulp.dest(path.dest.js))
+    .pipe(gulp.dest(path.dest.js))*/
 }));
 
 /* Main styles */

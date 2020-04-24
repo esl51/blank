@@ -1,6 +1,6 @@
-(function() {
+export default class xMap {
 
-  this.xMap = function (elem, options) {
+  constructor (elem, options) {
     this.settings = {
       zoom: 15,
       lat: 37.618552,
@@ -42,13 +42,13 @@
     elem.xMap = this;
   }
 
-  xMap.prototype.toggleEvent = function (name) {
+  toggleEvent (name) {
     var event = document.createEvent('Event');
     event.initEvent(name, true, true);
     this.container.dispatchEvent(event);
   }
 
-  xMap.prototype.loadMarkers = function () {
+  loadMarkers () {
     var _this = this;
     [].forEach.call(this.markerElements, function (item) {
       var markerOptions = {};
@@ -71,7 +71,7 @@
     });
   }
 
-  xMap.prototype.initMap = function () {
+  initMap () {
     var _this = this;
 
     this.ymap = new ymaps.Map(this.container.id, {
@@ -88,11 +88,11 @@
     this.ymap.controls.remove('typeSelector');
   }
 
-  xMap.prototype._windowResizeHandler = function (e) {
+  _windowResizeHandler (e) {
     //console.log(this);
   }
 
-  xMap.prototype.mount = function () {
+  mount () {
     var _this = this;
     this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10);
     this.toggleEvent('mount');
@@ -106,7 +106,7 @@
     });
   }
 
-  xMap.prototype.refresh = function () {
+  refresh () {
     if (this.settings.autoHeight) {
       this.container.style.height = null;
       var maxHeight = Math.round(document.documentElement.clientHeight * .6);
@@ -117,7 +117,7 @@
     this.ymap.container.fitToViewport();
   }
 
-  xMap.prototype.unmount = function () {
+  unmount () {
     this.container.id = null;
     this.container.style.height = null;
     [].forEach.call(this.markerElements, function (item) {
@@ -127,9 +127,9 @@
     this.ymap.destroy();
   }
 
-  xMap.prototype.destroy = function () {
+  destroy () {
     this.unmount();
     delete(this.container.xMap);
   }
 
-}());
+}

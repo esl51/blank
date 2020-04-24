@@ -1,6 +1,6 @@
-(function() {
+export default class xLoader {
 
-  this.xLoader = function (elem, options) {
+  constructor (elem, options) {
     this.settings = {
       url: null,
       itemsSelector: null,
@@ -42,7 +42,7 @@
     elem.xLoader = this;
   }
 
-  xLoader.prototype.refreshParams = function () {
+  refreshParams () {
     var params = {};
     if (this.container.dataset.params) {
       params = JSON.parse(this.container.dataset.params);
@@ -62,13 +62,13 @@
     }
   }
 
-  xLoader.prototype.toggleEvent = function (name) {
+  toggleEvent (name) {
     var event = document.createEvent('Event');
     event.initEvent(name, true, true);
     this.container.dispatchEvent(event);
   }
 
-  xLoader.prototype.loadItems = function () {
+  loadItems () {
     if (this.settings.itemsSelector) {
       this.items = this.container.querySelectorAll(this.settings.itemsSelector);
     } else {
@@ -76,7 +76,7 @@
     }
   }
 
-  xLoader.prototype.markForClear = function () {
+  markForClear () {
     var _this = this;
 
     this.loadItems();
@@ -85,7 +85,7 @@
     });
   }
 
-  xLoader.prototype.clearMarked = function () {
+  clearMarked () {
     var _this = this;
 
     this.loadItems();
@@ -97,7 +97,7 @@
     this.toggleEvent('clear');
   }
 
-  xLoader.prototype.clear = function () {
+  clear () {
     var _this = this;
 
     this.loadItems();
@@ -107,7 +107,7 @@
     this.toggleEvent('clear');
   }
 
-  xLoader.prototype.reload = function () {
+  reload () {
     if (this.settings.clearAfterLoad == true) {
       this.markForClear();
     } else {
@@ -116,7 +116,7 @@
     this.load();
   }
 
-  xLoader.prototype.beforeLoad = function () {
+  beforeLoad () {
     var _this = this;
 
     this.container.classList.remove(this.settings.finishedClass);
@@ -133,7 +133,7 @@
     this.toggleEvent('beforeLoad');
   }
 
-  xLoader.prototype.afterLoad = function () {
+  afterLoad () {
     var _this = this;
 
     this.container.classList.remove(this.settings.loadingClass);
@@ -149,7 +149,7 @@
     this.toggleEvent('afterLoad');
   }
 
-  xLoader.prototype.afterFinish = function () {
+  afterFinish () {
     var _this = this;
 
     this.container.classList.add(this.settings.finishedClass);
@@ -165,7 +165,7 @@
     this.toggleEvent('finish');
   }
 
-  xLoader.prototype.load = function () {
+  load () {
     var _this = this;
 
     this.loadItems();
@@ -222,7 +222,7 @@
     return this;
   }
 
-  xLoader.prototype.bind = function () {
+  bind () {
     var _this = this;
 
     this.toggles = document.querySelectorAll(this.settings.toggleSelector);
@@ -237,7 +237,7 @@
     }
   }
 
-  xLoader.prototype.mount = function () {
+  mount () {
     this.toggleEvent('mount');
     this.bind();
 
@@ -246,4 +246,4 @@
     }
   }
 
-}());
+}

@@ -1,18 +1,24 @@
+import xForm from './../controls/xform'
+import xLoader from './../controls/xloader'
+import xMap from './../controls/xmap'
+import xPopup from './../controls/xpopup'
+import xSlider from './../controls/xslider'
+
 /* Init content */
-function initContent (container) {
+export function initContent (container) {
 
   if (!container) {
-    container = 'body';
+    container = document;
   }
 
   /* Popups */
-  var xPopups = document.querySelectorAll(".js-xpopup");
+  var xPopups = container.querySelectorAll(".js-xpopup");
   xPopups.forEach(function (item) {
     var xpopup = new xPopup(item).mount();
   });
 
   /* Popup Forms */
-  var xPopupForms = document.querySelectorAll(".js-xpopup-form");
+  var xPopupForms = container.querySelectorAll(".js-xpopup-form");
   xPopupForms.forEach(function (item) {
     item.addEventListener('show', function () {
       var focusable = item.querySelectorAll('input:not([type=hidden]), select, textarea');
@@ -26,7 +32,7 @@ function initContent (container) {
   });
 
   /* Popup Iframes */
-  var xPopupIframes = document.querySelectorAll(".js-xpopup-iframe");
+  var xPopupIframes = container.querySelectorAll(".js-xpopup-iframe");
   xPopupIframes.forEach(function (item) {
     var iframe = item.querySelector("[data-iframe]");
     if (iframe) {
@@ -45,7 +51,7 @@ function initContent (container) {
   });
 
   /* Popup Ajaxes */
-  var xPopupAjaxes = document.querySelectorAll(".js-xpopup-ajax");
+  var xPopupAjaxes = container.querySelectorAll(".js-xpopup-ajax");
   xPopupAjaxes.forEach(function (item) {
     var ajax = item.querySelector("[data-ajax]");
     if (ajax) {
@@ -57,7 +63,7 @@ function initContent (container) {
   });
 
   /* Inline iframe */
-  var inlineIframes = document.querySelectorAll("[data-iframe]");
+  var inlineIframes = container.querySelectorAll("[data-iframe]");
   inlineIframes.forEach(function (iframe) {
     iframe.addEventListener('click', function (e) {
       e.preventDefault();
@@ -69,7 +75,7 @@ function initContent (container) {
   });
 
   /* Tables */
-  var contentTables = document.querySelectorAll('.text table');
+  var contentTables = container.querySelectorAll('.text table');
   contentTables.forEach(function (table) {
     var tableContainer = document.createElement('div');
     tableContainer.classList.add('table-container');
@@ -78,68 +84,22 @@ function initContent (container) {
   });
 
   /* xForm */
-  var xForms = document.querySelectorAll('.js-xform');
+  var xForms = container.querySelectorAll('.js-xform');
   xForms.forEach(function (xform) {
     new xForm(xform).mount();
   });
 
   /* xMap */
-  var xMaps = document.querySelectorAll('.js-xmap');
+  var xMaps = container.querySelectorAll('.js-xmap');
   xMaps.forEach(function (xmap) {
     new xMap(xmap).mount();
   });
 
   /* xSlider */
-  var xSliders = document.querySelectorAll('.js-xslider');
+  var xSliders = container.querySelectorAll('.js-xslider');
   xSliders.forEach(function (xslider) {
     new xSlider(xslider, {
       loop: true,
     }).mount();
   });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-
-  /* Noty defaults */
-  if (Noty) {
-    Noty.overrideDefaults({
-      layout: 'bottomRight',
-      timeout: 7000,
-    });
-  }
-
-  /* Scroll To */
-  document.addEventListener('click', function (e) {
-    if (e.target && e.target.dataset.scroll) {
-      scrollTo(e.target.dataset.scroll);
-      return false;
-    }
-  });
-
-  /* IE version */
-  var ieVersion = detectIE();
-  if (ieVersion) {
-    document.classList.add('ie', 'ie-' + ieVersion);
-  }
-
-  /* Init content */
-  initContent();
-
-  /* xLoaders */
-  var xLoaders = document.querySelectorAll('.js-xloader');
-  xLoaders.forEach(function (xloader) {
-    new xLoader(xloader).mount();
-  });
-
-  /* Cookie */
-  var cookieCloseBtn = document.querySelector('.js-cookie-close');
-  var cookieContainer = document.querySelector('.js-cookie');
-  cookieCloseBtn.addEventListener('click', function () {
-    setCookie("cookieConsent", true, 365);
-    cookieContainer.style.display = 'none';
-  });
-  if (!getCookie("cookieConsent")) {
-    cookieContainer.style.display = null;
-  }
-
-});

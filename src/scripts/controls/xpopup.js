@@ -1,6 +1,6 @@
-(function() {
+export default class xPopup {
 
-  this.xPopup = function (elem, options) {
+  constructor (elem, options) {
     this.settings = {
       dialogClass: 'xpopup__dialog',
       toggleSelector: null,
@@ -28,47 +28,60 @@
     elem.xForm = this;
   }
 
-  xPopup.prototype.toggleEvent = function (name) {
+  toggleEvent (name) {
     var event = document.createEvent('Event');
     event.initEvent(name, true, true);
     this.container.dispatchEvent(event);
   }
 
-  xPopup.prototype.show = function () {
+  getScrollbarWidth () {
+    const outer = document.createElement('div');
+    outer.style.visibility = 'hidden';
+    outer.style.overflow = 'scroll';
+    outer.style.msOverflowStyle = 'scrollbar';
+    document.body.appendChild(outer);
+    const inner = document.createElement('div');
+    outer.appendChild(inner);
+    const scrollbarWidth = (outer.offsetWidth - inner.offsetWidth);
+    outer.parentNode.removeChild(outer);
+    return scrollbarWidth;
+  }
+
+  show () {
     this.container.classList.add('is-active');
-    document.body.style.marginRight = getScrollbarWidth() + 'px';
+    document.body.style.marginRight = this.getScrollbarWidth() + 'px';
     document.body.style.overflow = 'hidden';
     this.toggleEvent('show');
   }
 
-  xPopup.prototype.hide = function () {
+  hide () {
     this.container.classList.remove('is-active');
     document.body.style.marginRight = null;
     document.body.style.overflow = null;
     this.toggleEvent('hide');
   }
 
-  xPopup.prototype._toggleClick = function (e) {
+  _toggleClick = function (e) {
     e.preventDefault();
     this.show();
     return false;
   }
-  xPopup.prototype._toggleContainerClick = function (e) {
+  _toggleContainerClick = function (e) {
     if (e.target === this.container) {
       this.hide();
     }
   }
-  xPopup.prototype._closeClick = function (e) {
+  _closeClick = function (e) {
     this.hide();
     return false;
   }
-  xPopup.prototype._escapePress = function (e) {
+  _escapePress = function (e) {
     if (e.key === 'Escape') {
       this.hide();
     }
   }
 
-  xPopup.prototype.mount = function () {
+  mount () {
     var _this = this;
     this._toggleClickHandler = this._toggleClick.bind(this);
     this._toggleContainerClickHandler = this._toggleContainerClick.bind(this);
@@ -85,7 +98,7 @@
     this.toggleEvent('mount');
   }
 
-  xPopup.prototype.unmount = function () {
+  unmount () {
     var _this = this;
     this.toggles.forEach(function (item) {
       item.removeEventListener('click', _this._toggleClickHandler);
@@ -97,9 +110,9 @@
     document.removeEventListener('keyup', _this._escapePressHandler);
   }
 
-  xPopup.prototype.destroy = function () {
+  destroy () {
     this.unmount();
     delete(this.container.xPopup);
   }
 
-}());
+}

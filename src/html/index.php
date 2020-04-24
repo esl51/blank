@@ -17,27 +17,7 @@
     </div>
 </div>
 
-<div class="section">
-    <div class="section__inner">
-        <h2 class="section__title">Breadcrumbs</h2>
-        <ul class="breadcrumbs">
-            <li class="breadcrumbs__item">
-                <a class="breadcrumbs__link" href="">Главная</a>
-                <?= icon("next", "breadcrumbs__corner") ?>
-            </li>
-            <li class="breadcrumbs__item">
-                <a class="breadcrumbs__link" href="">Новости</a>
-                <?= icon("next", "breadcrumbs__corner") ?>
-            </li>
-            <li class="breadcrumbs__item">
-                <a class="breadcrumbs__link" href="">Новости спорта</a>
-                <?= icon("next", "breadcrumbs__corner") ?>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<div class="section">
+<div class="section" style="background:#eee">
     <div class="section__inner">
         <h2 class="section__title">xSlider: basic</h2>
     </div>

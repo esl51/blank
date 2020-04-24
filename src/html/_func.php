@@ -289,6 +289,11 @@ if (isset($_GET["data"])) {
     }
     */
 
+    if ($data == "test") {
+        $all = [];
+        $html = render("./_files.php");
+    }
+
     echo json_encode([
         "last" => $start + $limit >= count($all),
         "html" => $html,

@@ -33,7 +33,7 @@ export default class XPopup {
   }
 
   toggleEvent (name) {
-    var event = document.createEvent('Event')
+    const event = document.createEvent('Event')
     event.initEvent(name, true, true)
     this.container.dispatchEvent(event)
   }
@@ -89,7 +89,7 @@ export default class XPopup {
   }
 
   mount () {
-    var _this = this
+    const _this = this
     this._toggleClickHandler = this._toggleClick.bind(this)
     this._toggleContainerClickHandler = this._toggleContainerClick.bind(this)
     this._closeClickHandler = this._closeClick.bind(this)
@@ -106,7 +106,7 @@ export default class XPopup {
   }
 
   unmount () {
-    var _this = this
+    const _this = this
     this.toggles.forEach(function (item) {
       item.removeEventListener('click', _this._toggleClickHandler)
     })

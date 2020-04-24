@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
   })
 
   /* IE version */
-  var ieVersion = detectIE()
+  const ieVersion = detectIE()
   if (ieVersion) {
     document.classList.add('ie', 'ie-' + ieVersion)
   }
@@ -29,14 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
   initContent()
 
   /* xLoaders */
-  var xLoaders = document.querySelectorAll('.js-xloader')
+  const xLoaders = document.querySelectorAll('.js-xloader')
   xLoaders.forEach(function (xloader) {
     new XLoader(xloader).mount()
   })
 
   /* Cookie */
-  var cookieCloseBtn = document.querySelector('.js-cookie-close')
-  var cookieContainer = document.querySelector('.js-cookie')
+  const cookieCloseBtn = document.querySelector('.js-cookie-close')
+  const cookieContainer = document.querySelector('.js-cookie')
   cookieCloseBtn.addEventListener('click', function () {
     setCookie('cookieConsent', true, 365)
     cookieContainer.style.display = 'none'

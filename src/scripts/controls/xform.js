@@ -50,14 +50,14 @@ export default class XForm {
   }
 
   toggleEvent (name) {
-    var event = document.createEvent('Event')
+    const event = document.createEvent('Event')
     event.initEvent(name, true, true)
     this.form.dispatchEvent(event)
   }
 
   _inputChange (e) {
-    var input = e.target
-    var field = input.closest('.' + this.settings.fieldClass)
+    const input = e.target
+    const field = input.closest('.' + this.settings.fieldClass)
     if (input.value !== '' && !field.classList.contains(this.settings.fieldActivatedClass)) {
       field.classList.add(this.settings.fieldActivatedClass)
     } else if (input.value === '' && field.classList.contains(this.settings.fieldActivatedClass)) {
@@ -66,16 +66,16 @@ export default class XForm {
   }
 
   _fileChange (e) {
-    var fileInput = e.target
-    var fileWrapper = fileInput.closest('.' + this.settings.fileClass)
-    var fileValue = fileWrapper.querySelector('.' + this.settings.fileValueClass)
-    var fileButton = fileWrapper.querySelector('.' + this.settings.fileButtonClass)
-    var field = fileInput.closest('.' + this.settings.fieldClass)
-    var fileName
+    const fileInput = e.target
+    const fileWrapper = fileInput.closest('.' + this.settings.fileClass)
+    const fileValue = fileWrapper.querySelector('.' + this.settings.fileValueClass)
+    const fileButton = fileWrapper.querySelector('.' + this.settings.fileButtonClass)
+    const field = fileInput.closest('.' + this.settings.fieldClass)
+    let fileName
     if (this.fileApi && fileInput.files.length) {
-      var files = fileInput.files
-      var fileNames = []
-      for (var i = 0; i < files.length; i++) {
+      const files = fileInput.files
+      const fileNames = []
+      for (let i = 0; i < files.length; i++) {
         fileNames.push(fileInput.files[i].name)
       }
       fileName = fileNames.join(', ')
@@ -113,10 +113,10 @@ export default class XForm {
   }
 
   getElementOffset (element) {
-    var de = document.documentElement
-    var box = element.getBoundingClientRect()
-    var top = box.top + window.pageYOffset - de.clientTop
-    var left = box.left + window.pageXOffset - de.clientLeft
+    const de = document.documentElement
+    const box = element.getBoundingClientRect()
+    const top = box.top + window.pageYOffset - de.clientTop
+    const left = box.left + window.pageXOffset - de.clientLeft
     return { top: top, left: left }
   }
 
@@ -124,13 +124,13 @@ export default class XForm {
     if (e) {
       e.preventDefault()
     }
-    var _this = this
-    var xform = this.form.querySelector('[name=xform]')
+    const _this = this
+    const xform = this.form.querySelector('[name=xform]')
     if (!xform) {
       console.error('[xForm] input[name="xform"] not found')
     }
 
-    var securityInput = document.createElement('input')
+    const securityInput = document.createElement('input')
     securityInput.classList.add(this.settings.securityClass)
     securityInput.type = 'hidden'
     securityInput.name = 'security'
@@ -144,19 +144,19 @@ export default class XForm {
     this.toggleEvent('beforesubmit')
     this.form.classList.add(this.settings.submittingClass)
 
-    var readFiles = function (callback) {
+    const readFiles = function (callback) {
       if (!_this.fileApi) return null
-      var rfiles = {}
-      var filesCount = 0
-      var filesReaded = 0
+      const rfiles = {}
+      let filesCount = 0
+      let filesReaded = 0
       _this.files.forEach(function (fileInput) {
-        var files = fileInput.files
-        var curName = fileInput.name
+        const files = fileInput.files
+        const curName = fileInput.name
         rfiles[curName] = []
-        for (var i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i++) {
           filesCount++
-          var file = files[i]
-          var reader = new FileReader()
+          const file = files[i]
+          const reader = new FileReader()
           reader.file = {}
           reader.file.name = file.name
           reader.file.type = file.type
@@ -181,22 +181,22 @@ export default class XForm {
       }
     }
 
-    var sendForm = function () {
-      var errored = _this.form.querySelectorAll('.' + _this.settings.errorClass)
+    const sendForm = function () {
+      const errored = _this.form.querySelectorAll('.' + _this.settings.errorClass)
       errored.forEach(function (err) {
         err.remove()
       })
 
-      var xhr = new XMLHttpRequest()
+      const xhr = new XMLHttpRequest()
       xhr.open('post', _this.settings.action)
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
       xhr.responseType = 'json'
 
       xhr.onload = function () {
-        var data = xhr.response
-        var error = data.error
-        var errors = data.errors
-        var hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0)
+        const data = xhr.response
+        const error = data.error
+        const errors = data.errors
+        const hasErrors = (error && error.length) || (errors && Object.keys(errors).length > 0)
         if (hasErrors) {
           if (error && error.length) {
             new Noty({
@@ -205,12 +205,12 @@ export default class XForm {
             }).show()
           }
           if (errors && Object.keys(errors).length > 0) {
-            for (var field in errors) {
+            for (const field in errors) {
               if (Object.prototype.hasOwnProperty.call(errors, field)) {
-                var input = _this.form.querySelector('[name=' + field + ']')
+                const input = _this.form.querySelector('[name=' + field + ']')
                 if (input) {
                   errors[field].forEach(function (err) {
-                    var errElem = document.createElement('div')
+                    const errElem = document.createElement('div')
                     errElem.classList.add(_this.settings.errorClass)
                     errElem.innerText = err
                     input.closest('.' + _this.settings.fieldClass).appendChild(errElem)
@@ -218,18 +218,18 @@ export default class XForm {
                 }
               }
             }
-            var fieldElem
-            var errElem = _this.form.querySelector('.' + _this.settings.errorClass)
+            let fieldElem
+            const errElem = _this.form.querySelector('.' + _this.settings.errorClass)
             if (errElem) {
               fieldElem = errElem.closest('.' + _this.settings.fieldClass)
             }
             if (fieldElem) {
-              var fieldOffsetTop = this.getElementOffset(fieldElem).top
-              var scrollTop = fieldOffsetTop
-              var scrollContainer = document.scrollingElement || document.documentElement
-              var wrap = fieldElem.closest('.mfp-wrap')
+              const fieldOffsetTop = this.getElementOffset(fieldElem).top
+              let scrollTop = fieldOffsetTop
+              let scrollContainer = document.scrollingElement || document.documentElement
+              const wrap = fieldElem.closest('.mfp-wrap')
               if (wrap) {
-                var baseScrollTop = scrollContainer.scrollTop
+                const baseScrollTop = scrollContainer.scrollTop
                 scrollContainer = wrap
                 scrollTop = scrollContainer.scrollTop + fieldOffsetTop - baseScrollTop
               }
@@ -238,7 +238,7 @@ export default class XForm {
           }
           _this.toggleEvent('error')
         } else {
-          var success = data.success
+          const success = data.success
           if (_this.settings.resetOnSuccess) {
             _this.reset()
           }
@@ -270,7 +270,7 @@ export default class XForm {
       xhr.send(formData)
     }
 
-    var formData = new FormData(this.form)
+    const formData = new FormData(this.form)
 
     readFiles(function (files) {
       if (files !== undefined) {
@@ -283,7 +283,7 @@ export default class XForm {
   }
 
   mount () {
-    var _this = this
+    const _this = this
     this._inputChangeHandler = _this._inputChange.bind(_this)
     this._fileChangeHandler = _this._fileChange.bind(_this)
     this.inputs.forEach(function (input) {
@@ -295,16 +295,16 @@ export default class XForm {
 
     /* File inputs */
     this.files.forEach(function (fileInput) {
-      var fileWrapper = document.createElement('div')
+      const fileWrapper = document.createElement('div')
       fileWrapper.classList.add(_this.settings.fileClass)
       fileInput.parentNode.insertBefore(fileWrapper, fileInput)
 
-      var fileValue = document.createElement('span')
+      const fileValue = document.createElement('span')
       fileValue.classList.add(_this.settings.fileValueClass)
       fileValue.innerText = _this.settings.filePlaceholderText
       fileWrapper.appendChild(fileValue)
 
-      var fileButton = document.createElement('span')
+      const fileButton = document.createElement('span')
       fileButton.classList.add(_this.settings.fileButtonClass)
       fileButton.innerText = _this.settings.fileButtonText
       fileWrapper.appendChild(fileButton)
@@ -321,7 +321,7 @@ export default class XForm {
   }
 
   unmount () {
-    var _this = this
+    const _this = this
     this.inputs.forEach(function (input) {
       input.removeEventListener('change', _this._inputChangeHandler)
       input.removeEventListener('input', _this._inputChangeHandler)
@@ -329,8 +329,8 @@ export default class XForm {
     })
     this.files.forEach(function (fileInput) {
       fileInput.removeEventListener('change', _this._fileChangeHandler)
-      var fileWrapper = fileInput.closest('.' + _this.settings.fileClass)
-      var initialParent = fileInput.parentNode.parentNode
+      const fileWrapper = fileInput.closest('.' + _this.settings.fileClass)
+      const initialParent = fileInput.parentNode.parentNode
       initialParent.appendChild(fileInput)
       fileWrapper.remove()
     })

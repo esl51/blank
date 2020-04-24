@@ -61,16 +61,16 @@ export default class XSlider {
 
   getTransitionDuration (elem) {
     if (!elem) return null
-    var cStyle = window.getComputedStyle(elem)
-    var value = cStyle.getPropertyValue('transition-duration')
-    var isMs = value.indexOf('ms') >= 0
-    var duration = parseFloat(value)
+    const cStyle = window.getComputedStyle(elem)
+    const value = cStyle.getPropertyValue('transition-duration')
+    const isMs = value.indexOf('ms') >= 0
+    const duration = parseFloat(value)
     return isMs ? duration : duration * 1000
   };
 
   getFlexBasis (elem) {
     if (!elem) return null
-    var cStyle = window.getComputedStyle(elem)
+    const cStyle = window.getComputedStyle(elem)
     return cStyle.getPropertyValue('flex-basis')
   }
 
@@ -137,15 +137,15 @@ export default class XSlider {
         this.flexBasis = 'auto'
       }
     }
-    var _this = this
+    const _this = this
     this.itemWidth = 100
-    var width = 0;
+    let width = 0;
     [].forEach.call(this.items, function (item) {
       item.style.flexBasis = null
     })
     if (this.flexBasis === 'auto') {
-      var viewportWidth = this.viewport.offsetWidth
-      var elemWidth = this.items[0].offsetWidth
+      const viewportWidth = this.viewport.offsetWidth
+      const elemWidth = this.items[0].offsetWidth
       this.perView = Math.floor(viewportWidth / elemWidth)
       width = 100 / this.perView
     } else {
@@ -177,10 +177,10 @@ export default class XSlider {
   }
 
   refreshButtonsState () {
-    var _this = this
+    const _this = this
     if (!this.settings.loop && this.settings.disableButtons) {
-      var buttons = []
-      var disabledButtons = []
+      const buttons = []
+      const disabledButtons = []
       if (this.current === 0) {
         buttons.push.apply(buttons, this.nextButtons)
         buttons.push.apply(buttons, this.lastButtons)
@@ -211,8 +211,8 @@ export default class XSlider {
   }
 
   reposition () {
-    var _this = this
-    var first = this.current
+    const _this = this
+    let first = this.current
     if (first > this.maxCurrent) {
       first = this.maxCurrent
     }
@@ -231,7 +231,7 @@ export default class XSlider {
     })
 
     if (this.bulletsContainer) {
-      for (var i = 0; i < this.items.length - this.perView + 1; i++) {
+      for (let i = 0; i < this.items.length - this.perView + 1; i++) {
         this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + _this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + _this.settings.bulletTag + '>')
       }
       this.bullets = this.bulletsContainer.children
@@ -242,15 +242,15 @@ export default class XSlider {
     }
 
     [].forEach.call(this.bullets, function (bullet) {
-      var btn = bullet.querySelector('button')
+      const btn = bullet.querySelector('button')
       btn.addEventListener('click', function () {
-        var idx = [].indexOf.call(_this.bullets, bullet)
+        const idx = [].indexOf.call(_this.bullets, bullet)
         _this.goTo(idx)
       })
     })
 
-    var lazyLoadItems = [].slice.call(this.items, first, first + this.perView * (this.settings.lazyLoad + 1))
-    var lazyLoadAdd = []
+    const lazyLoadItems = [].slice.call(this.items, first, first + this.perView * (this.settings.lazyLoad + 1))
+    let lazyLoadAdd = []
     if (first < this.perView) {
       lazyLoadAdd = [].slice.call(this.items, -1 * this.perView * (this.settings.lazyLoad + 1))
     } else {
@@ -262,13 +262,13 @@ export default class XSlider {
       }
     })
     lazyLoadItems.forEach(function (item) {
-      var lazyLoadObjects = item.querySelectorAll('[data-src]')
+      const lazyLoadObjects = item.querySelectorAll('[data-src]')
       lazyLoadObjects.forEach(function (obj) {
         obj.src = obj.dataset.src
         delete obj.dataset.src
       })
     })
-    var maxHeight = 0
+    let maxHeight = 0
     this.track.style.height = 'auto'
     this.activeItems = [].slice.call(this.items, first, first + this.perView)
     this.activeItems.forEach(function (item) {
@@ -314,7 +314,7 @@ export default class XSlider {
       _this.viewport.removeEventListener('click', _this.clickHandler)
       _this.track.classList.remove(_this.settings.movingClass)
       if (_this.current !== _this.prev) {
-        var event = document.createEvent('Event')
+        const event = document.createEvent('Event')
         event.initEvent('change', true, true)
         _this.slider.dispatchEvent(event)
         _this.prev = _this.current
@@ -347,7 +347,7 @@ export default class XSlider {
   }
 
   play () {
-    var _this = this
+    const _this = this
     if (this.settings.autoplay > 0 && this.canPlay && this.current < this.items.length - 1) {
       clearInterval(this.autoplayInterval)
       this.autoplayInterval = setInterval(function () {
@@ -365,7 +365,7 @@ export default class XSlider {
   unmount () {
     this.track.style = null
     this.slider.classList.remove(this.settings.mountedClass)
-    var clone = this.slider.cloneNode(true)
+    const clone = this.slider.cloneNode(true)
     this.slider.parentNode.replaceChild(clone, this.slider)
   }
 
@@ -376,7 +376,7 @@ export default class XSlider {
 
   mount () {
     this.recalc()
-    var _this = this
+    const _this = this
 
     window.addEventListener('resize', function () {
       clearTimeout(_this.resizeTimer)
@@ -397,9 +397,9 @@ export default class XSlider {
     }
 
     [].forEach.call(this.thumbs, function (thumb) {
-      var btn = thumb.querySelector('button')
+      const btn = thumb.querySelector('button')
       btn.addEventListener('click', function () {
-        var idx = [].indexOf.call(_this.thumbs, thumb)
+        const idx = [].indexOf.call(_this.thumbs, thumb)
         _this.goTo(idx)
       })
     })
@@ -423,8 +423,8 @@ export default class XSlider {
         if (e.cancelable) {
           e.preventDefault()
         }
-        var transform = 'translate3d(' + (_this.xDiff * -1) + 'px,0,0)'
-        var canMove = true
+        const transform = 'translate3d(' + (_this.xDiff * -1) + 'px,0,0)'
+        let canMove = true
         if (!_this.settings.loop) {
           if (_this.current === _this.items.length - 1 && _this.xDiff > 0) {
             canMove = false
@@ -442,18 +442,19 @@ export default class XSlider {
 
     function dragSwipeEndHandler (e, type) {
       e.stopPropagation()
-      var xDiff = Math.abs(_this.xDiff)
-      var yDiff = Math.abs(_this.yDiff)
+      const xDiff = Math.abs(_this.xDiff)
+      const yDiff = Math.abs(_this.yDiff)
+      let moveTo
       if (xDiff > yDiff && xDiff > _this.settings.threshold) {
         if (_this.settings.moveToFirst) {
-          var vRect = _this.viewport.getBoundingClientRect()
-          var tRect = _this.track.getBoundingClientRect()
-          var left = tRect.left - vRect.left
-          var moveTo = -1;
+          const vRect = _this.viewport.getBoundingClientRect()
+          const tRect = _this.track.getBoundingClientRect()
+          const left = tRect.left - vRect.left
+          moveTo = -1;
           [].forEach.call(_this.items, function (item) {
-            var index = [].indexOf.call(_this.items, item)
+            const index = [].indexOf.call(_this.items, item)
             if (item.offsetLeft < (left * -1)) {
-              var nextItem = _this.items[index + 1]
+              const nextItem = _this.items[index + 1]
               if (nextItem && nextItem.offsetLeft > (left * -1)) {
                 moveTo = _this.moveDirection === 'prev' ? index : index + 1
               } else if (!nextItem) {
@@ -542,7 +543,7 @@ export default class XSlider {
 
     this.slider.classList.add(this.settings.mountedClass)
 
-    var event = document.createEvent('Event')
+    const event = document.createEvent('Event')
     event.initEvent('mount', true, true)
     this.slider.dispatchEvent(event)
   }

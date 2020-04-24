@@ -48,7 +48,7 @@ export default class XLoader {
   }
 
   refreshParams () {
-    var params = {}
+    let params = {}
     if (this.container.dataset.params) {
       params = JSON.parse(this.container.dataset.params)
     }
@@ -57,7 +57,7 @@ export default class XLoader {
       return encodeURIComponent(k) + '=' + encodeURIComponent(params[k])
     }).join('&')
     if (this.filterForm) {
-      var formData = new FormData(this.filterForm)
+      const formData = new FormData(this.filterForm)
       const filters = [...formData.entries()].map(function (k) {
         return encodeURIComponent(k[0]) + '=' + encodeURIComponent(k[1])
       }).join('&')
@@ -68,7 +68,7 @@ export default class XLoader {
   }
 
   toggleEvent (name) {
-    var event = document.createEvent('Event')
+    const event = document.createEvent('Event')
     event.initEvent(name, true, true)
     this.container.dispatchEvent(event)
   }
@@ -82,7 +82,7 @@ export default class XLoader {
   }
 
   markForClear () {
-    var _this = this
+    const _this = this
 
     this.loadItems();
     [].forEach.call(this.items, function (item) {
@@ -91,7 +91,7 @@ export default class XLoader {
   }
 
   clearMarked () {
-    var _this = this
+    const _this = this
 
     this.loadItems();
     [].forEach.call(this.items, function (item) {
@@ -120,7 +120,7 @@ export default class XLoader {
   }
 
   beforeLoad () {
-    var _this = this
+    const _this = this
 
     this.container.classList.remove(this.settings.finishedClass)
     this.container.classList.add(this.settings.loadingClass)
@@ -137,7 +137,7 @@ export default class XLoader {
   }
 
   afterLoad () {
-    var _this = this
+    const _this = this
 
     this.container.classList.remove(this.settings.loadingClass)
     if (this.filterForm) {
@@ -153,7 +153,7 @@ export default class XLoader {
   }
 
   afterFinish () {
-    var _this = this
+    const _this = this
 
     this.container.classList.add(this.settings.finishedClass)
     if (this.filterForm) {
@@ -169,7 +169,7 @@ export default class XLoader {
   }
 
   load () {
-    var _this = this
+    const _this = this
 
     this.loadItems()
     if (!this.settings.append) {
@@ -182,7 +182,7 @@ export default class XLoader {
 
     this.refreshParams()
 
-    var url = this.settings.url
+    let url = this.settings.url
     if (url.indexOf('?') > -1) {
       url += '&' + this.params
     } else {
@@ -191,13 +191,13 @@ export default class XLoader {
 
     this.beforeLoad()
 
-    var xhr = new XMLHttpRequest()
+    const xhr = new XMLHttpRequest()
     xhr.open('get', url)
     xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
     xhr.responseType = 'json'
 
     xhr.onload = function () {
-      var data = xhr.response
+      const data = xhr.response
       if (data.html) {
         _this.loadItems()
         if (_this.items.length) {
@@ -226,7 +226,7 @@ export default class XLoader {
   }
 
   bind () {
-    var _this = this
+    const _this = this
 
     this.toggles = document.querySelectorAll(this.settings.toggleSelector)
     this.filterForm = document.querySelector(this.settings.filterFormSelector)

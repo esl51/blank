@@ -44,25 +44,25 @@ export default class XMap {
   }
 
   toggleEvent (name) {
-    var event = document.createEvent('Event')
+    const event = document.createEvent('Event')
     event.initEvent(name, true, true)
     this.container.dispatchEvent(event)
   }
 
   loadMarkers () {
-    var _this = this;
+    const _this = this;
     [].forEach.call(this.markerElements, function (item) {
-      var markerOptions = {}
-      var icon = item.dataset.icon || _this.settings.icon
-      var iconSize = item.dataset.iconSize ? JSON.parse(item.dataset.iconSize) : _this.settings.iconSize
-      var iconOffset = item.dataset.iconOffset ? JSON.parse(item.dataset.iconOffset) : _this.settings.iconOffset
+      const markerOptions = {}
+      const icon = item.dataset.icon || _this.settings.icon
+      const iconSize = item.dataset.iconSize ? JSON.parse(item.dataset.iconSize) : _this.settings.iconSize
+      const iconOffset = item.dataset.iconOffset ? JSON.parse(item.dataset.iconOffset) : _this.settings.iconOffset
       if (icon && iconSize && iconOffset) {
         markerOptions.iconLayout = 'default#image'
         markerOptions.iconImageHref = icon
         markerOptions.iconImageSize = iconSize
         markerOptions.iconImageOffset = iconOffset
       }
-      var marker = new ymaps.Placemark([item.dataset.lat, item.dataset.lng], {
+      const marker = new ymaps.Placemark([item.dataset.lat, item.dataset.lng], {
         hintContent: item.dataset.title,
         balloonContentBody: item.innerHTML,
         balloonContentHeader: item.dataset.title
@@ -73,7 +73,7 @@ export default class XMap {
   }
 
   initMap () {
-    var _this = this
+    const _this = this
 
     this.ymap = new ymaps.Map(this.container.id, {
       center: [_this.settings.lat, _this.settings.lng],
@@ -94,7 +94,7 @@ export default class XMap {
   }
 
   mount () {
-    var _this = this
+    const _this = this
     this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10)
     this.toggleEvent('mount')
     this.resizeTimout = null
@@ -110,7 +110,7 @@ export default class XMap {
   refresh () {
     if (this.settings.autoHeight) {
       this.container.style.height = null
-      var maxHeight = Math.round(document.documentElement.clientHeight * 0.6)
+      const maxHeight = Math.round(document.documentElement.clientHeight * 0.6)
       if (this.container.offsetHeight > maxHeight) {
         this.container.style.height = maxHeight + 'px'
       }

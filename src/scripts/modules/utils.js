@@ -12,7 +12,7 @@ export function scrollTo (target, duration, callback) {
   if (typeof duration === 'undefined') {
     duration = 500
   }
-  var scrollContainer = document.scrollingElement || document.documentElement
+  const scrollContainer = document.scrollingElement || document.documentElement
   if (target.offsetTop !== undefined) {
     animatedScrollTo(scrollContainer, target.offsetTop, duration, callback)
   }
@@ -27,7 +27,7 @@ export function showPreloader (duration, callback) {
   if (typeof duration === 'undefined') {
     duration = 500
   }
-  var preloader = document.querySelector('.preloader')
+  const preloader = document.querySelector('.preloader')
   if (preloader) {
     if (typeof callback === 'function') {
       setTimeout(function () {
@@ -48,7 +48,7 @@ export function hidePreloader (duration, callback) {
   if (typeof duration === 'undefined') {
     duration = 500
   }
-  var preloader = document.querySelector('.preloader')
+  const preloader = document.querySelector('.preloader')
   if (preloader) {
     if (typeof callback === 'function') {
       setTimeout(function () {
@@ -62,22 +62,22 @@ export function hidePreloader (duration, callback) {
 
 /* Detect IE */
 export function detectIE () {
-  var ua = window.navigator.userAgent
+  const ua = window.navigator.userAgent
 
-  var msie = ua.indexOf('MSIE ')
+  const msie = ua.indexOf('MSIE ')
   if (msie > 0) {
     // IE 10 or older => return version number
     return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10)
   }
 
-  var trident = ua.indexOf('Trident/')
+  const trident = ua.indexOf('Trident/')
   if (trident > 0) {
     // IE 11 => return version number
-    var rv = ua.indexOf('rv:')
+    const rv = ua.indexOf('rv:')
     return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10)
   }
 
-  var edge = ua.indexOf('Edge/')
+  const edge = ua.indexOf('Edge/')
   if (edge > 0) {
     // Edge (IE 12+) => return version number
     return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10)
@@ -90,10 +90,10 @@ export function detectIE () {
 /* Generate ID */
 export function makeId (length) {
   length = length === undefined ? 8 : length
-  var text = ''
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let text = ''
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
-  for (var i = 0; i < length; i++) {
+  for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length))
   }
 
@@ -102,9 +102,9 @@ export function makeId (length) {
 
 /* Set cookie */
 export function setCookie (name, value, days) {
-  var expires = ''
+  let expires = ''
   if (days) {
-    var date = new Date()
+    const date = new Date()
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
     expires = '; expires=' + date.toUTCString()
   }
@@ -113,10 +113,10 @@ export function setCookie (name, value, days) {
 
 /* Get cookie */
 export function getCookie (name) {
-  var nameEQ = name + '='
-  var ca = document.cookie.split(';')
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i]
+  const nameEQ = name + '='
+  const ca = document.cookie.split(';')
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
     while (c.charAt(0) === ' ') {
       c = c.substring(1, c.length)
     }

@@ -119,6 +119,7 @@
   xLoader.prototype.beforeLoad = function () {
     var _this = this;
 
+    this.container.classList.remove(this.settings.finishedClass);
     this.container.classList.add(this.settings.loadingClass);
     if (this.filterForm) {
       this.filterForm.classList.add(this.settings.loadingClass);
@@ -168,10 +169,12 @@
     var _this = this;
 
     this.loadItems();
-    if (!this.settings.append && !this.settings.clearAfterLoad) {
-      this.clear();
-    } else if (!this.settings.append && this.settings.clearAfterLoad) {
-      this.markForClear();
+    if (this.settings.append == false) {
+      if (this.settings.clearAfterLoad == false) {
+        this.clear();
+      } else {
+        this.markForClear();
+      }
     }
 
     this.refreshParams();

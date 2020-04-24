@@ -186,7 +186,7 @@
             <br>&lt;/a&gt;
             </code>
             <h2>Встроенное адаптивное видео</h2>
-            <div class="iframe-video" data-iframe>
+            <div class="iframe-video" data-iframe tabindex="0">
                 <img src="img/temp/tmp1.jpg" alt="">
                 <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
                 <div class="iframe-video__title">Iframe video</div>
@@ -202,77 +202,111 @@
     </div>
 </div><!-- /pagination -->
 
-<div class="section section--buttons" style="background:#ddd">
-    <div class="section__inner section__inner--buttons">
-        <div class="buttons row">
-            <div class="buttons_col col col--xs-12">
-                <button class="button" data-mfp-src="#form" data-popup-form>Кнопка откроет форму</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="section section--files">
     <div class="section__inner section__inner--files">
         <?php include "./_files.php"; ?>
     </div>
+</div><!-- /files -->
+
+<div class="section section--buttons" style="background:#ddd">
+    <div class="section__inner section__inner--buttons">
+        <h2 class="section__title">Popups</h2>
+        <div class="buttons row">
+            <div class="buttons_col col col--xs-12">
+                <button class="button js-feedback">form</button>
+                <button class="button js-iframe">iframe</button>
+                <button class="button js-ajax">ajax</button>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="popup popup--form mfp-hide" id="form">
-    <div class="popup__header">
-        <div class="popup__title"><?= __("Обратная связь") ?></div>
+<div class="xpopup xpopup--form js-xpopup-form" data-toggle=".js-feedback">
+    <div class="xpopup__inner">
+        <div class="xpopup__dialog">
+            <div class="xpopup__header">
+                <div class="xpopup__title"><?= __("Обратная связь") ?></div>
+                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
+            </div>
+            <form class="xform js-xform">
+                <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
+                <div class="xform__section">
+                    <div class="xform__section-header">
+                        <h3 class="xform__section-title">Общие сведения</h3>
+                    </div>
+                    <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
+                    <div class="xform__row row">
+                        <div class="xform__col col col--xs-12 col--md-6">
+                            <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
+                        </div>
+                        <div class="xform__col col col--xs-12 col--md-6">
+                            <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
+                        </div>
+                    </div>
+                    <?= renderField('textarea', ['name' => 'message', 'label' => $xForms["feedback"]["fields"]["message"]["label"]]) ?>
+                    <?= renderField('select', ['name' => 'theme', 'label' => __("Тема"), "options" => [
+                        '1' => 'Взаимодействие корпорации и клиента',
+                        '2' => 'Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами',
+                    ]]) ?>
+                </div>
+                <div class="xform__section">
+                    <div class="xform__section-header">
+                        <h3 class="xform__section-title">Дополнительно</h3>
+                    </div>
+                    <div class="xform__row row">
+                        <div class="xform__col col col--xs-6">
+                            <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
+                                '1' => 'Взаимодействие',
+                                '2' => 'Системный анализ',
+                            ], 'value' => '1']) ?>
+                        </div>
+                        <div class="xform__col col col--xs-6">
+                            <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
+                                '1' => 'Корпорации',
+                                '2' => 'Клиента',
+                            ], 'values' => ['2']]) ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="xform__section">
+                    <div class="xform__section-header">
+                        <h3 class="xform__section-title">Файлы</h3>
+                    </div>
+                    <?= renderField('file', ['name' => 'file1', 'label' => 'Файл', 'required' => true]) ?>
+                    <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
+                </div>
+                <div class="xform__footer">
+                    <button class="button xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
+                </div>
+            </form>
+        </div>
     </div>
-    <form class="xform js-xform">
-        <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
-        <div class="xform__section">
-            <div class="xform__section-header">
-                <h3 class="xform__section-title">Общие сведения</h3>
+</div>
+
+<div class="xpopup xpopup--transparent js-xpopup-iframe" data-toggle=".js-iframe">
+    <div class="xpopup__inner">
+        <div class="xpopup__dialog">
+            <div class="xpopup__header">
+                <div class="xpopup__title"><?= __("YouTube") ?></div>
+                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
-            <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
-            <div class="xform__row row">
-                <div class="xform__col col col--xs-12 col--md-6">
-                    <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
-                </div>
-                <div class="xform__col col col--xs-12 col--md-6">
-                    <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
-                </div>
-            </div>
-            <?= renderField('textarea', ['name' => 'message', 'label' => $xForms["feedback"]["fields"]["message"]["label"]]) ?>
-            <?= renderField('select', ['name' => 'theme', 'label' => __("Тема"), "options" => [
-                '1' => 'Взаимодействие корпорации и клиента',
-                '2' => 'Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами',
-            ]]) ?>
-        </div>
-        <div class="xform__section">
-            <div class="xform__section-header">
-                <h3 class="xform__section-title">Дополнительно</h3>
-            </div>
-            <div class="xform__row row">
-                <div class="xform__col col col--xs-6">
-                    <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
-                        '1' => 'Взаимодействие',
-                        '2' => 'Системный анализ',
-                    ], 'value' => '1']) ?>
-                </div>
-                <div class="xform__col col col--xs-6">
-                    <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
-                        '1' => 'Корпорации',
-                        '2' => 'Клиента',
-                    ], 'values' => ['2']]) ?>
-                </div>
+            <div class="iframe-video" data-iframe tabindex="0">
+                <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
             </div>
         </div>
-        <div class="xform__section">
-            <div class="xform__section-header">
-                <h3 class="xform__section-title">Файлы</h3>
+    </div>
+</div>
+
+<div class="xpopup js-xpopup-ajax" data-toggle=".js-ajax">
+    <div class="xpopup__inner">
+        <div class="xpopup__dialog">
+            <div class="xpopup__header">
+                <div class="xpopup__title"><?= __("Ajax") ?></div>
+                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
-            <?= renderField('file', ['name' => 'file1', 'label' => 'Файл', 'required' => true]) ?>
-            <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
+            <div class="js-ajax-data" data-ajax data-params='{ "data": "test" }' data-load-on-mount="0" data-append="0"></div>
         </div>
-        <div class="xform__footer">
-            <button class="button xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
-        </div>
-    </form>
+    </div>
 </div>
 
 <?php include "./_foot.php";

@@ -1,85 +1,59 @@
-$.extend(true, $.magnificPopup.defaults, {
-  tClose: 'Закрыть (Esc)',
-  tLoading: 'Загрузка...',
-  gallery: {
-    tPrev: 'Назад (Левая стрелка)',
-    tNext: 'Вперёд (Правая стрелка)',
-    tCounter: '%curr% из %total%'
-  },
-    image: {
-    tError: 'Не получается загрузить <a href="%url%">изображение</a>'
-  },
-    ajax: {
-    tError: 'Не получается загрузить <a href="%url%">данные</a>.'
-  },
-  mainClass: 'mfp-fade',
-  removalDelay: 300,
-});
-
 /* Init content */
-function initContent(container) {
+function initContent (container) {
 
   if (!container) {
     container = 'body';
   }
 
-  /* Gallery */
-  $(container).find('.text a[href$=".jpg"], .text a[href$=".jpeg"], .text a[href$=".png"], .text a[href$=".gif"], a.js-gallery-item').magnificPopup({
-    type: 'image',
-    mainClass: 'mfp-img-mobile mfp-fade',
-    gallery: {
-      enabled: true,
-      navigateByImgClick: true,
-      preload: [0, 1]
-    },
-    image: {
-      titleSrc: function(item) {
-        var title = $(item.el).attr('title');
-        if (title) {
-          return $(item.el).attr('title');
-        }
-        return $(item.el).find("img").attr('alt');
+  /* Popups */
+  var xPopups = document.querySelectorAll(".js-xpopup");
+  xPopups.forEach(function (item) {
+    var xpopup = new xPopup(item).mount();
+  });
+
+  /* Popup Forms */
+  var xPopupForms = document.querySelectorAll(".js-xpopup-form");
+  xPopupForms.forEach(function (item) {
+    item.addEventListener('show', function () {
+      var focusable = item.querySelectorAll('input:not([type=hidden]), select, textarea');
+      if (focusable.length) {
+        setTimeout(function () {
+          focusable[0].focus();
+        }, 100);
       }
-    },
-    callbacks: {
-      open: function() {
-        var mp = this;
-        $('.mfp-content figure').swipe({
-          swipeRight: function(event, direction) {
-            mp.prev();
-          },
-          swipeLeft: function(event, direction) {
-            mp.next();
-          }
-        });
-      },
-      elementParse: function(item) {
-        if ($(item.el).data("gallery-iframe") !== undefined) {
-          item.type = 'iframe';
-        } else {
-          item.type = 'image';
+    });
+    new xPopup(item).mount();
+  });
+
+  /* Popup Iframes */
+  var xPopupIframes = document.querySelectorAll(".js-xpopup-iframe");
+  xPopupIframes.forEach(function (item) {
+    var iframe = item.querySelector("[data-iframe]");
+    if (iframe) {
+      item.addEventListener('show', function () {
+        iframe.click();
+      });
+      item.addEventListener('hide', function () {
+        var iframeElem = iframe.querySelector("iframe");
+        if (iframeElem) {
+          iframe.classList.remove("is-active");
+          iframeElem.src = '';
         }
-      }
+      });
     }
+    new xPopup(item).mount();
   });
 
-  /* Forms */
-  $(container).find('[data-popup-form]').magnificPopup({
-    type:'inline',
-    midClick: false,
-    focus: ':input:visible:first'
-  });
-
-  /* Ajax content */
-  $(container).find('[data-popup-ajax]').magnificPopup({
-    type:'ajax',
-    focus: ':input:visible:first'
-  });
-
-  /* Iframe content */
-  $(container).find('[data-popup-iframe]').magnificPopup({
-    type:'iframe',
-    focus: ':input:visible:first'
+  /* Popup Ajaxes */
+  var xPopupAjaxes = document.querySelectorAll(".js-xpopup-ajax");
+  xPopupAjaxes.forEach(function (item) {
+    var ajax = item.querySelector("[data-ajax]");
+    if (ajax) {
+      item.addEventListener('show', function () {
+        ajax.xLoader.load();
+      });
+    }
+    new xPopup(item).mount();
   });
 
   /* Inline iframe */
@@ -87,7 +61,7 @@ function initContent(container) {
     var main = $(this);
     var iframe = main.find("iframe");
     iframe.attr("src", iframe.data("src"));
-    main.addClass("active");
+    main.addClass("is-active");
     return false;
   })
 
@@ -95,9 +69,6 @@ function initContent(container) {
   $(container).find('.text table').wrap('<div class="table-container">');
 
   /* xForm */
-  $(container).find(".js-xform").on("success", function(event) {
-    $.magnificPopup.close();
-  });
   $(container).find('.js-xform').each(function () {
     var xform = new xForm(this).mount();
   });

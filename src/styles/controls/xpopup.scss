@@ -1,0 +1,110 @@
+/* xPopup */
+.xpopup {
+  @include transition(opacity .3s $easing);
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(#000, .8);
+  overflow: hidden auto;
+  text-align: center;
+  white-space: nowrap;
+
+  &::before {
+    content: '';
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  &:not(.is-active) {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.xpopup__inner {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+  text-align: left;
+  white-space: normal;
+}
+.xpopup__dialog {
+  padding: 3rem;
+  width: 100%;
+  background-color: #fff;
+  min-width: $min-width - 12px;
+  max-width: 900px;
+  margin: 1.5rem auto;
+  position: relative;
+  box-shadow: 0 2px 4px -1px rgba(#000, .14), 0 4px 5px 0 rgba(#000, .098), 0 1px 10px 0 rgba(#000, .084);
+  text-align: left;
+
+  @include media("<tablet") {
+    padding: 3rem 1.5rem;
+  }
+
+  .xpopup--form & {
+    max-width: 500px;
+  }
+  .xpopup--transparent & {
+    background-color: rgba(#000, .1);
+    box-shadow: none;
+    color: #fff;
+
+    .iframe-video {
+      width: auto;
+      margin-left: -3rem;
+      margin-right: -3rem;
+    }
+  }
+}
+.xpopup__header {
+  margin-bottom: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.xpopup__title {
+  font: $title-font;
+  font-size: 2rem;
+  text-transform: uppercase;
+}
+.xpopup__close {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  margin-left: auto;
+  color: currentColor;
+
+  &::before,
+  &::after {
+    @include absolute-block(1.4 * 2rem, 1px);
+    left: 50%;
+    top: 50%;
+    background-color: currentColor;
+  }
+  &::before {
+    transform: translateX(-50%) rotate(45deg);
+  }
+  &::after {
+    bottom: 0;
+    transform: translateX(-50%) rotate(135deg);
+  }
+
+  &:hover,
+  &:focus {
+    outline: none;
+    color: $main-color;
+  }
+}
+.xpopup__footer {
+  margin-top: 3rem;
+}
+.xpopup__footer--right {
+  text-align: right;
+}

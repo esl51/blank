@@ -82,19 +82,28 @@
 }
 .iframe-video {
   cursor: pointer;
+  padding-bottom: 56.25%;
 
-  iframe {
+  iframe,
+  img {
     position: absolute;
     display: block;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
+  }
+
+  img {
+    object-fit: cover;
+  }
+
+  iframe {
     visibility: hidden;
     pointer-events: none;
   }
 
-  &.active {
+  &.is-active {
     .iframe-video__play,
     .iframe-video__title {
       display: none;

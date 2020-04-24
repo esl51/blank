@@ -49,6 +49,7 @@
   }
 
   xPopup.prototype._toggleClick = function (e) {
+    e.preventDefault();
     this.show();
     return false;
   }

@@ -23,6 +23,11 @@
     }
 
     this.container = elem;
+    for (var attrname in this.settings) {
+      if (this.container.dataset[attrname] !== undefined) {
+        this.settings[attrname] = this.container.dataset[attrname];
+      }
+    }
 
     if (this.container.dataset.items) {
       this.settings.itemsSelector = this.container.dataset.items;
@@ -103,7 +108,7 @@
   }
 
   xLoader.prototype.reload = function () {
-    if (this.settings.clearAfterLoad) {
+    if (this.settings.clearAfterLoad == true) {
       this.markForClear();
     } else {
       this.clear();
@@ -119,7 +124,7 @@
       this.filterForm.classList.add(this.settings.loadingClass);
     }
     this.toggles.forEach(function (item) {
-      if (_this.settings.disableToggle) {
+      if (_this.settings.disableToggle == true) {
         item.disabled = true;
       }
       item.classList.add(_this.settings.loadingClass);
@@ -135,7 +140,7 @@
       this.filterForm.classList.remove(this.settings.loadingClass);
     }
     this.toggles.forEach(function (item) {
-      if (_this.settings.disableToggle) {
+      if (_this.settings.disableToggle == true) {
         item.disabled = false;
       }
       item.classList.remove(_this.settings.loadingClass);
@@ -233,7 +238,7 @@
     this.toggleEvent('mount');
     this.bind();
 
-    if (this.settings.loadOnMount) {
+    if (this.settings.loadOnMount == true) {
       this.load();
     }
   }

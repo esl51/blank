@@ -1,5 +1,5 @@
 /* Menu */
-$(function() {
+document.addEventListener('DOMContentLoaded', function () {
   var toggle = document.querySelector('.js-menu-toggle');
   var menu = document.querySelector('.js-menu');
   if (toggle && menu) {

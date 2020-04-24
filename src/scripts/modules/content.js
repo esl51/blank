@@ -100,6 +100,29 @@ function initContent (container) {
 
 document.addEventListener('DOMContentLoaded', function () {
 
+  /* Noty defaults */
+  if (Noty) {
+    Noty.overrideDefaults({
+      layout: 'bottomRight',
+      timeout: 7000,
+    });
+  }
+
+  /* Scroll To */
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.dataset.scroll) {
+      scrollTo(e.target.dataset.scroll);
+      return false;
+    }
+  });
+
+  /* IE version */
+  var ieVersion = detectIE();
+  if (ieVersion) {
+    document.classList.add('ie', 'ie-' + ieVersion);
+  }
+
+  /* Init content */
   initContent();
 
   /* xLoaders */

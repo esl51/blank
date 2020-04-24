@@ -148,27 +148,3 @@ function getScrollbarWidth () {
   outer.parentNode.removeChild(outer);
   return scrollbarWidth;
 }
-
-$(function() {
-
-  /* Noty defaults */
-  if (Noty) {
-    Noty.overrideDefaults({
-      layout: 'bottomRight',
-      timeout: 7000,
-    });
-  }
-
-  document.addEventListener('click', function (e) {
-    if (e.target && e.target.dataset.scroll) {
-      scrollTo(e.target.dataset.scroll);
-      return false;
-    }
-  });
-
-  var ieVersion = detectIE();
-  if (ieVersion) {
-    document.classList.add('ie', 'ie-' + ieVersion);
-  }
-
-});

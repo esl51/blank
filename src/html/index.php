@@ -304,7 +304,7 @@
                 <div class="xpopup__title"><?= __("Ajax") ?></div>
                 <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
-            <div class="js-xloader" data-ajax data-params='{ "data": "test" }' data-load-on-mount="0" data-append="0"></div>
+            <div class="js-xloader" data-ajax data-params='{ "data": "test" }' data-load-on-mount="false" data-append="false"></div>
         </div>
     </div>
 </div>

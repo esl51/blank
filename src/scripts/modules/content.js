@@ -1,105 +1,103 @@
-import xForm from './../controls/xform'
-import xLoader from './../controls/xloader'
-import xMap from './../controls/xmap'
-import xPopup from './../controls/xpopup'
-import xSlider from './../controls/xslider'
+import XForm from './../controls/xform'
+import XMap from './../controls/xmap'
+import XPopup from './../controls/xpopup'
+import XSlider from './../controls/xslider'
 
 /* Init content */
 export function initContent (container) {
-
   if (!container) {
-    container = document;
+    container = document
   }
 
   /* Popups */
-  var xPopups = container.querySelectorAll(".js-xpopup");
-  xPopups.forEach(function (item) {
-    var xpopup = new xPopup(item).mount();
-  });
+  var xPopups = container.querySelectorAll('.js-xpopup')
+  xPopups.forEach(function (xpopup) {
+    new XPopup(xpopup).mount()
+  })
 
   /* Popup Forms */
-  var xPopupForms = container.querySelectorAll(".js-xpopup-form");
-  xPopupForms.forEach(function (item) {
-    item.addEventListener('show', function () {
-      var focusable = item.querySelectorAll('input:not([type=hidden]), select, textarea');
+  var xPopupForms = container.querySelectorAll('.js-xpopup-form')
+  xPopupForms.forEach(function (xpopup) {
+    xpopup.addEventListener('show', function () {
+      var focusable = xpopup.querySelectorAll('input:not([type=hidden]), select, textarea')
       if (focusable.length) {
         setTimeout(function () {
-          focusable[0].focus();
-        }, 100);
+          focusable[0].focus()
+        }, 100)
       }
-    });
-    new xPopup(item).mount();
-  });
+    })
+    new XPopup(xpopup).mount()
+  })
 
   /* Popup Iframes */
-  var xPopupIframes = container.querySelectorAll(".js-xpopup-iframe");
-  xPopupIframes.forEach(function (item) {
-    var iframe = item.querySelector("[data-iframe]");
+  var xPopupIframes = container.querySelectorAll('.js-xpopup-iframe')
+  xPopupIframes.forEach(function (xpopup) {
+    var iframe = xpopup.querySelector('[data-iframe]')
     if (iframe) {
-      item.addEventListener('show', function () {
-        iframe.click();
-      });
-      item.addEventListener('hide', function () {
-        var iframeElem = iframe.querySelector("iframe");
+      xpopup.addEventListener('show', function () {
+        iframe.click()
+      })
+      xpopup.addEventListener('hide', function () {
+        var iframeElem = iframe.querySelector('iframe')
         if (iframeElem) {
-          iframe.classList.remove("is-active");
-          iframeElem.src = '';
+          iframe.classList.remove('is-active')
+          iframeElem.src = ''
         }
-      });
+      })
     }
-    new xPopup(item).mount();
-  });
+    new XPopup(xpopup).mount()
+  })
 
   /* Popup Ajaxes */
-  var xPopupAjaxes = container.querySelectorAll(".js-xpopup-ajax");
-  xPopupAjaxes.forEach(function (item) {
-    var ajax = item.querySelector("[data-ajax]");
+  var xPopupAjaxes = container.querySelectorAll('.js-xpopup-ajax')
+  xPopupAjaxes.forEach(function (xpopup) {
+    var ajax = xpopup.querySelector('[data-ajax]')
     if (ajax) {
-      item.addEventListener('show', function () {
-        ajax.xLoader.load();
-      });
+      xpopup.addEventListener('show', function () {
+        ajax.xLoader.load()
+      })
     }
-    new xPopup(item).mount();
-  });
+    new XPopup(xpopup).mount()
+  })
 
   /* Inline iframe */
-  var inlineIframes = container.querySelectorAll("[data-iframe]");
+  var inlineIframes = container.querySelectorAll('[data-iframe]')
   inlineIframes.forEach(function (iframe) {
     iframe.addEventListener('click', function (e) {
-      e.preventDefault();
-      var iframeElem = iframe.querySelector('iframe');
-      iframeElem.src = iframeElem.dataset.src;
-      iframe.classList.add('is-active');
-      return false;
-    });
-  });
+      e.preventDefault()
+      var iframeElem = iframe.querySelector('iframe')
+      iframeElem.src = iframeElem.dataset.src
+      iframe.classList.add('is-active')
+      return false
+    })
+  })
 
   /* Tables */
-  var contentTables = container.querySelectorAll('.text table');
+  var contentTables = container.querySelectorAll('.text table')
   contentTables.forEach(function (table) {
-    var tableContainer = document.createElement('div');
-    tableContainer.classList.add('table-container');
-    table.parentNode.insertBefore(tableContainer, table);
-    tableContainer.appendChild(table);
-  });
+    var tableContainer = document.createElement('div')
+    tableContainer.classList.add('table-container')
+    table.parentNode.insertBefore(tableContainer, table)
+    tableContainer.appendChild(table)
+  })
 
   /* xForm */
-  var xForms = container.querySelectorAll('.js-xform');
+  var xForms = container.querySelectorAll('.js-xform')
   xForms.forEach(function (xform) {
-    new xForm(xform).mount();
-  });
+    new XForm(xform).mount()
+  })
 
   /* xMap */
-  var xMaps = container.querySelectorAll('.js-xmap');
+  var xMaps = container.querySelectorAll('.js-xmap')
   xMaps.forEach(function (xmap) {
-    new xMap(xmap).mount();
-  });
+    new XMap(xmap).mount()
+  })
 
   /* xSlider */
-  var xSliders = container.querySelectorAll('.js-xslider');
+  var xSliders = container.querySelectorAll('.js-xslider')
   xSliders.forEach(function (xslider) {
-    new xSlider(xslider, {
-      loop: true,
-    }).mount();
-  });
+    new XSlider(xslider, {
+      loop: true
+    }).mount()
+  })
 }

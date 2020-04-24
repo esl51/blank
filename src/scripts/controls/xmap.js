@@ -61,7 +61,7 @@ export default class XMap {
         markerOptions.iconImageSize = iconSize
         markerOptions.iconImageOffset = iconOffset
       }
-      const marker = new ymaps.Placemark([item.dataset.lat, item.dataset.lng], {
+      const marker = new this.ymaps.Placemark([item.dataset.lat, item.dataset.lng], {
         hintContent: item.dataset.title,
         balloonContentBody: item.innerHTML,
         balloonContentHeader: item.dataset.title
@@ -72,7 +72,7 @@ export default class XMap {
   }
 
   initMap () {
-    this.ymap = new ymaps.Map(this.container.id, {
+    this.ymap = new this.ymaps.Map(this.container.id, {
       center: [this.settings.lat, this.settings.lng],
       zoom: this.settings.zoom
     });
@@ -86,18 +86,6 @@ export default class XMap {
     this.ymap.controls.remove('typeSelector')
   }
 
-  mount () {
-    this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10)
-    this.toggleEvent('mount')
-    this.resizeTimout = null
-    ymaps.ready(() => {
-      this.loadMarkers()
-      this.initMap()
-      this.refresh()
-      window.xMapInstance = this
-    })
-  }
-
   refresh () {
     if (this.settings.autoHeight) {
       this.container.style.height = null
@@ -107,6 +95,17 @@ export default class XMap {
       }
     }
     this.ymap.container.fitToViewport()
+  }
+
+  async mount () {
+    this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10)
+    this.toggleEvent('mount')
+    this.resizeTimout = null
+    this.ymaps = await ymaps.load()
+    this.loadMarkers()
+    this.initMap()
+    this.refresh()
+    window.xMapInstance = this
   }
 
   unmount () {

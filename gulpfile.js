@@ -128,7 +128,12 @@ gulp.task('vendor:build', function() {
 
 /* Scripts */
 gulp.task('scripts:build', wrapPipe(function (success, error) {
-  var bundler = browserify('./src/scripts/main.js', { debug: true }).transform(babel, { presets: ["@babel/preset-env"], plugins: ["@babel/plugin-proposal-class-properties"] })
+  var bundler = browserify('./src/scripts/main.js', { debug: true }).transform(babel, { presets: [
+    "@babel/preset-env"
+    ], plugins: [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-transform-runtime"
+    ] })
   return bundler.bundle().on('error', error)
     .pipe(source('main.js'))
     .pipe(buffer())

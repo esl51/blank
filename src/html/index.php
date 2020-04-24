@@ -26,21 +26,15 @@
 <div class="xslider js-xslider">
     <div class="xslider__viewport" data-viewport>
         <ul class="xslider__track" data-track>
-            <li class="xslider__item">
-                <img src="img/temp/tmp1s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp2s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp3s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp4s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp5s.jpg" alt="">
-            </li>
+
+            <?php for ($i = 1; $i <= 5; $i++): ?>
+
+                <li class="xslider__item">
+                    <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
+                </li>
+
+            <?php endfor ?>
+
         </ul>
     </div>
     <div class="xslider__arrows">
@@ -58,21 +52,15 @@
 <div class="xslider xslider--carousel-3 js-xslider">
     <div class="xslider__viewport" data-viewport>
         <ul class="xslider__track" data-track>
-            <li class="xslider__item">
-                <img src="img/temp/tmp1s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp2s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp3s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp4s.jpg" alt="">
-            </li>
-            <li class="xslider__item">
-                <img src="img/temp/tmp5s.jpg" alt="">
-            </li>
+
+            <?php for ($i = 1; $i <= 5; $i++): ?>
+
+                <li class="xslider__item" style="height:300px">
+                    <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
+                </li>
+
+            <?php endfor ?>
+
         </ul>
     </div>
     <div class="xslider__arrows">
@@ -83,6 +71,7 @@
 
 <div class="section section--breadcrumbs" style="background:#f5f5f5">
     <div class="section__inner section__inner--breadcrumbs">
+        <h2 class="section__title">Breadcrumbs</h2>
         <?php include "./_breadcrumbs.php"; ?>
     </div>
 </div><!-- /breadcrumbs -->
@@ -91,7 +80,7 @@
     <div class="section__inner section__inner--map">
         <h2 class="section__title">xMap</h2>
     </div>
-    <div class="xmap js-xmap" data-lat="55.805818" data-lng="37.593372" data-zoom="16" data-icon="img/geotag.svg" data-icon-size='[25,33]' data-icon-offset='[-12,-33]'>
+    <div class="xmap js-xmap" data-language="ru_RU" data-lat="55.805818" data-lng="37.593372" data-zoom="16" data-icon="img/geotag.svg" data-icon-size='[25,33]' data-icon-offset='[-12,-33]'>
         <div class="contacts__map-item" data-lat="55.805818" data-lng="37.593372" data-title="Заголовок маркера">
             <div class="text">
                 <h2>Заголовок контента маркера</h2>
@@ -103,8 +92,8 @@
 
 <div class="section section--body">
     <div class="section__inner section__inner--body">
+        <h2 class="section__title">Content</h2>
         <div class="text">
-            <h1>Привет!</h1>
             <p>Стратегический маркетинг отражает рейтинг. План размещения, пренебрегая деталями, повсеместно определяет целевой сегмент рынка. Имидж, в рамках сегодняшних воззрений, исключительно определяет бюджет на размещение, расширяя долю рынка. Стратегическое планирование, анализируя результаты рекламной кампании, сознательно притягивает медийный канал.</p>
             <blockquote>
                 <p>Согласно ставшей уже классической работе Филипа Котлера, потребление развивает презентационный материал, не считаясь с затратами. Управление брендом сознательно экономит типичный пресс-клиппинг, повышая конкуренцию.</p>
@@ -192,12 +181,14 @@
 
 <div class="section section--pagination" style="background:#f5f5f5">
     <div class="section__inner section__inner--pagination">
+        <h2 class="section__title">Pagination</h2>
         <?php include "./_pagination.php"; ?>
     </div>
 </div><!-- /pagination -->
 
 <div class="section section--files">
     <div class="section__inner section__inner--files">
+        <h2 class="section__title">File list</h2>
         <?php include "./_files.php"; ?>
     </div>
 </div><!-- /files -->

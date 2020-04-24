@@ -4,12 +4,14 @@
 //= ../../node_modules/sharer.js/sharer.js
 //= ../../node_modules/animated-scrollto/animatedScrollTo.js
 
+/* Controls */
+//= ./controls/xform.js
+//= ./controls/xloader.js
+//= ./controls/xmap.js
+//= ./controls/xpopup.js
+//= ./controls/xslider.js
+
 /* Modules */
 //= ./modules/func.js
 //= ./modules/menu.js
-//= ./modules/xform.js
-//= ./modules/xloader.js
-//= ./modules/xmap.js
-//= ./modules/xpopup.js
-//= ./modules/xslider.js
 //= ./modules/content.js

@@ -10,7 +10,8 @@ export default class XMap {
       autoHeight: true,
       icon: null,
       iconSize: null,
-      iconOffset: null
+      iconOffset: null,
+      language: 'en_US'
     }
     for (const attrname in options) {
       this.settings[attrname] = options[attrname]
@@ -101,7 +102,7 @@ export default class XMap {
     this.container.id = this.container.id || 'map-' + Math.random().toString(36).substr(2, 10)
     this.toggleEvent('mount')
     this.resizeTimout = null
-    this.ymaps = await ymaps.load()
+    this.ymaps = await ymaps.load('https://api-maps.yandex.ru/2.1/?lang=' + this.settings.language)
     this.loadMarkers()
     this.initMap()
     this.refresh()

@@ -17,7 +17,7 @@
     </div>
 </div>
 
-<div class="section" style="background:#eee">
+<div class="section" style="background:#f5f5f5">
     <div class="section__inner">
         <h2 class="section__title">xSlider: basic</h2>
     </div>
@@ -81,11 +81,25 @@
     </div>
 </div>
 
-<div class="section section--breadcrumbs" style="background:#eee">
+<div class="section section--breadcrumbs" style="background:#f5f5f5">
     <div class="section__inner section__inner--breadcrumbs">
         <?php include "./_breadcrumbs.php"; ?>
     </div>
 </div><!-- /breadcrumbs -->
+
+<div class="section section--map" style="padding-bottom:0">
+    <div class="section__inner section__inner--map">
+        <h2 class="section__title">xMap</h2>
+    </div>
+    <div class="xmap js-xmap" data-lat="55.805818" data-lng="37.593372" data-zoom="16" data-icon="img/geotag.svg" data-icon-size='[25,33]' data-icon-offset='[-12,-33]'>
+        <div class="contacts__map-item" data-lat="55.805818" data-lng="37.593372" data-title="Заголовок маркера">
+            <div class="text">
+                <h2>Заголовок контента маркера</h2>
+                <p>Стратегический маркетинг отражает рейтинг. План размещения, пренебрегая деталями, повсеместно определяет целевой сегмент рынка.</p>
+            </div>
+        </div>
+    </div>
+</div><!-- /map -->
 
 <div class="section section--body">
     <div class="section__inner section__inner--body">
@@ -176,7 +190,7 @@
     </div>
 </div>
 
-<div class="section section--pagination" style="background:#f1f1f1">
+<div class="section section--pagination" style="background:#f5f5f5">
     <div class="section__inner section__inner--pagination">
         <?php include "./_pagination.php"; ?>
     </div>
@@ -188,7 +202,7 @@
     </div>
 </div><!-- /files -->
 
-<div class="section section--buttons" style="background:#ddd">
+<div class="section section--buttons" style="background:#f5f5f5">
     <div class="section__inner section__inner--buttons">
         <h2 class="section__title">Popups</h2>
         <div class="buttons row">

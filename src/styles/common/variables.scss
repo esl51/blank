@@ -49,23 +49,7 @@ $xform-vertical-margin: .6rem;
 $xform-input-height: $xform-input-line-height * $xform-input-font-size + $xform-input-padding-vertical * 2 + $xform-input-border-width * 2;
 $xform-label-padding-top: (($xform-input-height - $xform-input-border-width * 2) - ($xform-input-font-size * $xform-input-line-height + $xform-label-font-size)) / 2;
 
-// Breakpoints
+// Breakpoints & grid
 $breakpoints: (phone: 320px, tablet: 620px, desktop: 1020px);
-
-// Desktop grid
-$grid-desktop-columns: 12;
-$grid-desktop-sideMargin: 80px;
-$grid-desktop-gutter: 30px;
-$grid-desktop-breakpoint: $max-width;
-
-// Tablet grid
-$grid-tablet-columns: 12;
-$grid-tablet-sideMargin: 60px;
-$grid-tablet-gutter: 30px;
-$grid-tablet-breakpoint: map-get($breakpoints, desktop);
-
-// Phone grid
-$grid-phone-columns: 4;
-$grid-phone-sideMargin: 32px;
-$grid-phone-gutter: 20px;
-$grid-phone-breakpoint: map-get($breakpoints, tablet);
+$columns: 12;
+$col-gutter: 30px;

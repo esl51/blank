@@ -17,7 +17,7 @@
     margin-bottom: $margin;
   }
 }
-@mixin columns($colcount: 2, $colgap: $grid-desktop-gutter, $colwidth: auto, $columnRuleColor: transparent, $columnRuleStyle: solid, $columnRuleWidth: 0) {
+@mixin columns($colcount: 2, $colgap: $col-gutter, $colwidth: auto, $columnRuleColor: transparent, $columnRuleStyle: solid, $columnRuleWidth: 0) {
   column-width: $colwidth;
   column-count: $colcount;
   column-gap: $colgap;
@@ -39,4 +39,11 @@
     @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
   }
   @return $string;
+}
+
+@function grid-cols($col-count, $base-count: $columns, $add: 0px) {
+  @return calc((((100% - (#{$base-count} - 1) * #{$col-gutter}) / #{$base-count}) * #{$col-count} + (#{$col-count} - 1) * #{$col-gutter}) + #{$add});
+}
+@function grid-offset($col-count, $base-count: $columns, $add: $col-gutter) {
+  @return calc((((100% - (#{$base-count} - 1) * #{$col-gutter}) / #{$base-count}) * #{$col-count} + (#{$col-count} - 1) * #{$col-gutter}) + #{$add});
 }

@@ -196,12 +196,10 @@
 <div class="section section--buttons" style="background:#f5f5f5">
     <div class="section__inner section__inner--buttons">
         <h2 class="section__title">Popups</h2>
-        <div class="buttons row">
-            <div class="buttons_col col col--xs-12">
-                <button class="button js-feedback">form</button>
-                <button class="button js-iframe">iframe</button>
-                <button class="button js-ajax">ajax</button>
-            </div>
+        <div class="buttons">
+            <button class="button js-feedback">form</button>
+            <button class="button js-iframe">iframe</button>
+            <button class="button js-ajax">ajax</button>
         </div>
     </div>
 </div>
@@ -210,7 +208,7 @@
     <div class="xpopup__inner">
         <div class="xpopup__dialog">
             <div class="xpopup__header">
-                <div class="xpopup__title"><?= __("Обратная связь") ?></div>
+                <div class="xpopup__title">xPopup xForm</div>
                 <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
             <form class="xform js-xform">
@@ -220,11 +218,11 @@
                         <h3 class="xform__section-title">Общие сведения</h3>
                     </div>
                     <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
-                    <div class="xform__row row">
-                        <div class="xform__col col col--xs-12 col--md-6">
+                    <div class="xform__row">
+                        <div class="xform__col">
                             <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
                         </div>
-                        <div class="xform__col col col--xs-12 col--md-6">
+                        <div class="xform__col">
                             <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
                         </div>
                     </div>
@@ -238,14 +236,14 @@
                     <div class="xform__section-header">
                         <h3 class="xform__section-title">Дополнительно</h3>
                     </div>
-                    <div class="xform__row row">
-                        <div class="xform__col col col--xs-6">
+                    <div class="xform__row">
+                        <div class="xform__col">
                             <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
                                 '1' => 'Взаимодействие',
                                 '2' => 'Системный анализ',
                             ], 'value' => '1']) ?>
                         </div>
-                        <div class="xform__col col col--xs-6">
+                        <div class="xform__col">
                             <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
                                 '1' => 'Корпорации',
                                 '2' => 'Клиента',
@@ -272,7 +270,7 @@
     <div class="xpopup__inner">
         <div class="xpopup__dialog">
             <div class="xpopup__header">
-                <div class="xpopup__title"><?= __("YouTube") ?></div>
+                <div class="xpopup__title"><?= __("xPopup Iframe") ?></div>
                 <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
             <div class="iframe-video" data-iframe tabindex="0">
@@ -286,7 +284,7 @@
     <div class="xpopup__inner">
         <div class="xpopup__dialog">
             <div class="xpopup__header">
-                <div class="xpopup__title"><?= __("Ajax") ?></div>
+                <div class="xpopup__title"><?= __("xPopup Ajax") ?></div>
                 <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
             <div class="js-xloader" data-ajax data-params='{ "data": "test" }' data-load-on-mount="false" data-append="false"></div>

@@ -71,22 +71,17 @@
 
 /* Grid */
 .xform__row {
-  margin: -.6rem -.3rem .6rem -.3rem;
+  display: flex;
+  flex-wrap: wrap;
+  margin: -$xform-vertical-margin / 2;
 }
 .xform__col {
-  padding: .6rem .3rem 0 .3rem;
-}
-.xform__col--2 {
-  flex-basis: 50%;
-}
-.xform__col--2d {
-  @include media(">=desktop") {
+  flex-basis: 100%;
+  padding: $xform-vertical-margin / 2;
+
+  @include media(">=tablet") {
     flex-basis: 50%;
   }
-}
-.xform__col--bottom {
-  display: flex;
-  align-items: flex-end;
 }
 
 /* Fields */

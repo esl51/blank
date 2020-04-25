@@ -20,52 +20,50 @@
 <div class="section" style="background:#f5f5f5">
     <div class="section__inner">
         <h2 class="section__title">xSlider: basic</h2>
-    </div>
-</div>
+        <div class="xslider js-xslider">
+            <div class="xslider__viewport" data-viewport>
+                <ul class="xslider__track" data-track>
 
-<div class="xslider js-xslider">
-    <div class="xslider__viewport" data-viewport>
-        <ul class="xslider__track" data-track>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
 
-            <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <li class="xslider__item">
+                            <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
+                        </li>
 
-                <li class="xslider__item">
-                    <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
-                </li>
+                    <?php endfor ?>
 
-            <?php endfor ?>
-
-        </ul>
-    </div>
-    <div class="xslider__arrows">
-        <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
-        <button class="xslider__arrow" data-next><?= icon("next") ?></button>
+                </ul>
+            </div>
+            <div class="xslider__arrows">
+                <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
+                <button class="xslider__arrow" data-next><?= icon("next") ?></button>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="section">
     <div class="section__inner">
         <h2 class="section__title">xSlider: carousel</h2>
-    </div>
-</div>
+        <div class="xslider xslider--carousel-3 js-xslider">
+            <div class="xslider__viewport" data-viewport>
+                <ul class="xslider__track" data-track>
 
-<div class="xslider xslider--carousel-3 js-xslider">
-    <div class="xslider__viewport" data-viewport>
-        <ul class="xslider__track" data-track>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
 
-            <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <li class="xslider__item" style="height:300px">
+                            <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
+                        </li>
 
-                <li class="xslider__item" style="height:300px">
-                    <img src="img/temp/tmp<?= $i ?>s.jpg" alt="">
-                </li>
+                    <?php endfor ?>
 
-            <?php endfor ?>
-
-        </ul>
-    </div>
-    <div class="xslider__arrows">
-        <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
-        <button class="xslider__arrow" data-next><?= icon("next") ?></button>
+                </ul>
+            </div>
+            <div class="xslider__arrows">
+                <button class="xslider__arrow" data-prev><?= icon("prev") ?></button>
+                <button class="xslider__arrow" data-next><?= icon("next") ?></button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -79,12 +77,12 @@
 <div class="section section--map" style="padding-bottom:0">
     <div class="section__inner section__inner--map">
         <h2 class="section__title">xMap</h2>
-    </div>
-    <div class="xmap js-xmap" data-language="ru_RU" data-lat="55.805818" data-lng="37.593372" data-zoom="16" data-icon="img/geotag.svg" data-icon-size='[25,33]' data-icon-offset='[-12,-33]'>
-        <div class="contacts__map-item" data-lat="55.805818" data-lng="37.593372" data-title="Заголовок маркера">
-            <div class="text">
-                <h2>Заголовок контента маркера</h2>
-                <p>Стратегический маркетинг отражает рейтинг. План размещения, пренебрегая деталями, повсеместно определяет целевой сегмент рынка.</p>
+        <div class="xmap js-xmap" data-language="ru_RU" data-lat="55.805818" data-lng="37.593372" data-zoom="16" data-icon="img/geotag.svg" data-icon-size='[25,33]' data-icon-offset='[-12,-33]'>
+            <div class="contacts__map-item" data-lat="55.805818" data-lng="37.593372" data-title="Заголовок маркера">
+                <div class="text">
+                    <h2>Заголовок контента маркера</h2>
+                    <p>Стратегический маркетинг отражает рейтинг. План размещения, пренебрегая деталями, повсеместно определяет целевой сегмент рынка.</p>
+                </div>
             </div>
         </div>
     </div>

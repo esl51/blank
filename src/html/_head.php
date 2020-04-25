@@ -17,9 +17,7 @@
         <div class="section section--header">
             <div class="section__inner section__inner--header">
                 <div class="header">
-
-                    <div class="menu-toggle-container"></div>
-
+                    <h1 class="section__title section__title--center">Blank</h1>
                 </div>
             </div>
         </div><!-- /header -->

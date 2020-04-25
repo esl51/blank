@@ -71,6 +71,7 @@ body {
 .section__header-row {}
 .section__header-col {}
 .section__title {
+  @include vmargin(2rem);
   font-size: $title-font-size;
 }
 .section__footer {}

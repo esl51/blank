@@ -111,13 +111,17 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+
+  &.is-hidden {
+    display: none;
+  }
 }
 .xslider__bullet {
   margin: 0;
 
   button {
     display: block;
-    width: 1.8rem;
+    width: 2.8rem;
     height: 1.8rem;
     position: relative;
     padding: .4rem;

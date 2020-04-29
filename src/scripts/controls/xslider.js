@@ -17,7 +17,9 @@ export default class XSlider {
       currentClass: 'is-current',
       activeClass: 'is-active',
       mountedClass: 'is-mounted',
-      bulletTag: 'li'
+      hiddenClass: 'is-hidden',
+      bulletTag: 'li',
+      hideBullets: true
     }
     for (const attrname in options) {
       this.settings[attrname] = options[attrname]
@@ -66,7 +68,7 @@ export default class XSlider {
     const isMs = value.indexOf('ms') >= 0
     const duration = parseFloat(value)
     return isMs ? duration : duration * 1000
-  };
+  }
 
   getFlexBasis (elem) {
     if (!elem) return null
@@ -224,10 +226,16 @@ export default class XSlider {
     })
 
     if (this.bulletsContainer) {
-      for (let i = 0; i < this.items.length - this.perView + 1; i++) {
+      const bulletsCount = this.items.length - this.perView + 1
+      for (let i = 0; i < bulletsCount; i++) {
         this.bulletsContainer.insertAdjacentHTML('beforeend', '<' + this.settings.bulletTag + ' class="xslider__bullet"><button></button></' + this.settings.bulletTag + '>')
       }
       this.bullets = this.bulletsContainer.children
+      if (this.settings.hideBullets && bulletsCount === 1) {
+        this.bulletsContainer.classList.add(this.settings.hiddenClass)
+      } else {
+        this.bulletsContainer.classList.remove(this.settings.hiddenClass)
+      }
     }
 
     if (this.thumbsContainer) {

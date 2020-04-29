@@ -1,5 +1,4 @@
 /* xSlider */
-/* Sliders */
 .xslider {
   position: relative;
 }
@@ -32,7 +31,7 @@
     flex-basis: 50%;
   }
   .xslider--carousel-3 & {
-    flex-basis: 33.33333%;
+    flex-basis: 33.3333%;
 
     @include media("<desktop") {
       flex-basis: 50%;
@@ -107,49 +106,54 @@
   }
 }
 .xslider__bullets {
+  @include vmargin(5rem);
   width: 100%;
-  max-width: $max-width;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 4rem;
-  z-index: 2;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  margin: -7px;
+  justify-content: center;
 }
 .xslider__bullet {
-  margin: 5px;
+  margin: 0;
 
   button {
     display: block;
-    width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    background-color: #fff;
-    border: 6px solid #fff;
+    width: 1.8rem;
+    height: 1.8rem;
+    position: relative;
+    padding: .4rem;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 1rem;
+      height: 1rem;
+      background-color: #e8e8e8;
+      border-radius: 50%;
+    }
 
     &:hover,
     &:focus {
       outline: none;
-      border-color: $main-color;
+
+      &::before {
+        background-color: $main-color;
+      }
     }
   }
 
   &.is-active {
     button {
-      border-color: $main-color;
+      &::before {
+        background-color: $main-color;
+      }
     }
   }
 }
 .xslider__thumbs {
   display: grid;
-  grid-gap: 1px;
+  grid-gap: .1rem;
   grid-template-columns: repeat(5, 1fr);
-  margin-top: 1px;
+  margin-top: .1rem;
 }
 .xslider__thumbs-item {}
 .xslider__thumbs-link {

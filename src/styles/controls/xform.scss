@@ -206,6 +206,7 @@ $xform-error-color: #ed4337 !default;
     position: relative;
     display: block;
     padding-left: 2em;
+    padding-bottom: $xform-input-border-width;
     font-size: $xform-input-font-size;
 
     &::before {

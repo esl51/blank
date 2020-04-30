@@ -52,7 +52,7 @@ $xform-error-color: #ed4337 !default;
 
   &::after {
     @include absolute-block(3rem,3rem);
-    bottom: .9rem;
+    bottom: 0;
     right: 0;
     animation: xform-preloader 1s infinite linear;
     margin: 0 auto;
@@ -327,7 +327,7 @@ $xform-error-color: #ed4337 !default;
 }
 
 .xform__footer {
-  @include vmargin($xform-section-margin);
+  margin-top: $xform-section-margin;
 }
 .xform__footer--center {
   text-align: center;

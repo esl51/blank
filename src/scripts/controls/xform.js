@@ -249,7 +249,7 @@ export default class XForm {
   }
 
   _formSubmit (e) {
-    if (e) {
+    if (e && this.settings.ajax) {
       e.preventDefault()
     }
     const xform = this.form.querySelector('[name=xform]')

@@ -146,7 +146,7 @@ gulp.task('scripts:build', wrapPipe(function (success, error) {
 /* Main styles */
 gulp.task('styles.main:build', wrapPipe(function (success, error) {
   return gulp.src(path.src.styles.main)
-    .pipe(gulpif(argv.dev, sourcemaps.init().on('error', error)))
+    .pipe(gulpif(argv.dev, sourcemaps.init({ loadMaps: true }).on('error', error)))
     .pipe(sass().on('error', error))
     .pipe(autoprefixer().on('error', error))
     .pipe(cleanCss().on('error', error))
@@ -157,7 +157,7 @@ gulp.task('styles.main:build', wrapPipe(function (success, error) {
 /* Editor styles */
 gulp.task('styles.editor:build', wrapPipe(function (success, error) {
   return gulp.src(path.src.styles.editor)
-    .pipe(gulpif(argv.dev, sourcemaps.init().on('error', error)))
+    .pipe(gulpif(argv.dev, sourcemaps.init({ loadMaps: true }).on('error', error)))
     .pipe(sass().on('error', error))
     .pipe(autoprefixer().on('error', error))
     .pipe(cleanCss().on('error', error))

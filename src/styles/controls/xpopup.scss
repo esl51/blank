@@ -16,22 +16,15 @@
     visibility: hidden;
   }
 }
-.xpopup__inner {
-  position: relative;
-  width: 100%;
-  margin: auto;
-}
 .xpopup__dialog {
   @include transition;
   padding: 3rem;
   width: 100%;
   background-color: #fff;
-  min-width: $min-width - 12px;
   max-width: 900px;
-  margin: 1.5rem auto;
+  margin: auto;
   position: relative;
   box-shadow: 0 2px 4px -1px rgba(#000, .14), 0 4px 5px 0 rgba(#000, .098), 0 1px 10px 0 rgba(#000, .084);
-  text-align: left;
 
   .xpopup:not(.is-active) & {
     transform: translateY(5rem);

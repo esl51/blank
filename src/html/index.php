@@ -203,90 +203,84 @@
 </div>
 
 <div class="xpopup xpopup--form js-xpopup-form" data-toggle=".js-feedback">
-    <div class="xpopup__inner">
-        <div class="xpopup__dialog">
-            <div class="xpopup__header">
-                <div class="xpopup__title">xPopup xForm</div>
-                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
-            </div>
-            <form class="xform xform--placeholders js-xform">
-                <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
-                <div class="xform__section">
-                    <div class="xform__section-header">
-                        <h3 class="xform__section-title">Общие сведения</h3>
-                    </div>
-                    <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
-                    <div class="xform__row">
-                        <div class="xform__col">
-                            <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
-                        </div>
-                        <div class="xform__col">
-                            <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
-                        </div>
-                    </div>
-                    <?= renderField('textarea', ['name' => 'message', 'label' => $xForms["feedback"]["fields"]["message"]["label"]]) ?>
-                    <?= renderField('select', ['name' => 'theme', 'label' => __("Тема"), "options" => [
-                        '1' => 'Взаимодействие корпорации и клиента',
-                        '2' => 'Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами',
-                    ]]) ?>
-                </div>
-                <div class="xform__section">
-                    <div class="xform__section-header">
-                        <h3 class="xform__section-title">Дополнительно</h3>
-                    </div>
-                    <div class="xform__row">
-                        <div class="xform__col">
-                            <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
-                                '1' => 'Взаимодействие',
-                                '2' => 'Системный анализ',
-                            ], 'value' => '1']) ?>
-                        </div>
-                        <div class="xform__col">
-                            <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
-                                '1' => 'Корпорации',
-                                '2' => 'Клиента',
-                            ], 'values' => ['2']]) ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="xform__section">
-                    <div class="xform__section-header">
-                        <h3 class="xform__section-title">Файлы</h3>
-                    </div>
-                    <?= renderField('file', ['name' => 'file1', 'label' => 'Файл', 'required' => true]) ?>
-                    <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
-                </div>
-                <div class="xform__footer">
-                    <button class="xform__button xform__button--submit button" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
-                </div>
-            </form>
+    <div class="xpopup__dialog">
+        <div class="xpopup__header">
+            <div class="xpopup__title">xPopup xForm</div>
+            <button class="xpopup__close" aria-label="Закрыть" data-close></button>
         </div>
+        <form class="xform xform--placeholders js-xform">
+            <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
+            <div class="xform__section">
+                <div class="xform__section-header">
+                    <h3 class="xform__section-title">Общие сведения</h3>
+                </div>
+                <?= renderField('input', ['name' => 'name', 'label' => $xForms["feedback"]["fields"]["name"]["label"], 'required' => true, 'value' => 'robert paulson']) ?>
+                <div class="xform__row">
+                    <div class="xform__col">
+                        <?= renderField('input', ['name' => 'email', 'type' => 'email', 'label' => $xForms["feedback"]["fields"]["email"]["label"], 'required' => true, 'value' => 'r.paulson@example.com']) ?>
+                    </div>
+                    <div class="xform__col">
+                        <?= renderField('input', ['name' => 'phone', 'type' => 'tel', 'label' => $xForms["feedback"]["fields"]["phone"]["label"]]) ?>
+                    </div>
+                </div>
+                <?= renderField('textarea', ['name' => 'message', 'label' => $xForms["feedback"]["fields"]["message"]["label"]]) ?>
+                <?= renderField('select', ['name' => 'theme', 'label' => __("Тема"), "options" => [
+                    '1' => 'Взаимодействие корпорации и клиента',
+                    '2' => 'Стратегический рыночный план, на первый взгляд, индуцирует системный анализ, не считаясь с затратами',
+                ]]) ?>
+            </div>
+            <div class="xform__section">
+                <div class="xform__section-header">
+                    <h3 class="xform__section-title">Дополнительно</h3>
+                </div>
+                <div class="xform__row">
+                    <div class="xform__col">
+                        <?= renderField('radios', ['name' => 'radio', 'label' => __("Радио-кнопки"), "options" => [
+                            '1' => 'Взаимодействие',
+                            '2' => 'Системный анализ',
+                        ], 'value' => '1']) ?>
+                    </div>
+                    <div class="xform__col">
+                        <?= renderField('checkboxes', ['name' => 'checkbox', 'label' => __("Флаги"), "options" => [
+                            '1' => 'Корпорации',
+                            '2' => 'Клиента',
+                        ], 'values' => ['2']]) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="xform__section">
+                <div class="xform__section-header">
+                    <h3 class="xform__section-title">Файлы</h3>
+                </div>
+                <?= renderField('file', ['name' => 'file1', 'label' => 'Файл', 'required' => true]) ?>
+                <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
+            </div>
+            <div class="xform__footer">
+                <button class="xform__button xform__button--submit button" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
+            </div>
+        </form>
     </div>
 </div>
 
 <div class="xpopup xpopup--transparent js-xpopup-iframe" data-toggle=".js-iframe">
-    <div class="xpopup__inner">
-        <div class="xpopup__dialog">
-            <div class="xpopup__header">
-                <div class="xpopup__title"><?= __("xPopup Iframe") ?></div>
-                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
-            </div>
-            <div class="iframe-video" data-iframe tabindex="0">
-                <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
-            </div>
+    <div class="xpopup__dialog">
+        <div class="xpopup__header">
+            <div class="xpopup__title"><?= __("xPopup Iframe") ?></div>
+            <button class="xpopup__close" aria-label="Закрыть" data-close></button>
+        </div>
+        <div class="iframe-video" data-iframe tabindex="0">
+            <iframe data-src="<?= prepareEmbedLink('http://www.youtube.com/watch?v=dQw4w9WgXcQ') ?>" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
         </div>
     </div>
 </div>
 
 <div class="xpopup js-xpopup-ajax" data-toggle=".js-ajax">
-    <div class="xpopup__inner">
-        <div class="xpopup__dialog">
-            <div class="xpopup__header">
-                <div class="xpopup__title"><?= __("xPopup Ajax") ?></div>
-                <button class="xpopup__close" aria-label="Закрыть" data-close></button>
-            </div>
-            <div class="js-xloader" data-ajax data-params='{ "data": "test" }' data-load-on-mount="false" data-append="false"></div>
+    <div class="xpopup__dialog">
+        <div class="xpopup__header">
+            <div class="xpopup__title"><?= __("xPopup Ajax") ?></div>
+            <button class="xpopup__close" aria-label="Закрыть" data-close></button>
         </div>
+        <div class="js-xloader" data-ajax data-params='{ "data": "test" }' data-load-on-mount="false" data-append="false"></div>
     </div>
 </div>
 

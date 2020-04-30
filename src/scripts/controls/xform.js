@@ -17,7 +17,8 @@ export default class XForm {
       resetOnSuccess: true,
       filePlaceholderText: '...',
       fileButtonText: '...',
-      action: null
+      action: null,
+      ajax: true
     }
     for (const attrname in options) {
       this.settings[attrname] = options[attrname]
@@ -37,8 +38,9 @@ export default class XForm {
     }
 
     if (this.settings.action == null) {
-      this.settings.action = location.pathname
+      this.settings.action = this.form.action
     }
+
     this.fields = this.form.querySelectorAll('.' + this.settings.fieldClass)
     this.inputs = this.form.querySelectorAll('.' + this.settings.inputClass)
     this.files = this.form.querySelectorAll('input[type=file]')
@@ -269,16 +271,18 @@ export default class XForm {
     this.toggleEvent('beforesubmit')
     this.form.classList.add(this.settings.submittingClass)
 
-    const formData = new FormData(this.form)
+    if (this.settings.ajax) {
+      const formData = new FormData(this.form)
 
-    this.readFiles(files => {
-      if (files !== undefined) {
-        formData.append('files', JSON.stringify(files))
-      }
-      this.sendForm(formData)
-    })
+      this.readFiles(files => {
+        if (files !== undefined) {
+          formData.append('files', JSON.stringify(files))
+        }
+        this.sendForm(formData)
+      })
 
-    return false
+      return false
+    }
   }
 
   mount () {

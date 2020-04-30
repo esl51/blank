@@ -19,6 +19,7 @@ $title-font-family: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", 
 $title-font: $title-font-weight #{$title-font-size}/#{$title-line-height} $title-font-family;
 
 $strong-weight: 600;
+$muted-color: lighten($text-color, 30%);
 
 // Sizes
 $section-padding: 6rem;
@@ -29,25 +30,6 @@ $max-width: 1440px;
 
 // Easing
 $easing: cubic-bezier(.23, 1, .32, 1);
-
-// xForm
-$xform-input-background-color: #f6f6f6;
-$xform-input-border-color: #d2d2d4;
-$xform-input-border-color-active: #aaa;
-$xform-input-color: $text-color;
-$xform-error-color: #e03a3e;
-$xform-input-border-width: .1rem;
-$xform-input-border-radius: 0;
-$xform-input-font-size: $text-font-size;
-$xform-input-line-height: 1.2;
-$xform-label-color: #888;
-$xform-label-font-size: $xform-input-font-size * .75;
-$xform-input-padding-vertical: 1.4rem;
-$xform-input-padding-horizontal: 1.6rem;
-$xform-vertical-margin: .6rem;
-
-$xform-input-height: $xform-input-line-height * $xform-input-font-size + $xform-input-padding-vertical * 2 + $xform-input-border-width * 2;
-$xform-label-padding-top: (($xform-input-height - $xform-input-border-width * 2) - ($xform-input-font-size * $xform-input-line-height + $xform-label-font-size)) / 2;
 
 // Breakpoints & grid
 $breakpoints: (phone: 320px, tablet: 620px, desktop: 1020px);

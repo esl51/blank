@@ -209,7 +209,7 @@
                 <div class="xpopup__title">xPopup xForm</div>
                 <button class="xpopup__close" aria-label="Закрыть" data-close></button>
             </div>
-            <form class="xform js-xform">
+            <form class="xform xform--placeholders js-xform">
                 <?= renderHidden(['name' => 'xform', 'value' => 'feedback']); ?>
                 <div class="xform__section">
                     <div class="xform__section-header">
@@ -257,7 +257,7 @@
                     <?= renderField('file', ['name' => 'file2', 'label' => 'Файлы', 'multiple' => true]) ?>
                 </div>
                 <div class="xform__footer">
-                    <button class="button xform__button xform__button--submit" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
+                    <button class="xform__button xform__button--submit button" type="submit"><?= $xForms["feedback"]["submit"]["label"] ?></button>
                 </div>
             </form>
         </div>

@@ -276,11 +276,11 @@ if (!function_exists("renderField")) {
         extract($params);
 
         $html = '<div class="xform__field' . ($required ? ' xform__field--required' : '') . '">';
-        if (!empty($name)) {
-            $html .= renderBase($fieldType, $params);
-        }
         if (!in_array($fieldType, ['checkbox', 'radio', 'checkboxes', 'radios']) && !empty($label)) {
             $html .= renderLabel($label, $id);
+        }
+        if (!empty($name)) {
+            $html .= renderBase($fieldType, $params);
         }
         if (!empty($hint)) {
             $html .= renderHint($hint);
@@ -354,7 +354,7 @@ if (!function_exists("renderBaseCheckbox")) {
 
         $checked = isset($checked) ? $checked : false;
 
-        return '<input class="xform__checkbox" id="' . $id . '" type="checkbox" name="' . $name . '" value="' . $value . '"' . ($required ? ' required' : '') . ($checked ? ' checked' : '') . '><label for="' . $id . '">' . $label . '</label>';
+        return '<div class="xform__checkbox"><input id="' . $id . '" type="checkbox" name="' . $name . '" value="' . $value . '"' . ($required ? ' required' : '') . ($checked ? ' checked' : '') . '><label for="' . $id . '">' . $label . '</label></div>';
     }
 
 }
@@ -366,7 +366,7 @@ if (!function_exists("renderBaseRadio")) {
 
         $checked = isset($checked) ? $checked : false;
 
-        return '<input class="xform__radio" id="' . $id . '" type="radio" name="' . $name . '" value="' . $value . '"' . ($required ? ' required' : '') . ($checked ? ' checked' : '') . '><label for="' . $id . '">' . $label . '</label>';
+        return '<div class="xform__radio"><input id="' . $id . '" type="radio" name="' . $name . '" value="' . $value . '"' . ($required ? ' required' : '') . ($checked ? ' checked' : '') . '><label for="' . $id . '">' . $label . '</label></div>';
     }
 
 }

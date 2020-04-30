@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Привет!</title>
+        <title>blank</title>
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="format-detection" content="telephone=no">

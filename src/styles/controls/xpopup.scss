@@ -9,15 +9,7 @@
   height: 100%;
   background-color: rgba(#000, .8);
   overflow: hidden auto;
-  text-align: center;
-  white-space: nowrap;
-
-  &::before {
-    content: '';
-    height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-  }
+  display: flex;
 
   &:not(.is-active) {
     opacity: 0;
@@ -27,13 +19,10 @@
 .xpopup__inner {
   position: relative;
   width: 100%;
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 auto;
-  text-align: left;
-  white-space: normal;
+  margin: auto;
 }
 .xpopup__dialog {
+  @include transition;
   padding: 3rem;
   width: 100%;
   background-color: #fff;
@@ -43,6 +32,10 @@
   position: relative;
   box-shadow: 0 2px 4px -1px rgba(#000, .14), 0 4px 5px 0 rgba(#000, .098), 0 1px 10px 0 rgba(#000, .084);
   text-align: left;
+
+  .xpopup:not(.is-active) & {
+    transform: translateY(5rem);
+  }
 
   @include media("<tablet") {
     padding: 3rem 1.5rem;
@@ -71,22 +64,23 @@
 }
 .xpopup__title {
   font: $title-font;
-  font-size: 2rem;
-  text-transform: uppercase;
+  font-size: 2.2rem;
+  align-self: flex-start;
 }
 .xpopup__close {
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   margin-left: auto;
   color: currentColor;
 
   &::before,
   &::after {
-    @include absolute-block(1.4 * 2rem, 1px);
+    @include absolute-block(2.2rem, .3rem);
     left: 50%;
     top: 50%;
     background-color: currentColor;
+    border-radius: 200rem;
   }
   &::before {
     transform: translateX(-50%) rotate(45deg);

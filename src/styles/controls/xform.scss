@@ -151,12 +151,6 @@ $xform-error-color: #ed4337 !default;
   background-repeat: no-repeat;
   background-position: right 2rem top 50%;
   padding-right: 5.2rem;
-  color: transparent;
-
-  .xform__field--activated &,
-  option {
-    color: $xform-input-color;
-  }
 
   .ie & {
     padding-right: $xform-input-padding-horizontal;
@@ -374,6 +368,13 @@ $xform-error-color: #ed4337 !default;
   .xform__file {
     @include transition;
   }
+  .xform__input--select {
+    color: transparent;
+
+    option {
+      color: $xform-input-color;
+    }
+  }
   .xform__field--activated {
     .xform__label {
       font-size: $xform-label-font-size * .75;
@@ -385,6 +386,9 @@ $xform-error-color: #ed4337 !default;
     .xform__file {
       padding-top: $xform-input-padding-vertical * 1.75;
       padding-bottom: $xform-input-padding-vertical * .25;
+    }
+    .xform__input--select {
+      color: $xform-input-color;
     }
   }
 }

@@ -175,6 +175,7 @@ $xform-error-color: #ed4337 !default;
 .xform__radio,
 .xform__checkbox {
   @include vmargin($xform-margin);
+  position: relative;
 
   input {
     appearance: none;

@@ -1,5 +1,51 @@
 <?php include "./_head.php"; ?>
 
+<div class="section" style="background:#f5f5f5">
+    <div class="section__inner">
+        <h2 class="section__title">Grid</h2>
+        <div class="grid-demo">
+            <div class="row">
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+                <div class="col col--p-6 col--t-4 col--d-3">
+                    <div class="grid-demo__item">col</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="section">
     <div class="section__inner">
         <h2 class="section__title">Icons</h2>

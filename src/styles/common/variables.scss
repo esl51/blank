@@ -34,4 +34,5 @@ $easing: cubic-bezier(.23, 1, .32, 1);
 // Breakpoints & grid
 $breakpoints: (phone: 320px, tablet: 620px, desktop: 1020px);
 $columns: 12;
-$col-gutter: 30px;
+$row-gutter: 3rem;
+$col-gutter: 3rem;

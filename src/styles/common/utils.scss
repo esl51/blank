@@ -50,3 +50,12 @@
 @function grid-offset($col-count, $base-count: $columns, $add: $col-gutter) {
   @return calc((((100% - (#{$base-count} - 1) * #{$col-gutter}) / #{$base-count}) * #{$col-count} + (#{$col-count} - 1) * #{$col-gutter}) + #{$add});
 }
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

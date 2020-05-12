@@ -2,7 +2,8 @@ export default class XPopup {
   constructor (elem, options) {
     this.settings = {
       dialogClass: 'xpopup__dialog',
-      toggleSelector: null
+      toggleSelector: null,
+      hideOnContainerClick: true
     }
 
     for (const attrname in options) {
@@ -72,7 +73,7 @@ export default class XPopup {
   }
 
   _toggleContainerClick (e) {
-    if (e.target === this.container) {
+    if (this.settings.hideOnContainerClick && e.target === this.container) {
       this.hide()
     }
   }

@@ -2,6 +2,8 @@ export default class XPopup {
   constructor (elem, options) {
     this.settings = {
       dialogClass: 'xpopup__dialog',
+      activeClass: 'is-active',
+      topClass: 'is-top',
       toggleSelector: null,
       hideOnContainerClick: true
     }
@@ -30,7 +32,11 @@ export default class XPopup {
     this.toggles = document.querySelectorAll(this.settings.toggleSelector)
     this.closeButtons = this.container.querySelectorAll('[data-close]')
 
-    elem.xForm = this
+    elem.xPopup = this
+    if (!window.xPopups) {
+      window.xPopups = []
+    }
+    window.xPopups.push(elem.xPopup)
   }
 
   toggleEvent (name) {
@@ -52,17 +58,48 @@ export default class XPopup {
     return scrollbarWidth
   }
 
+  isTop () {
+    return this.container.classList.contains(this.settings.topClass)
+  }
+
+  setTop () {
+    this.container.classList.add(this.settings.topClass)
+  }
+
+  unsetTop () {
+    this.container.classList.remove(this.settings.topClass)
+  }
+
+  isActive () {
+    return this.container.classList.contains(this.settings.activeClass)
+  }
+
   show () {
-    this.container.classList.add('is-active')
+    this.container.classList.add(this.settings.activeClass)
+    window.xPopups.forEach((xPopup) => {
+      if (xPopup.isTop()) {
+        xPopup.unsetTop()
+      }
+    })
+    this.setTop()
     document.body.style.marginRight = this.getScrollbarWidth() + 'px'
     document.body.style.overflow = 'hidden'
     this.toggleEvent('show')
   }
 
   hide () {
-    this.container.classList.remove('is-active')
-    document.body.style.marginRight = null
-    document.body.style.overflow = null
+    this.container.classList.remove(this.settings.activeClass)
+    this.container.classList.remove(this.settings.topClass)
+    let activePopupsCount = 0
+    window.xPopups.forEach((xPopup) => {
+      if (xPopup.isActive()) {
+        activePopupsCount++
+      }
+    })
+    if (activePopupsCount === 0) {
+      document.body.style.marginRight = null
+      document.body.style.overflow = null
+    }
     this.toggleEvent('hide')
   }
 
@@ -118,6 +155,11 @@ export default class XPopup {
 
   destroy () {
     this.unmount()
+    const pos = window.xPopups.indexOf(this.container.xPopup)
+    window.xPopups.splice(pos, 1)
+    if (window.xPopups.length === 0) {
+      delete (window.xPopups)
+    }
     delete (this.container.xPopup)
   }
 }

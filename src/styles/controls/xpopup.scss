@@ -16,6 +16,10 @@
     visibility: hidden;
     overflow: hidden;
   }
+
+  &.is-top {
+    z-index: 10000;
+  }
 }
 .xpopup__dialog {
   @include transition(all .3s $easing);

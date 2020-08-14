@@ -93,7 +93,7 @@ export default class XPopup {
     let activePopupsCount = 0
     window.xPopups.forEach((xPopup) => {
       if (xPopup.isActive()) {
-        activePopupsCount++
+        activePopupsCount++;
       }
     })
     if (activePopupsCount === 0) {

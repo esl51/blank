@@ -104,9 +104,11 @@ export default class XPopup {
   }
 
   _toggleClick (e) {
-    e.preventDefault()
-    this.show()
-    return false
+    if (e.target && Array.from(this.toggles).includes(e.target)) {
+      e.preventDefault()
+      this.show()
+      return false
+    }
   }
 
   _toggleContainerClick (e) {
@@ -131,9 +133,7 @@ export default class XPopup {
     this._toggleContainerClickHandler = this._toggleContainerClick.bind(this)
     this._closeClickHandler = this._closeClick.bind(this)
     this._escapePressHandler = this._escapePress.bind(this)
-    this.toggles.forEach(item => {
-      item.addEventListener('click', this._toggleClickHandler)
-    })
+    document.addEventListener('click', this._toggleClickHandler)
     this.container.addEventListener('click', this._toggleContainerClickHandler)
     this.closeButtons.forEach(item => {
       item.addEventListener('click', this._closeClickHandler)
@@ -143,9 +143,7 @@ export default class XPopup {
   }
 
   unmount () {
-    this.toggles.forEach(item => {
-      item.removeEventListener('click', this._toggleClickHandler)
-    })
+    document.removeEventListener('click', this._toggleClickHandler)
     this.closeButtons.forEach(item => {
       item.removeEventListener('click', this._closeClickHandler)
     })

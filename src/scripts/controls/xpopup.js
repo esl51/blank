@@ -29,8 +29,9 @@ export default class XPopup {
     }
 
     this.dialog = this.container.querySelector('.' + this.settings.dialogClass)
-    this.toggles = document.querySelectorAll(this.settings.toggleSelector)
     this.closeButtons = this.container.querySelectorAll('[data-close]')
+
+    this.refreshToggles()
 
     elem.xPopup = this
     if (!window.xPopups) {
@@ -74,6 +75,10 @@ export default class XPopup {
     return this.container.classList.contains(this.settings.activeClass)
   }
 
+  refreshToggles () {
+    this.toggles = document.querySelectorAll(this.settings.toggleSelector)
+  }
+
   show () {
     this.container.classList.add(this.settings.activeClass)
     window.xPopups.forEach((xPopup) => {
@@ -104,6 +109,7 @@ export default class XPopup {
   }
 
   _toggleClick (e) {
+    this.refreshToggles()
     if (e.target && Array.from(this.toggles).includes(e.target)) {
       e.preventDefault()
       this.show()

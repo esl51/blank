@@ -110,11 +110,16 @@ export default class XPopup {
 
   _toggleClick (e) {
     this.refreshToggles()
-    if (e.target && Array.from(this.toggles).includes(e.target)) {
-      e.preventDefault()
-      this.show()
-      return false
+    e.preventDefault()
+    var target = e.target
+    while (target) {
+      if (Array.from(this.toggles).includes(target)) {
+        this.show()
+        break
+      }
+      target = target.parentNode
     }
+    return false
   }
 
   _toggleContainerClick (e) {
